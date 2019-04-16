@@ -6,6 +6,7 @@ use php\util\TemplateUtil;
 include_once 'php/util/TemplateUtil.php';
 include_once 'php/util/LinkUtil.php';
 
+// TODO use cookies instead of session
 class Authenticator
 {
     protected static $instance = null;

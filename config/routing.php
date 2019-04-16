@@ -5,10 +5,7 @@ use php\Authenticator;
 
 include_once 'php/RouteService.php';
 
-function redirect ( $uri )
-{
-    header( 'Location: ' . $uri );
-}
+
 
 // -----------------------------------------------------------------------------------------------------------
 // BEGINN URL MAPPING
@@ -26,7 +23,7 @@ RouteService::add( '/test.html',
             if ( !isset( $_SESSION[ 'AUTH_USER' ] ) )
             {
                 header( 'HTTP/1.0 401 Unauthorized' );
-                redirect( "/projektarbeit/login.html" );
+                RouteService::redirect( "/login.html" );
                 $_SESSION[ "PREVIOUS_REQUEST_URI" ] = $_SERVER[ "REQUEST_URI" ];
             }
             else
@@ -57,6 +54,12 @@ RouteService::add( '/users', function ()
     TemplateUtil::parse( "Home", "user/overview.htm.php" );
 } );
 
+// Hauptübersicht
+RouteService::add( '/overview', function ()
+{
+    TemplateUtil::parse( "Overview", "overview/overview.htm.php" );
+} );
+
 // Ansicht eines einzelnen Benutzer
 RouteService::add( '/users/([0-9]*)',
         function ( $userid )
@@ -78,8 +81,8 @@ RouteService::add( '/users/([0-9]*)/edit',
         } );
 
 // redirecting
-RouteService::redirect( "/index.php", "/home" );
-RouteService::redirect( Config::BASEPATH, "/home" );
+RouteService::rewrite( "/index.php", "/home" );
+RouteService::rewrite( Config::BASEPATH, "/home" );
 
 // 404
 RouteService::pathNotFound( function ( $path )

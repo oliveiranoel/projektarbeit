@@ -19,12 +19,6 @@
 			<li class="nav-item">
 				<a class="nav-link" href="#">Notifications</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#">Profile</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#">Switch account</a>
-			</li>
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
 				<div class="dropdown-menu" aria-labelledby="dropdown01">
@@ -47,14 +41,5 @@
 			Friends <span class="badge badge-pill bg-light align-text-bottom">27</span>
 		</a>
 		<a class="nav-link" href="#">Explore</a>
-		<a class="nav-link" href="#">Suggestions</a>
-		<a class="nav-link" href="#">Link</a>
-		<a class="nav-link" href="#">Link</a>
-		<a class="nav-link" href="#">Link</a>
-		<a class="nav-link" href="#">Link</a>
-		<a class="nav-link" href="#">Link</a>
-		<a class="nav-link" href="#">Link</a>
-		<a class="nav-link" href="#">Link</a>
-		<a class="nav-link" href="#">Link</a>
 	</nav>
 </div>

@@ -47,7 +47,12 @@ class RouteService
         self::$methodNotAllowed = $function;
     }
 
-    public static function redirect ( $path, $dest, $basepath = Config::BASEPATH )
+    public static function redirect ( $uri, $basepath = Config::BASEPATH )
+    {
+        header( 'Location: ' . $basepath . $uri );
+    }
+    
+    public static function rewrite ( $path, $dest, $basepath = Config::BASEPATH )
     {
         self::add( $path, function () use ( $basepath, $dest )
         {
