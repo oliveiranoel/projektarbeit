@@ -57,6 +57,12 @@ RouteService::add( '/users', function ()
     TemplateUtil::parse( "Home", "user/overview.htm.php" );
 } );
 
+// Hauptübersicht
+RouteService::add( '/overview', function ()
+{
+    TemplateUtil::parse( "Overview", "overview/overview.htm.php" );
+} );
+
 // Ansicht eines einzelnen Benutzer
 RouteService::add( '/users/([0-9]*)',
         function ( $userid )

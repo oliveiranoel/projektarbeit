@@ -23,6 +23,7 @@
     	<li><a href="/projektarbeit/users">users</a></li>
     	<li><a href="/projektarbeit/users/1">user</a></li>
     	<li><a href="/projektarbeit/users/1/edit">user edit</a></li>
+    	<li><a href="/projektarbeit/overview">overview</a></li>
     	
     	<br/>
     	
