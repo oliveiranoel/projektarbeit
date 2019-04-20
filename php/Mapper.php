@@ -32,7 +32,14 @@ class Mapper
     {}
 
     public function mapRooms ()
-    {}
+    {
+        $data = [];
+        
+        foreach (self::query( "SELECT * FROM room" ) as $room ) {
+            $data[] = new MRoom($room->roomid, $room->number, $room->description);
+        }
+        return $data;
+    }
 
     public function mapObjects ()
     {
