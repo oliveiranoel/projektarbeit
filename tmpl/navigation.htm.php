@@ -22,6 +22,9 @@ use php\util\NavUtil;
 			<li class="nav-item <?php NavUtil::isActive( $webroot . "users" )?>">
 				<a class="nav-link" href="<?php echo $webroot?>users">Benutzer</a>
 			</li>
+			<li class="nav-item <?php NavUtil::isActive( $webroot . "objects" )?>">
+				<a class="nav-link" href="<?php echo $webroot?>objects">Objekte</a>
+			</li>
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
 				<div class="dropdown-menu" aria-labelledby="dropdown01">

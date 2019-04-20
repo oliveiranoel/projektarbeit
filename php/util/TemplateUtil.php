@@ -12,6 +12,7 @@ use Config;
 class TemplateUtil
 {
     private static $default_template = "default.htm.php";
+    private static $root = Config::BASEPATH . "/";
 
     public static function exists ( $template )
     {
@@ -25,10 +26,10 @@ class TemplateUtil
         }
     }
 
-    public static function default ( $title, $template, $stylesheets = [], $scripts = [], $params = [], bool $nav = true )
+    public static function default ( $title, $template, $params = [], $stylesheets = [], $scripts = [], bool $nav = true )
     {
-        extract( (array) $params );
-        $webroot = LinkUtil::getWebroot();
+        extract( (array) $params ); // Create variables from params
+        $webroot = self::$root;
         $template = Config::PATH_TEMPLATE . $template;
         include ( Config::PATH_TEMPLATE . self::$default_template );
     }

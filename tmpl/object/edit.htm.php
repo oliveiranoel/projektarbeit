@@ -2,6 +2,8 @@
 use php\Provider;
 
 $object = Provider::getUser( $userid );
+
+// TODO umschreiben auf object
 ?>
 
 <div class="wrapper">
@@ -33,7 +35,7 @@ $object = Provider::getUser( $userid );
         <input name="password" type="password" class="form-control" value="<?php echo $object->getPassword()?>">
     </div>
     <button type="submit" class="btn btn-primary">Speichern</button>
-    <a class="btn btn-primary" href="<?php echo $webroot?>users">Abbrechen</a>
+    <a class="btn btn-primary" href="<?php echo $webroot?>objects">Abbrechen</a>
 </form>
 
 </div>

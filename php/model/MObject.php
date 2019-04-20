@@ -22,7 +22,7 @@ class MObject implements ISavable
         $this->room = $room;
     }
 
-    public function getObjectId ()
+    public function getObjectid ()
     {
         return $this->objectid;
     }

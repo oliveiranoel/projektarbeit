@@ -49,7 +49,7 @@ RouteService::add( '/home', function ()
 // Login - Seitenaufruf
 RouteService::add( '/login.html', function ()
 {
-    TemplateUtil::default( "Login", "login.htm.php", "login.css", null, null, false );
+    TemplateUtil::default( "Login", "login.htm.php", null, "login.css", null, false );
 } );
 
 // Login - Formular absenden (anmelden)
@@ -72,10 +72,10 @@ RouteService::add( '/users', function ()
 // Bentuzer editieren - Seitenaufruf
 RouteService::add( '/users/([0-9]*)/edit', function ( $userid )
 {
-    $params = array(
+    $params = [
         "userid" => $userid
-    );
-    TemplateUtil::default( "User", "user/edit.htm.php", null, null, $params );
+    ];
+    TemplateUtil::default( "User", "user/edit.htm.php", $params );
 } );
 
 // Bentuzer editieren - Formular absenden (speichern)
@@ -98,7 +98,6 @@ RouteService::add( '/users/([0-9]*)/edit', function ( $userid )
     $sql = "UPDATE user SET firstname = '$firstname', name = '$name', email = '$email', password = '$password' WHERE userid = $userid";
     QueryUtil::execute( $sql );
     RouteService::redirect( "/users" );
-    echo $record->password . " " . $password;
 }, "post" );
 
 RouteService::add( '/users/new', function ()
@@ -130,6 +129,75 @@ RouteService::add( '/users/([0-9]*)/delete', function ( $userid )
 
 /**
  * ***********************************************************************************************************
+ * OBJECT
+ */
+
+// Benutzerübersicht
+RouteService::add( '/objects', function ()
+{
+    TemplateUtil::default( "Objekte", "object/overview.htm.php" );
+} );
+
+// Bentuzer editieren - Seitenaufruf
+RouteService::add( '/objects/([0-9]*)/edit', function ( $objectid )
+{
+    $params = [
+            "objectid" => $objectid
+    ];
+    TemplateUtil::default( "Objekte", "object/edit.htm.php", $params );
+} );
+
+// Bentuzer editieren - Formular absenden (speichern)
+RouteService::add( '/objects/([0-9]*)/edit', function ( $objectid )
+{
+    // TODO in eigene Klasse auslagern
+//     $firstname = $_POST[ "firstname" ];
+//     $name = $_POST[ "name" ];
+//     $email = $_POST[ "email" ];
+//     $password = $_POST[ "password" ];
+    
+//     $pw = "SELECT * FROM user WHERE userid = $userid";
+//     $record = QueryUtil::query( $pw )[ 0 ];
+    
+//     if ( $record->password != $password )
+//     {
+//         $password = md5( $password );
+//     }
+    
+//     $sql = "UPDATE user SET firstname = '$firstname', name = '$name', email = '$email', password = '$password' WHERE userid = $userid";
+//     QueryUtil::execute( $sql );
+    RouteService::redirect( "/objects" );
+}, "post" );
+
+RouteService::add( '/objects/new', function ()
+{
+    TemplateUtil::default( "Objekte", "object/new.htm.php" );
+} );
+
+RouteService::add( '/objects/new', function ()
+{
+    // TODO in eigene Klasse auslagern
+//     $firstname = $_POST[ "firstname" ];
+//     $name = $_POST[ "name" ];
+//     $email = $_POST[ "email" ];
+//     $password = md5( $_POST[ "password" ] );
+    
+//     $sql = "INSERT INTO user ( name, firstname, email, password )
+//             VALUES ( '$name','$firstname', '$email', '$password' )";
+//     QueryUtil::execute( $sql );
+    RouteService::redirect( "/objects" );
+}, "post" );
+
+RouteService::add( '/objects/([0-9]*)/delete', function ( $userid )
+{
+    // TODO in eigene Klasse auslagern und abfragen ob Benutzer wirklich gelöscht werden soll
+//     $sql = "DELETE FROM user WHERE userid = $userid;";
+//     QueryUtil::execute( $sql );
+    RouteService::redirect( "/objects" );
+}, "post" );
+
+/**
+ * ***********************************************************************************************************
  * REWRITE
  */
 
@@ -147,7 +215,7 @@ RouteService::pathNotFound( function ( $path )
     $params = [
         "path" => $path
     ];
-    TemplateUtil::default( "404", 'error/404.htm.php', null, null, $params );
+    TemplateUtil::default( "404", 'error/404.htm.php', $params );
 } );
 
 // 405
@@ -157,6 +225,6 @@ RouteService::methodNotAllowed( function ( $path, $method )
         "path" => $path,
         "method" => $method
     ];
-    TemplateUtil::default( "405", 'error/405.htm.php', null, null, $params );
+    TemplateUtil::default( "405", 'error/405.htm.php', $params );
 } );
 

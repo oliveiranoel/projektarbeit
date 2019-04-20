@@ -2,6 +2,8 @@
 
 namespace php\util;
 
+use php\Logger;
+
 class NavUtil
 {
     public static function isActive ( $link )

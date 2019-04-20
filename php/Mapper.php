@@ -35,8 +35,9 @@ class Mapper
     {
         $data = [];
         
-        foreach (self::query( "SELECT * FROM room" ) as $room ) {
-            $data[] = new MRoom($room->roomid, $room->number, $room->description);
+        foreach ( QueryUtil::query( "SELECT * FROM room" ) as $record )
+        {
+            $data[] = new MRoom( $record->roomid, $record->number, $record->description );
         }
         return $data;
     }
@@ -45,11 +46,10 @@ class Mapper
     {
         $data = [];
         
-        // TODO wie bei mapUsers
         foreach ( QueryUtil::query( "SELECT * FROM object" ) as $record )
         {
-            $objectdescription = QueryUtil::query( "SELECT * FROM room WHERE objectdescription = $record->objectdescriptionid" )[0];
-            $room = QueryUtil::query( "SELECT * FROM room WHERE roomid = $record->roomid" )[0];
+            $objectdescription = QueryUtil::query( "SELECT * FROM objectdescription WHERE objectdescriptionid = $record->objectdescriptionid" )[ 0 ];
+            $room = QueryUtil::query( "SELECT * FROM room WHERE roomid = $record->roomid" )[ 0 ];
             
             $data[] = new MObject( $record->objectid, 
                     new MObjectdescription( $objectdescription->objectdescriptionid, $objectdescription->description ), 
@@ -63,15 +63,12 @@ class Mapper
     {
         $data = [];
         
-        // TODO wie bei mapUsers
         foreach ( QueryUtil::query( "SELECT * FROM component" ) as $record )
         {
             $componentdescription = QueryUtil::query( "SELECT * FROM componentdescription WHERE componentdescriptionid = $record->componentdescriptionid" )[ 0 ];
             $componentvalue = QueryUtil::query( "SELECT * FROM componentvalue WHERE componentvalueid = $record->componentvalueid" )[ 0 ];
             
-            $data[] = new MComponent( $record->componentid, 
-                    new MComponentdescription( $componentdescription->componentdescriptionid, $componentdescription->description ),
-                    new MComponentvalue( $componentvalue->componentvalueid, $componentvalue->value ) );
+            $data[] = new MComponent( $record->componentid, new MComponentdescription( $componentdescription->componentdescriptionid, $componentdescription->description ), new MComponentvalue( $componentvalue->componentvalueid, $componentvalue->value ) );
         }
         
         return $data;
@@ -83,12 +80,12 @@ class Mapper
         
         foreach ( QueryUtil::query( "SELECT * FROM user" ) as $record )
         {
-            $data[ $record->userid ] = new MUser( $record->userid, $record->name, $record->firstname, $record->email, $record->password );
+            $data[] = new MUser( $record->userid, $record->name, $record->firstname, $record->email, $record->password );
         }
         
         return $data;
     }
-    
+
     public function mapUser ( $userid )
     {
         $record = QueryUtil::query( "SELECT * FROM user WHERE userid = $userid" )[ 0 ];
