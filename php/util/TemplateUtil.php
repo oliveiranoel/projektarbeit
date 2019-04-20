@@ -15,10 +15,17 @@ class TemplateUtil
 
     public static function exists ( $template )
     {
-        return file_exists( $template ) && !is_dir( $template ) ? true : false;
+        if ( isset( $template ) )
+        {
+            return file_exists( $template ) && !is_dir( $template ) ? true : false;
+        }
+        else
+        {
+            return false;
+        }
     }
 
-    public static function parse ( $title, $template, $stylesheets = [], $scripts = [], $params = [], bool $nav = true )
+    public static function default ( $title, $template, $stylesheets = [], $scripts = [], $params = [], bool $nav = true )
     {
         extract( (array) $params );
         $webroot = LinkUtil::getWebroot();

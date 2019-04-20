@@ -24,7 +24,7 @@ class MUser implements ISavable
         $this->password = $password;
     }
 
-    public function getUser ()
+    public function getUserid ()
     {
         return $this->userid;
     }
@@ -46,6 +46,7 @@ class MUser implements ISavable
 
     public function getPassword ()
     {
+        // TODO Passwortverschlüsselung
         return $this->password;
     }
 

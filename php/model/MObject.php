@@ -1,10 +1,11 @@
 <?php
+
 namespace php\model;
 
 /**
- * 
- * @author dsu
  *
+ * @author dsu
+ *        
  */
 class MObject implements ISavable
 {
@@ -13,23 +14,30 @@ class MObject implements ISavable
     private $objectdescription;
     // @var MRoom
     private $room;
-    
+
+    public function __construct ( int $objectid, MObjectdescription $objectdescription, MRoom $room )
+    {
+        $this->objectid = $objectid;
+        $this->objectdescription = $objectdescription;
+        $this->room = $room;
+    }
+
     public function getObjectId ()
     {
         return $this->objectid;
     }
-    
-    public function getObjectdescription () : MObjectdescription
+
+    public function getObjectdescription (): MObjectdescription
     {
         return $this->objectdescription;
     }
-    
-    public function getRoom () : MRoom
+
+    public function getRoom (): MRoom
     {
         return $this->room;
     }
-    
-    public function save()
+
+    public function save ()
     {
         $this->objectdescription->save();
         $this->room->save();

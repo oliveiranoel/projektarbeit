@@ -1,3 +1,6 @@
+<?php
+use php\util\NavUtil;
+?>
 
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
 	<a href="<?php echo $webroot?>home">
@@ -13,11 +16,11 @@
 	<div class="navbar-collapse offcanvas-collapse"
 		id="navbarsExampleDefault">
 		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active">
+			<li class="nav-item <?php NavUtil::isActive( $webroot . "test.html" )?>">
 				<a class="nav-link" href="<?php echo $webroot?>test.html">Test</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#">Notifications</a>
+			<li class="nav-item <?php NavUtil::isActive( $webroot . "users" )?>">
+				<a class="nav-link" href="<?php echo $webroot?>users">Benutzer</a>
 			</li>
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
@@ -33,13 +36,3 @@
 		</form>
 	</div>
 </nav>
-
-<div class="nav-scroller bg-white shadow-sm">
-	<nav class="nav nav-underline">
-		<a class="nav-link active" href="#">Dashboard</a> 
-		<a class="nav-link" href="#">
-			Friends <span class="badge badge-pill bg-light align-text-bottom">27</span>
-		</a>
-		<a class="nav-link" href="#">Explore</a>
-	</nav>
-</div>

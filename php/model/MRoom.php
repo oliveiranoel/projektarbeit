@@ -12,6 +12,13 @@ class MRoom implements ISavable
     private $number;
     private $description;
     
+    public function __construct ( int $roomid, string $number, string $description )
+    {
+        $this->roomid = $roomid;
+        $this->number = $number;
+        $this->description = $description;
+    }
+    
     public function getRoomId ()
     {
         return $this->roomid;

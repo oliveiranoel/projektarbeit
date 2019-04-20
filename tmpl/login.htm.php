@@ -3,6 +3,8 @@
 ?>
 
 <!-- TODO: if user data is wrong, refuse sending form -->
+<div class="wrapper">
+
 <form class="form-login text-center" action="<?php echo $webroot?>login.html" method="post">
 	<img class="mb-4" src="<?php echo $webroot?>img/bootstrap-solid.svg"
 		alt="" width="72" height="72">
@@ -17,3 +19,5 @@
 	<button class="btn btn-lg btn-primary btn-block mt-4" type="submit">Log in</button>
 	<p class="mt-5 mb-3 text-muted">&copy; 2019</p>
 </form>
+
+</div>

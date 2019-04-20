@@ -17,6 +17,7 @@ CREATE DATABASE IF NOT EXISTS `project` /*!40100 DEFAULT CHARACTER SET latin1 */
 USE `project`;
 
 -- Exportiere Struktur von Tabelle project.component
+DROP TABLE IF EXISTS `component`;
 CREATE TABLE IF NOT EXISTS `component` (
   `componentid` int(11) NOT NULL AUTO_INCREMENT,
   `componentdescriptionid` int(11) NOT NULL,
@@ -26,18 +27,20 @@ CREATE TABLE IF NOT EXISTS `component` (
   KEY `fk_component_componentdescription1_idx` (`componentdescriptionid`),
   CONSTRAINT `fk_component_componentdescription1` FOREIGN KEY (`componentdescriptionid`) REFERENCES `componentdescription` (`componentdescriptionid`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_component_componentvalue1` FOREIGN KEY (`componentvalueid`) REFERENCES `componentvalue` (`componentvalueid`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
--- Exportiere Daten aus Tabelle project.component: ~1 rows (ungefähr)
+-- Exportiere Daten aus Tabelle project.component: ~5 rows (ungefähr)
 /*!40000 ALTER TABLE `component` DISABLE KEYS */;
 INSERT INTO `component` (`componentid`, `componentdescriptionid`, `componentvalueid`) VALUES
 	(1, 1, 1),
 	(2, 4, 4),
 	(3, 2, 2),
-	(4, 3, 3);
+	(4, 3, 3),
+	(5, 1, 3);
 /*!40000 ALTER TABLE `component` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle project.componentdescription
+DROP TABLE IF EXISTS `componentdescription`;
 CREATE TABLE IF NOT EXISTS `componentdescription` (
   `componentdescriptionid` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(100) NOT NULL,
@@ -55,6 +58,7 @@ INSERT INTO `componentdescription` (`componentdescriptionid`, `description`) VAL
 /*!40000 ALTER TABLE `componentdescription` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle project.componentvalue
+DROP TABLE IF EXISTS `componentvalue`;
 CREATE TABLE IF NOT EXISTS `componentvalue` (
   `componentvalueid` int(11) NOT NULL AUTO_INCREMENT,
   `value` varchar(100) NOT NULL,
@@ -72,6 +76,7 @@ INSERT INTO `componentvalue` (`componentvalueid`, `value`) VALUES
 /*!40000 ALTER TABLE `componentvalue` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle project.object
+DROP TABLE IF EXISTS `object`;
 CREATE TABLE IF NOT EXISTS `object` (
   `objectid` int(11) NOT NULL AUTO_INCREMENT,
   `objectdescriptionid` int(11) NOT NULL,
@@ -83,13 +88,14 @@ CREATE TABLE IF NOT EXISTS `object` (
   CONSTRAINT `fk_object_room` FOREIGN KEY (`roomid`) REFERENCES `room` (`roomid`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Exportiere Daten aus Tabelle project.object: ~1 rows (ungefähr)
+-- Exportiere Daten aus Tabelle project.object: ~0 rows (ungefähr)
 /*!40000 ALTER TABLE `object` DISABLE KEYS */;
 INSERT INTO `object` (`objectid`, `objectdescriptionid`, `roomid`) VALUES
 	(1, 1, 1);
 /*!40000 ALTER TABLE `object` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle project.objectcomponentassign
+DROP TABLE IF EXISTS `objectcomponentassign`;
 CREATE TABLE IF NOT EXISTS `objectcomponentassign` (
   `objectid` int(11) NOT NULL,
   `componentid` int(11) NOT NULL,
@@ -100,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `objectcomponentassign` (
   CONSTRAINT `fk_objectcomponentassign_object1` FOREIGN KEY (`objectid`) REFERENCES `object` (`objectid`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Exportiere Daten aus Tabelle project.objectcomponentassign: ~1 rows (ungefähr)
+-- Exportiere Daten aus Tabelle project.objectcomponentassign: ~4 rows (ungefähr)
 /*!40000 ALTER TABLE `objectcomponentassign` DISABLE KEYS */;
 INSERT INTO `objectcomponentassign` (`objectid`, `componentid`) VALUES
 	(1, 1),
@@ -110,6 +116,7 @@ INSERT INTO `objectcomponentassign` (`objectid`, `componentid`) VALUES
 /*!40000 ALTER TABLE `objectcomponentassign` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle project.objectdescription
+DROP TABLE IF EXISTS `objectdescription`;
 CREATE TABLE IF NOT EXISTS `objectdescription` (
   `objectdescriptionid` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(100) NOT NULL,
@@ -117,13 +124,14 @@ CREATE TABLE IF NOT EXISTS `objectdescription` (
   UNIQUE KEY `description_UNIQUE` (`description`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Exportiere Daten aus Tabelle project.objectdescription: ~1 rows (ungefähr)
+-- Exportiere Daten aus Tabelle project.objectdescription: ~0 rows (ungefähr)
 /*!40000 ALTER TABLE `objectdescription` DISABLE KEYS */;
 INSERT INTO `objectdescription` (`objectdescriptionid`, `description`) VALUES
 	(1, 'Beamer');
 /*!40000 ALTER TABLE `objectdescription` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle project.room
+DROP TABLE IF EXISTS `room`;
 CREATE TABLE IF NOT EXISTS `room` (
   `roomid` int(11) NOT NULL AUTO_INCREMENT,
   `number` varchar(25) NOT NULL,
@@ -131,26 +139,33 @@ CREATE TABLE IF NOT EXISTS `room` (
   PRIMARY KEY (`roomid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Exportiere Daten aus Tabelle project.room: ~1 rows (ungefähr)
+-- Exportiere Daten aus Tabelle project.room: ~0 rows (ungefähr)
 /*!40000 ALTER TABLE `room` DISABLE KEYS */;
 INSERT INTO `room` (`roomid`, `number`, `description`) VALUES
 	(1, 'F100', 'Laden');
 /*!40000 ALTER TABLE `room` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle project.user
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
-  `userid` int(11) NOT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  `firstname` varchar(50) DEFAULT NULL,
-  `email` varchar(65) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `userid` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `firstname` varchar(50) NOT NULL,
+  `email` varchar(65) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  PRIMARY KEY (`userid`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
--- Exportiere Daten aus Tabelle project.user: ~1 rows (ungefähr)
+-- Exportiere Daten aus Tabelle project.user: ~4 rows (ungefähr)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`userid`, `name`, `firstname`, `email`, `password`) VALUES
-	(1, 'Testkovski', 'Povli', 'povli.testkovski@testdomain.ch', 'test05');
+	(1, 'Master', 'Admin', 'nexu@mailinator.net', '39aac1655d662fcee21cff3fda9ff410'),
+	(2, 'Testkovski', 'Povli', 'povli.testkovski@testdomain.ch', 'asdfsdfasfafdsff'),
+	(3, 'Lars', 'Monsen', 'monsen.lars@gmail.com', 'asdf'),
+	(4, 'Muster', 'Max', 'max.muster@domain.ch', '11c9efa639a13c650cc4ccf081500383'),
+	(9, 'Suter', 'Dominik', 'dominik.suter@bbzsogr.ch', 'asdfadsfdfa'),
+	(11, 'asdsadadaasd', 'asdasasasdadasdas', 'asdas@asd.ch', '11c9efa639a13c650cc4ccf081500383');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

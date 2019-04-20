@@ -22,16 +22,18 @@ use php\util\TemplateUtil;
 <!-- Bootstrap core CSS -->
 <link rel="stylesheet" href="<?php echo $webroot?>bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="<?php echo $webroot?>css/offcanvas.css">
+<link rel="stylesheet" href="<?php echo $webroot?>css/glyphicon.css">
 
 <!-- Custom styles for this template -->
 <?php TemplateUtil::stylesheets( $stylesheets )?>
 </head>
 <body class="bg-light">
 
-	<?php
-    $nav ? include( Config::PATH_TEMPLATE . 'navigation.htm.php' ) : null;
-    TemplateUtil::exists( $template ) ? include( $template ) : null;
-    ?>
+	<?php $nav ? include( Config::PATH_TEMPLATE . 'navigation.htm.php' ) : null; ?>
+    
+    <main role="main" class="container mt-5">
+    	<?php TemplateUtil::exists( $template ) ? include( $template ) : null; ?>
+    </main>
 	
     <script src="<?php echo $webroot?>js/plugin/jquery.slim.min.js"></script>
 	<script src="<?php echo $webroot?>js/plugin/popper.min.js"></script>
@@ -39,6 +41,6 @@ use php\util\TemplateUtil;
 	<script src="<?php echo $webroot?>js/offcanvas.js"></script>
 		
     <!-- Custom scripts for this template -->
-    <?php TemplateUtil::stylesheets( $scripts )?>
+    <?php TemplateUtil::scripts( $scripts )?>
 </body>
 </html>

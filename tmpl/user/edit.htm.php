@@ -1,19 +1,39 @@
 <?php
+use php\Provider;
 
+$user = Provider::getUser( $userid );
 ?>
 
-<main role="main" class="container">
-<div
-	class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
-	<img class="mr-3" src="<?php echo $webroot?>img/bootstrap-outline.svg" alt="" width="48"
-		height="48">
-	<div class="lh-100">
-		<h6 class="mb-0 text-white lh-100">Bootstrap</h6>
-		<small>Since 2011</small>
-	</div>
-</div>
+<div class="wrapper">
 
 <div>
-	<h1>Edit User <?php echo $userid ?></h1>
+    <h1><?php echo $user->getFirstname() . " " . $user->getName() ?></h1>
 </div>
-</main>
+
+<form action="<?php echo $webroot?>users/<?php echo $user->getUserid()?>/edit" method="post">
+	<div class="form-group">
+        <label for="userid">Benutzer ID</label>
+        <input name="userid" type="text" class="form-control" value="<?php echo $user->getUserid()?>" readonly>
+    </div>
+	<div class="form-group">
+        <label for="firstname">Vorname</label>
+        <input name="firstname" type="text" class="form-control" value="<?php echo $user->getFirstname()?>">
+    </div>
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input name="name" type="text" class="form-control" value="<?php echo $user->getName()?>">
+    </div>
+    <div class="form-group">
+        <label for="email">E-Mail Adresse</label>
+        <input name="email" type="email" class="form-control" value="<?php echo $user->getEmail()?>">
+        <small class="form-text text-muted">E-Mail Adresse entspricht dem Benutzernamen.</small>
+    </div>
+    <div class="form-group">
+        <label for="password">Passwort</label>
+        <input name="password" type="password" class="form-control" value="<?php echo $user->getPassword()?>">
+    </div>
+    <button type="submit" class="btn btn-primary">Speichern</button>
+    <a class="btn btn-primary" href="<?php echo $webroot?>users">Abbrechen</a>
+</form>
+
+</div>

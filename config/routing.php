@@ -1,88 +1,145 @@
 <?php
-use php\util\TemplateUtil;
+use php\Authorizer;
 use php\RouteService;
-use php\Authenticator;
+use php\util\QueryUtil;
+use php\util\TemplateUtil;
 
 include_once 'php/RouteService.php';
 
-
-
-// -----------------------------------------------------------------------------------------------------------
-// BEGINN URL MAPPING
-// -----------------------------------------------------------------------------------------------------------
-
-RouteService::add( '/template.html', function ()
+RouteService::add( '/test.html', function ()
 {
-    TemplateUtil::parse( "template", "template.htm.php" );
+    if ( !isset( $_SESSION[ 'AUTH_USER' ] ) )
+    {
+        header( 'HTTP/1.0 401 Unauthorized' );
+        $_SESSION[ "PREVIOUS_REQUEST_PATH" ] = parse_url( $_SERVER[ "REQUEST_URI" ] )[ "path" ];
+        RouteService::redirect( "/login.html" );
+    }
+    else
+    {
+        TemplateUtil::default( "Test", "test.htm.php" );
+        echo $_SESSION[ 'AUTH_USER' ];
+        echo "<br>";
+        echo $_SESSION[ 'AUTH_PW' ];
+    }
 } );
 
-RouteService::add( '/test.html',
-        function ()
-        {
-            // TODO transfer this logic to Authenticator.php and/or TemplateUtil
-            if ( !isset( $_SESSION[ 'AUTH_USER' ] ) )
-            {
-                header( 'HTTP/1.0 401 Unauthorized' );
-                RouteService::redirect( "/login.html" );
-                $_SESSION[ "PREVIOUS_REQUEST_URI" ] = $_SERVER[ "REQUEST_URI" ];
-            }
-            else
-            {
-                echo $_SESSION[ 'AUTH_USER' ];
-                echo "<br>";
-                echo $_SESSION[ 'AUTH_PW' ];
-                TemplateUtil::parse( "Test", "test.htm.php" );
-            }
-        } );
 
-RouteService::add( '/home', function ()
-{
-    TemplateUtil::parse( "Home", "home.htm.php" );
-} );
-
-RouteService::add( '/login.html', function ()
-{
-    Authenticator::getInstance()->login();
-}, [
-    "get",
-    "post"
-] );
-
-// Übersicht der Benutzer
-RouteService::add( '/users', function ()
-{
-    TemplateUtil::parse( "Home", "user/overview.htm.php" );
-} );
+/**
+ * ***********************************************************************************************************
+ * OVERALL
+ */
 
 // Hauptübersicht
 RouteService::add( '/overview', function ()
 {
-    TemplateUtil::parse( "Overview", "overview/overview.htm.php" );
+    TemplateUtil::default( "Overview", "overview/overview.htm.php" );
 } );
 
-// Ansicht eines einzelnen Benutzer
-RouteService::add( '/users/([0-9]*)',
-        function ( $userid )
-        {
-            $params = array(
-                "userid" => $userid
-            );
-            TemplateUtil::parse( "User", "user/detailview.htm.php", null, null, $params );
-        } );
+// Home
+RouteService::add( '/home', function ()
+{
+    TemplateUtil::default( "Home", "home.htm.php" );
+} );
 
-// bearbeiten eines Benutzers
-RouteService::add( '/users/([0-9]*)/edit',
-        function ( $userid )
-        {
-            $params = array(
-                "userid" => $userid
-            );
-            TemplateUtil::parse( "User", "user/edit.htm.php", null, null, $params );
-        } );
+/**
+ * ***********************************************************************************************************
+ * LOGIN
+ */
 
-// redirecting
+// Login - Seitenaufruf
+RouteService::add( '/login.html', function ()
+{
+    TemplateUtil::default( "Login", "login.htm.php", "login.css", null, null, false );
+} );
+
+// Login - Formular absenden (anmelden)
+RouteService::add( '/login.html', function ()
+{
+    Authorizer::getInstance()->login();
+}, "post" );
+
+/**
+ * ***********************************************************************************************************
+ * USER
+ */
+
+// Benutzerübersicht
+RouteService::add( '/users', function ()
+{
+    TemplateUtil::default( "Benutzer", "user/overview.htm.php" );
+} );
+
+// Bentuzer editieren - Seitenaufruf
+RouteService::add( '/users/([0-9]*)/edit', function ( $userid )
+{
+    $params = array(
+        "userid" => $userid
+    );
+    TemplateUtil::default( "User", "user/edit.htm.php", null, null, $params );
+} );
+
+// Bentuzer editieren - Formular absenden (speichern)
+RouteService::add( '/users/([0-9]*)/edit', function ( $userid )
+{
+    // TODO in eigene Klasse auslagern
+    $firstname = $_POST[ "firstname" ];
+    $name = $_POST[ "name" ];
+    $email = $_POST[ "email" ];
+    $password = $_POST[ "password" ];
+    
+    $pw = "SELECT * FROM user WHERE userid = $userid";
+    $record = QueryUtil::query( $pw )[ 0 ];
+    
+    if ( $record->password != $password )
+    {
+        $password = md5( $password );
+    }
+    
+    $sql = "UPDATE user SET firstname = '$firstname', name = '$name', email = '$email', password = '$password' WHERE userid = $userid";
+    QueryUtil::execute( $sql );
+    RouteService::redirect( "/users" );
+    echo $record->password . " " . $password;
+}, "post" );
+
+RouteService::add( '/users/new', function ()
+{
+    TemplateUtil::default( "Home", "user/new.htm.php" );
+} );
+
+RouteService::add( '/users/new', function ()
+{
+    // TODO in eigene Klasse auslagern
+    $firstname = $_POST[ "firstname" ];
+    $name = $_POST[ "name" ];
+    $email = $_POST[ "email" ];
+    $password = md5( $_POST[ "password" ] );
+    
+    $sql = "INSERT INTO user ( name, firstname, email, password )
+            VALUES ( '$name','$firstname', '$email', '$password' )";
+    QueryUtil::execute( $sql );
+    RouteService::redirect( "/users" );
+}, "post" );
+
+RouteService::add( '/users/([0-9]*)/delete', function ( $userid )
+{
+    // TODO in eigene Klasse auslagern und abfragen ob Benutzer wirklich gelöscht werden soll
+    $sql = "DELETE FROM user WHERE userid = $userid;";
+    QueryUtil::execute( $sql );
+    RouteService::redirect( "/users" );
+}, "post" );
+
+/**
+ * ***********************************************************************************************************
+ * REWRITE
+ */
+
 RouteService::rewrite( "/index.php", "/home" );
 RouteService::rewrite( Config::BASEPATH, "/home" );
+
+/**
+ * ***********************************************************************************************************
+ * ERROR
+ */
 
 // 404
 RouteService::pathNotFound( function ( $path )
@@ -90,55 +147,16 @@ RouteService::pathNotFound( function ( $path )
     $params = [
         "path" => $path
     ];
-    TemplateUtil::parse( "404", 'error/404.htm.php', null, null, $params );
+    TemplateUtil::default( "404", 'error/404.htm.php', null, null, $params );
 } );
 
 // 405
-RouteService::methodNotAllowed( 
-        function ( $path, $method )
-        {
-            $params = [
-                "path" => $path,
-                "method" => $method
-            ];
-            TemplateUtil::parse( "405", 'error/405.htm.php', null, null, $params );
-        } );
-
-// -----------------------------------------------------------------------------------------------------------
-// END URL MAPPING
-// -----------------------------------------------------------------------------------------------------------
-
-// Simple test route that simulates static html file
-// Post route example
-RouteService::add( '/contact-form', function ()
+RouteService::methodNotAllowed( function ( $path, $method )
 {
-    echo '<form method="post"><input type="text" name="test" /><input type="submit" value="send" /></form>';
-}, 'get' );
-// Post route example
-RouteService::add( '/contact-form', function ()
-{
-    echo 'Hey! The form has been sent:<br/>';
-    print_r( $_POST );
-}, 'post' );
-// Get and Post route example
-RouteService::add( '/get-post-sample',
-        function ()
-        {
-            echo 'You can GET this page and also POST this form back to it';
-            echo '<form method="post"><input type="text" name="input" /><input type="submit" value="send" /></form>';
-            if ( isset( $_POST[ "input" ] ) )
-            {
-                echo 'I also received a POST with this data:<br/>';
-                print_r( $_POST );
-            }
-        }, [
-            'get',
-            'post'
-        ] );
-
-// 405 test
-RouteService::add( '/this-route-is-defined', function ()
-{
-    echo 'You need to patch this route to see this content';
-}, 'patch' );
+    $params = [
+        "path" => $path,
+        "method" => $method
+    ];
+    TemplateUtil::default( "405", 'error/405.htm.php', null, null, $params );
+} );
 

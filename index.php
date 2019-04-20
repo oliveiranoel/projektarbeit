@@ -1,5 +1,4 @@
 <?php
-use php\Loader;
 use php\RouteService;
 use php\util\DBUtil;
 
@@ -14,8 +13,6 @@ spl_autoload_register( function ( $class ) {
 
 
 DBUtil::connect( Config::SQL_DATABASE, Config::SQL_USER, Config::SQL_PASSWORD );
-
-Loader::getInstance()->initModel();
 
 RouteService::run();
 

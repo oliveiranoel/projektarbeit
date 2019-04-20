@@ -2,18 +2,23 @@
 
 ?>
 
-<main role="main" class="container">
-<div
-	class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
-	<img class="mr-3" src="<?php echo $webroot?>img/bootstrap-outline.svg" alt="" width="48"
-		height="48">
-	<div class="lh-100">
-		<h6 class="mb-0 text-white lh-100">Bootstrap</h6>
-		<small>Since 2011</small>
-	</div>
+<div class="card-body">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <p><span class="text-muted font-italic">Benutzer ID:</span> <?php echo $user->getUserid()?></p>
+    	</li>
+        <li class="list-group-item">
+        	<p><span class="text-muted font-italic">Vorname:</span> <?php echo $user->getFirstname()?></p>
+    	</li>
+        <li class="list-group-item">
+        	<p><span class="text-muted font-italic">Name:</span> <?php echo $user->getName()?></p>
+    	</li>
+        <li class="list-group-item">
+        	<p><span class="text-muted font-italic">E-Mail Adresse:</span> <?php echo $user->getEmail()?></p>
+    	</li>
+        <li class="list-group-item">
+        	<span class="text-muted font-italic">Passwort:</span>
+        	<input type="password" style="border: none; background-color: white;" size="15" disabled value="<?php echo $user->getPassword()?>">
+    	</li>
+    </ul>
 </div>
-
-<div>
-	<h1>Detailview User <?php echo $userid ?></h1>
-</div>
-</main>

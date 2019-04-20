@@ -9,6 +9,7 @@ namespace php\model;
  * meaning the inheriting class can be saved to the database.
  *
  */
+// TODO kann wahrscheinlich gelöscht werden
 interface ISavable
 {
     public function save();

@@ -12,10 +12,12 @@ use php\Logger;
  */
 class QueryUtil
 {
-    public static function execute ( $sql, $conn )
+    public static function execute ( $sql )
     {
         try
         {
+            $conn = DBUtil::getConnection();
+            
             if ( $conn != null )
             {
                 $prepared = $conn->prepare( $sql );
@@ -32,10 +34,12 @@ class QueryUtil
         }
     }
     
-    public static function query ( $query, $conn ) : array
+    public static function query ( $query ) : array
     {
         try
         {
+            $conn = DBUtil::getConnection();
+            
             if ( $conn != null )
             {
                 $returnValue = $conn->query( $query );
