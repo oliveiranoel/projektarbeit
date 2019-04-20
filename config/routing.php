@@ -26,16 +26,68 @@ RouteService::add( '/test.html', function ()
 
 /**
  * ***********************************************************************************************************
- * OVERALL
+ * ROOM
  */
 
 // Hauptübersicht
-RouteService::add( '/overview', function ()
+RouteService::add( '/rooms', function ()
 {
-    TemplateUtil::default( "Overview", "overview/overview.htm.php" );
+    TemplateUtil::default( "Room", "room/overview.htm.php" );
 } );
 
-// Home
+// Room editieren
+RouteService::add( '/rooms/([0-9]*)/edit', function ( $roomid )
+{
+    $params = array(
+            "roomid" => $roomid
+    );
+    TemplateUtil::default( "Room", "room/edit.htm.php", null, null, $params );
+} );
+
+// Raum editieren - Formular absenden (speichern)
+RouteService::add( '/rooms/([0-9]*)/edit', function ( $roomid )
+{
+    // TODO in eigene Klasse auslagern
+    $number = $_POST[ "number" ];
+    $description = $_POST[ "description" ];
+    
+    $sql = "UPDATE room SET number = '$number', description = '$description' WHERE roomid = $roomid";
+    QueryUtil::execute( $sql );
+    RouteService::redirect( "/rooms" );
+}, "post" );
+
+// Neuer Raum
+RouteService::add( '/rooms/new', function ()
+{
+    TemplateUtil::default( "Room", "room/new.htm.php" );
+} );
+
+// Neuer Raum - Formular absenden (speichern)
+RouteService::add( '/rooms/new', function ()
+{
+    // TODO in eigene Klasse auslagern
+    $number = $_POST[ "number" ];
+    $description = $_POST[ "description" ];
+    
+    $sql = "INSERT INTO room ( number, description )
+            VALUES ( '$number','$description' )";
+    QueryUtil::execute( $sql );
+    RouteService::redirect( "/rooms" );
+}, "post" );
+
+// Raum löschen
+RouteService::add( '/rooms/([0-9]*)/delete', function ( $roomid )
+{
+    // TODO in eigene Klasse auslagern und abfragen ob Benutzer wirklich gelöscht werden soll
+    $sql = "DELETE FROM room WHERE roomid = $roomid;";
+    QueryUtil::execute( $sql );
+    RouteService::redirect( "/rooms" );
+}, "post" );
+
+/**
+ * ***********************************************************************************************************
+ * HOME
+ */
 RouteService::add( '/home', function ()
 {
     TemplateUtil::default( "Home", "home.htm.php" );

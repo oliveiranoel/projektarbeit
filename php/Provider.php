@@ -19,6 +19,11 @@ class Provider
     {
         return Mapper::getInstance()->mapRooms();
     }
+    
+    public static function getRoom ( $roomid )
+    {
+        return Mapper::getInstance()->mapRoom( $roomid );
+    }
 
     public static function getUsers ()
     {
