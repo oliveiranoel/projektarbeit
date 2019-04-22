@@ -3,6 +3,7 @@
 namespace php\util;
 
 use Config;
+use php\Authorizer;
 
 /**
  *
@@ -26,8 +27,14 @@ class TemplateUtil
         }
     }
 
-    public static function default ( $title, $template, $params = [], $stylesheets = [], $scripts = [], bool $nav = true )
+    public static function default ( $title, $template, $params = [], $stylesheets = [], $scripts = [], bool $nav = true, bool $user = true )
     {
+        // TODO wenn Login aktiv sein soll, Kommentar entfernen
+//         if ( $user )
+//         {
+//             Authorizer::getInstance()->authorize();
+//         }
+        
         extract( (array) $params ); // Create variables from params
         $webroot = self::$root;
         $template = Config::PATH_TEMPLATE . $template;

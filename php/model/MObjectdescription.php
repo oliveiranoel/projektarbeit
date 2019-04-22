@@ -7,7 +7,7 @@ namespace php\model;
  * @author dsu
  *        
  */
-class MObjectdescription implements ISavable
+class MObjectdescription
 {
     private $objectdescriptionid;
     private $description;
@@ -27,8 +27,5 @@ class MObjectdescription implements ISavable
     {
         return $this->description;
     }
-
-    public function save ()
-    {}
 }
 

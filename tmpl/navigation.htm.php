@@ -13,9 +13,6 @@ use php\util\NavUtil;
 
 	<div class="navbar-collapse offcanvas-collapse">
 		<ul class="navbar-nav mr-auto">
-			<li class="nav-item <?php NavUtil::isActive( $webroot . "test.html" )?>">
-				<a class="nav-link" href="<?php echo $webroot?>test.html">Test</a>
-			</li>
 			<li class="nav-item <?php NavUtil::isActive( $webroot . "users" )?>">
 				<a class="nav-link" href="<?php echo $webroot?>users">Benutzer</a>
 			</li>

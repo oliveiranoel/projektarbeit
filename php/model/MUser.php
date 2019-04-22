@@ -7,7 +7,7 @@ namespace php\model;
  * @author dsu
  *        
  */
-class MUser implements ISavable
+class MUser
 {
     private $userid;
     private $name;
@@ -46,11 +46,7 @@ class MUser implements ISavable
 
     public function getPassword ()
     {
-        // TODO Passwortverschlüsselung
         return $this->password;
     }
-
-    public function save ()
-    {}
 }
 

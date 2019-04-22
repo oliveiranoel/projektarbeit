@@ -7,7 +7,7 @@ namespace php\model;
  * @author dsu
  *        
  */
-class MObject implements ISavable
+class MObject
 {
     private $objectid;
     // @var MObjectdescription
@@ -35,12 +35,6 @@ class MObject implements ISavable
     public function getRoom (): MRoom
     {
         return $this->room;
-    }
-
-    public function save ()
-    {
-        $this->objectdescription->save();
-        $this->room->save();
     }
 }
 

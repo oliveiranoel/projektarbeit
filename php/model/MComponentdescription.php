@@ -1,36 +1,31 @@
 <?php
+
 namespace php\model;
 
 /**
- * 
- * @author dsu
  *
+ * @author dsu
+ *        
  */
-class MComponentdescription implements ISavable
+class MComponentdescription
 {
     private $componentdescriptionid;
     private $description;
-    
+
     public function __construct ( int $id, string $desc )
     {
         $this->componentdescriptionid = $id;
         $this->description = $desc;
     }
-    
-    public function getComponentdescriptionId () : int
+
+    public function getComponentdescriptionId (): int
     {
         return $this->componentdescriptionid;
     }
-    
-    public function getDescription () : string
+
+    public function getDescription (): string
     {
         return $this->description;
     }
-    
-    public function save()
-    {
-        
-    }
-
 }
 
