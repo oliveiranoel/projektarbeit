@@ -1,5 +1,8 @@
 <?php
+use php\Provider;
 
+$objectdescriptions = Provider::getObjectDescriptions();
+$rooms = Provider::getRooms();
 ?>
 
 <div class="wrapper">
@@ -16,19 +19,27 @@
     <div class="form-group">
         <label for="objectdescription">Objektbeschreibung</label>
         <select class="form-control" name="objectdescription">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
+            <?php 
+            foreach ( $objectdescriptions as $objectdescription )
+            {
+            ?>
+                <option value="<?php echo $objectdescription->getObjectdescriptionId()?>"><?php echo $objectdescription->getDescription()?></option>
+            <?php 
+            }
+            ?>
         </select>
     </div>
     <div class="form-group">
         <label for="room">Raum</label>
         <select class="form-control" name="room">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
+            <?php 
+            foreach ( $rooms as $room )
+            {
+            ?>
+                <option value="<?php echo $room->getRoomId()?>"><?php echo $room->getDescription() . " " . $room->getNumber()?></option>
+            <?php 
+            }
+            ?>
         </select>
     </div>
     <button type="submit" class="btn btn-primary">Speichern</button>

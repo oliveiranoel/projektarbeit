@@ -31,7 +31,7 @@ class Authorizer
     public function login ()
     {
         $_SESSION[ 'AUTH_USER' ] = $_POST[ "email" ];
-        $_SESSION[ 'AUTH_PW' ] = md5( $_POST[ "password" ] );
+        $_SESSION[ 'AUTH_PW' ] = md5( $_POST[ "password" ] ); // TODO muss nicht in der Session gespeichert sein (nur für testing)
         
         if ( !isset( $_SESSION[ 'AUTH_USER' ] ) )
         {
@@ -49,6 +49,12 @@ class Authorizer
                 RouteService::redirect( "/home" );
             }
         }
+    }
+    
+    public function logout ()
+    {
+        unset( $_SESSION[ 'AUTH_USER' ] );
+        unset( $_SESSION[ 'AUTH_PW' ] ); // TODO nur für testing
     }
 }
 

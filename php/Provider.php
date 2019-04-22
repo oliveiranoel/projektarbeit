@@ -9,6 +9,16 @@ class Provider
     {
         return Mapper::getInstance()->mapObjects();
     }
+    
+    public static function getObject ( $objectid )
+    {
+        return Mapper::getInstance()->mapObject( $objectid );
+    }
+    
+    public static function getObjectDescriptions ()
+    {
+        return Mapper::getInstance()->mapObjectDescriptions();
+    }
 
     public static function getComponents ()
     {

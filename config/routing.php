@@ -23,7 +23,6 @@ RouteService::add( '/test.html', function ()
     }
 } );
 
-
 /**
  * ***********************************************************************************************************
  * ROOM
@@ -39,9 +38,9 @@ RouteService::add( '/rooms', function ()
 RouteService::add( '/rooms/([0-9]*)/edit', function ( $roomid )
 {
     $params = array(
-            "roomid" => $roomid
+        "roomid" => $roomid
     );
-    TemplateUtil::default( "Room", "room/edit.htm.php", null, null, $params );
+    TemplateUtil::default( "Room", "room/edit.htm.php", $params );
 } );
 
 // Raum editieren - Formular absenden (speichern)
@@ -79,7 +78,7 @@ RouteService::add( '/rooms/new', function ()
 RouteService::add( '/rooms/([0-9]*)/delete', function ( $roomid )
 {
     // TODO in eigene Klasse auslagern und abfragen ob Benutzer wirklich gelöscht werden soll
-    $sql = "DELETE FROM room WHERE roomid = $roomid;";
+    $sql = "DELETE FROM room WHERE roomid = $roomid";
     QueryUtil::execute( $sql );
     RouteService::redirect( "/rooms" );
 }, "post" );
@@ -92,23 +91,6 @@ RouteService::add( '/home', function ()
 {
     TemplateUtil::default( "Home", "home.htm.php" );
 } );
-
-/**
- * ***********************************************************************************************************
- * LOGIN
- */
-
-// Login - Seitenaufruf
-RouteService::add( '/login.html', function ()
-{
-    TemplateUtil::default( "Login", "login.htm.php", null, "login.css", null, false );
-} );
-
-// Login - Formular absenden (anmelden)
-RouteService::add( '/login.html', function ()
-{
-    Authorizer::getInstance()->login();
-}, "post" );
 
 /**
  * ***********************************************************************************************************
@@ -194,7 +176,7 @@ RouteService::add( '/objects', function ()
 RouteService::add( '/objects/([0-9]*)/edit', function ( $objectid )
 {
     $params = [
-            "objectid" => $objectid
+        "objectid" => $objectid
     ];
     TemplateUtil::default( "Objekte", "object/edit.htm.php", $params );
 } );
@@ -203,21 +185,22 @@ RouteService::add( '/objects/([0-9]*)/edit', function ( $objectid )
 RouteService::add( '/objects/([0-9]*)/edit', function ( $objectid )
 {
     // TODO in eigene Klasse auslagern
-//     $firstname = $_POST[ "firstname" ];
-//     $name = $_POST[ "name" ];
-//     $email = $_POST[ "email" ];
-//     $password = $_POST[ "password" ];
+    // $firstname = $_POST[ "firstname" ];
+    // $name = $_POST[ "name" ];
+    // $email = $_POST[ "email" ];
+    // $password = $_POST[ "password" ];
     
-//     $pw = "SELECT * FROM user WHERE userid = $userid";
-//     $record = QueryUtil::query( $pw )[ 0 ];
+    // $pw = "SELECT * FROM user WHERE userid = $userid";
+    // $record = QueryUtil::query( $pw )[ 0 ];
     
-//     if ( $record->password != $password )
-//     {
-//         $password = md5( $password );
-//     }
+    // if ( $record->password != $password )
+    // {
+    // $password = md5( $password );
+    // }
     
-//     $sql = "UPDATE user SET firstname = '$firstname', name = '$name', email = '$email', password = '$password' WHERE userid = $userid";
-//     QueryUtil::execute( $sql );
+    // $sql = "UPDATE user SET firstname = '$firstname', name = '$name', email = '$email', password
+    // = '$password' WHERE userid = $userid";
+    // QueryUtil::execute( $sql );
     RouteService::redirect( "/objects" );
 }, "post" );
 
@@ -229,23 +212,46 @@ RouteService::add( '/objects/new', function ()
 RouteService::add( '/objects/new', function ()
 {
     // TODO in eigene Klasse auslagern
-//     $firstname = $_POST[ "firstname" ];
-//     $name = $_POST[ "name" ];
-//     $email = $_POST[ "email" ];
-//     $password = md5( $_POST[ "password" ] );
+    // $firstname = $_POST[ "firstname" ];
+    // $name = $_POST[ "name" ];
+    // $email = $_POST[ "email" ];
+    // $password = md5( $_POST[ "password" ] );
     
-//     $sql = "INSERT INTO user ( name, firstname, email, password )
-//             VALUES ( '$name','$firstname', '$email', '$password' )";
-//     QueryUtil::execute( $sql );
+    // $sql = "INSERT INTO user ( name, firstname, email, password )
+    // VALUES ( '$name','$firstname', '$email', '$password' )";
+    // QueryUtil::execute( $sql );
     RouteService::redirect( "/objects" );
 }, "post" );
 
 RouteService::add( '/objects/([0-9]*)/delete', function ( $userid )
 {
     // TODO in eigene Klasse auslagern und abfragen ob Benutzer wirklich gelöscht werden soll
-//     $sql = "DELETE FROM user WHERE userid = $userid;";
-//     QueryUtil::execute( $sql );
+    // $sql = "DELETE FROM user WHERE userid = $userid;";
+    // QueryUtil::execute( $sql );
     RouteService::redirect( "/objects" );
+}, "post" );
+
+/**
+ * ***********************************************************************************************************
+ * LOGIN & LOGOUT
+ */
+
+// Login - Seitenaufruf
+RouteService::add( '/login.html', function ()
+{
+    TemplateUtil::default( "Login", "login.htm.php", null, "login.css", null, false );
+} );
+
+// Login - Formular absenden (anmelden)
+RouteService::add( '/login.html', function ()
+{
+    Authorizer::getInstance()->login();
+}, "post" );
+
+RouteService::add( '/logout.html', function ()
+{
+    Authorizer::getInstance()->logout();
+    RouteService::redirect( "/login.html" );
 }, "post" );
 
 /**
