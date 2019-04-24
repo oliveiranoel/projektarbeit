@@ -11,6 +11,7 @@
     <a class="list-group-item list-group-item-action" href="/projektarbeit/users">users</a>
     <a class="list-group-item list-group-item-action" href="/projektarbeit/users/1/edit">user edit</a>
     <a class="list-group-item list-group-item-action" href="/projektarbeit/rooms">room</a>
+    <a class="list-group-item list-group-item-action" href="/projektarbeit/components">component</a>
     <a class="list-group-item list-group-item-action" href="/projektarbeit/index.php">index.php</a>
 </div>
 

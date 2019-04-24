@@ -1,10 +1,11 @@
 <?php
 use php\Authorizer;
 use php\RouteService;
+use php\dispatcher\ComponentDispatcher;
+use php\dispatcher\ObjectDispatcher;
 use php\dispatcher\RoomDispatcher;
 use php\dispatcher\UserDispatcher;
 use php\util\TemplateUtil;
-use php\dispatcher\ObjectDispatcher;
 
 include_once 'php/RouteService.php';
 
@@ -49,6 +50,49 @@ RouteService::add( '/rooms/new', function ()
 RouteService::add( '/rooms/([0-9]*)/delete', function ( $roomid )
 {
     RoomDispatcher::delete( $roomid );
+}, "post" );
+
+/**
+ * ***********************************************************************************************************
+ * COMPONENT
+ */
+// Hauptübersicht
+RouteService::add( '/components', function ()
+{
+    TemplateUtil::default( "Component", "component/overview.htm.php" );
+} );
+
+// Room editieren
+RouteService::add( '/components/([0-9]*)/edit', function ( $componentid )
+{
+    $params = [
+        "componentid" => $componentid
+    ];
+    TemplateUtil::default( "Component", "component/edit.htm.php", $params );
+} );
+
+// Raum editieren - Formular absenden (speichern)
+RouteService::add( '/components/([0-9]*)/edit', function ( $componentid )
+{
+    ComponentDispatcher::update( $componentid );
+}, "post" );
+
+// Neuer Raum
+RouteService::add( '/components/new', function ()
+{
+    TemplateUtil::default( "Component", "component/new.htm.php" );
+} );
+
+// Neuer Raum - Formular absenden (speichern)
+RouteService::add( '/components/new', function ()
+{
+    ComponentDispatcher::create();
+}, "post" );
+
+// Raum löschen
+RouteService::add( '/components/([0-9]*)/delete', function ( $componentid )
+{
+    ComponentDispatcher::delete( $componentid );
 }, "post" );
 
 /**

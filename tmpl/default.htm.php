@@ -39,6 +39,7 @@ use php\util\TemplateUtil;
 	<script src="<?php echo $webroot?>js/plugin/popper.min.js"></script>
 	<script src="<?php echo $webroot?>bootstrap/js/bootstrap.bundle.min.js"></script>
 	<script src="<?php echo $webroot?>js/offcanvas.js"></script>
+	<script src="<?php echo $webroot?>js/print.js"></script>
 		
     <!-- Custom scripts for this template -->
     <?php TemplateUtil::scripts( $scripts )?>

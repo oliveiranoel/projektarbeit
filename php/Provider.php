@@ -24,6 +24,11 @@ class Provider
     {
         return Mapper::getInstance()->mapComponents();
     }
+    
+    public static function getComponent ( $componentid )
+    {
+        return Mapper::getInstance()->mapComponent( $componentid );
+    }
 
     public static function getRooms ()
     {

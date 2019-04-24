@@ -22,7 +22,7 @@
         <input name="description" type="text" class="form-control" placeholder="Lehrerzimmer">
     </div>
     <button type="submit" class="btn btn-primary">Speichern</button>
-    <a class="btn btn-primary" href="<?php echo $webroot?>users">Abbrechen</a>
+    <a class="btn btn-primary" href="<?php echo $webroot?>rooms">Abbrechen</a>
 </form>
 
 </div>

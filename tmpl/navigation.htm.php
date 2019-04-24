@@ -22,6 +22,9 @@ use php\util\NavUtil;
 			<li class="nav-item <?php NavUtil::isActive( $webroot . "rooms" )?>">
 				<a class="nav-link" href="<?php echo $webroot?>rooms">R&#228;ume</a>
 			</li>
+			<li class="nav-item <?php NavUtil::isActive( $webroot . "components" )?>">
+				<a class="nav-link" href="<?php echo $webroot?>components">Komponente</a>
+			</li>
 			<!--
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Settings</a>
