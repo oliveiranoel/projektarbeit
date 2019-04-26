@@ -29,11 +29,10 @@ class TemplateUtil
 
     public static function default ( $title, $template, $params = [], $stylesheets = [], $scripts = [], bool $nav = true, bool $user = true )
     {
-        // TODO wenn Login aktiv sein soll, Kommentar entfernen
-//         if ( $user )
-//         {
-//             Authorizer::getInstance()->authorize();
-//         }
+        if ( $user && Config::LOCKDOWN )
+        {
+            Authorizer::getInstance()->authorize();
+        }
         
         extract( (array) $params ); // Create variables from params
         $webroot = self::$root;

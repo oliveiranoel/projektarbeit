@@ -4,12 +4,12 @@ namespace php;
 
 use Config;
 use php\util\TemplateUtil;
-include_once 'php/util/TemplateUtil.php';
+use php\util\QueryUtil;
 
-// TODO use cookies instead of session
 class Authorizer
 {
     protected static $instance = null;
+    private static $session_auth_user = "AUTH_USER";
 
     public static function getInstance (): Authorizer
     {
@@ -26,9 +26,9 @@ class Authorizer
     protected function __construct ()
     {}
 
-    public function authorize (  )
+    public function authorize ()
     {
-        if ( !isset( $_SESSION[ 'AUTH_USER' ] ) )
+        if ( !isset( $_SESSION[ self::$session_auth_user ] ) )
         {
             header( 'HTTP/1.0 401 Unauthorized' );
             $_SESSION[ "PREVIOUS_REQUEST_PATH" ] = parse_url( $_SERVER[ "REQUEST_URI" ] )[ "path" ];
@@ -36,28 +36,48 @@ class Authorizer
         }
     }
     
+    public function logout ()
+    {
+        unset( $_SESSION[ self::$session_auth_user ] );
+        session_destroy();
+    }
+    
     public function login ()
     {
-        // TODO mit DB implementieren und vlt mit $_COOKIE
-        $_SESSION[ 'AUTH_USER' ] = $_POST[ "email" ];
-        $_SESSION[ 'AUTH_PW' ] = md5( $_POST[ "password" ] ); // TODO muss nicht in der Session gespeichert sein (nur für testing)
+        $success = false;
+        $sql = "SELECT * FROM user WHERE email = '" . $_POST[ 'email' ] . "'";
+        $record = QueryUtil::query( $sql );
         
-        // TODO PREVIOUS_REQUEST_PATH braucht es vlt nicht
-        if ( isset( $_SESSION[ "PREVIOUS_REQUEST_PATH" ] ) )
+        if ( !empty( $record ) )
         {
-            RouteService::redirect( str_replace( Config::BASEPATH, '', $_SESSION[ "PREVIOUS_REQUEST_PATH" ] ) );
-            unset( $_SESSION[ "PREVIOUS_REQUEST_PATH" ] );
+            if ( $record[0]->password == md5( $_POST[ "password" ] ) )
+            {
+                $_SESSION[ self::$session_auth_user ] = $_POST[ "email" ];
+                $success = true;
+            }
+        }
+        
+        $this->handleRedirect( $success );
+    }
+    
+    private function handleRedirect ( bool $success )
+    {
+        if ( $success )
+        {
+            if ( isset( $_SESSION[ "PREVIOUS_REQUEST_PATH" ] ) )
+            {
+                RouteService::redirect( str_replace( Config::BASEPATH, '', $_SESSION[ "PREVIOUS_REQUEST_PATH" ] ) );
+                unset( $_SESSION[ "PREVIOUS_REQUEST_PATH" ] );
+            }
+            else
+            {
+                RouteService::redirect( "/home" );
+            }
         }
         else
         {
-            RouteService::redirect( "/home" );
+            TemplateUtil::default( "Login", "login.htm.php", null, "login.css", "login.js", false, false );
         }
-    }
-    
-    public function logout ()
-    {
-        unset( $_SESSION[ 'AUTH_USER' ] );
-        unset( $_SESSION[ 'AUTH_PW' ] ); // TODO nur für testing
     }
 }
 

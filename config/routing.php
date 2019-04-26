@@ -181,7 +181,7 @@ RouteService::add( '/objects/([0-9]*)/delete', function ( $userid )
  */
 RouteService::add( '/home', function ()
 {
-    TemplateUtil::default( "Home", "home.htm.php", null, null, null, true, false );
+    TemplateUtil::default( "Home", "home.htm.php", null, null, null, true, true );
 } );
 
 /**
@@ -212,6 +212,9 @@ RouteService::add( '/logout.html', function ()
  */
 RouteService::rewrite( "/index.php", "/home" );
 RouteService::rewrite( Config::BASEPATH, "/home" );
+
+// WORKAROUND
+// RouteService::rewrite( "/js/plugin/popper.min.js.map", "/home" );
 
 /**
  * ***********************************************************************************************************
