@@ -1,5 +1,4 @@
 <?php
-use php\Provider;
 
 $object = Provider::getUser( $userid );
 ?>

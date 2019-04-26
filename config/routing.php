@@ -1,13 +1,4 @@
 <?php
-use php\Authorizer;
-use php\RouteService;
-use php\dispatcher\ComponentDispatcher;
-use php\dispatcher\ObjectDispatcher;
-use php\dispatcher\RoomDispatcher;
-use php\dispatcher\UserDispatcher;
-use php\util\TemplateUtil;
-
-include_once 'php/RouteService.php';
 
 /**
  * ***********************************************************************************************************
@@ -77,7 +68,7 @@ RouteService::add( '/components/([0-9]*)/edit', function ( $componentid )
     ComponentDispatcher::update( $componentid );
 }, "post" );
 
-// Neuer Raum
+// Neuer RaumWow
 RouteService::add( '/components/new', function ()
 {
     TemplateUtil::default( "Component", "component/new.htm.php" );

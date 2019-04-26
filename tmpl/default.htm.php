@@ -6,7 +6,6 @@
  * title
  * template
  */
-use php\util\TemplateUtil;
 
 ?>
 

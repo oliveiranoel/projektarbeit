@@ -1,6 +1,4 @@
 <?php
-use php\Provider;
-use php\util\TemplateUtil;
 
 $components = Provider::getComponents();
 $detailview = Config::PATH_TEMPLATE . "component/detailview.htm.php";

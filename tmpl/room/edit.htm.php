@@ -1,5 +1,4 @@
 <?php
-use php\Provider;
 
 $room = Provider::getRoom( $roomid );
 ?>

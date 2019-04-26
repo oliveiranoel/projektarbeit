@@ -1,6 +1,4 @@
 <?php
-use php\Provider;
-use php\util\TemplateUtil;
 
 $objects = Provider::getObjects();
 $detailview = Config::PATH_TEMPLATE . "object/detailview.htm.php";

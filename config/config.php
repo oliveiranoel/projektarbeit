@@ -24,4 +24,4 @@ class Config
     // FEATURE TOGGLE
     const LOCKDOWN = false;
 }
-?>
+

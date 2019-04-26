@@ -1,7 +1,16 @@
 <?php
-use php\Authorizer;
-use php\Logger;
 
+/***************************************************************************************************************
+ *
+ *  This file contains all util classes
+ *
+ ***************************************************************************************************************/
+
+/**
+ * 
+ * @author dsu
+ *
+ */
 class DBUtil
 {
     private static $connection = null;
@@ -31,6 +40,11 @@ class DBUtil
     }
 }
 
+/**
+ * 
+ * @author dsu
+ *
+ */
 class QueryUtil
 {
 
@@ -81,6 +95,11 @@ class QueryUtil
     }
 }
 
+/**
+ * 
+ * @author dsu
+ *
+ */
 class TemplateUtil
 {
     private static $default_template = "default.htm.php";
@@ -128,6 +147,11 @@ class TemplateUtil
     }
 }
 
+/**
+ * 
+ * @author dsu
+ *
+ */
 class NavUtil
 {
 

@@ -1,6 +1,4 @@
 <?php
-use php\Provider;
-use php\util\TemplateUtil;
 
 $rooms = Provider::getRooms();
 $detailview = Config::PATH_TEMPLATE . "room/detailview.htm.php";

@@ -1,5 +1,4 @@
 <?php
-use php\Provider;
 
 $object = Provider::getObject( $objectid );
 $objectdescriptions = Provider::getObjectDescriptions();

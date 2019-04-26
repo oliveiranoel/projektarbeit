@@ -1,9 +1,17 @@
 <?php
 
-/**
- * 
- * @author dsu
+/***************************************************************************************************************
  *
+ *  This file contains all inital classes
+ *
+ ***************************************************************************************************************/
+
+/**
+ *
+ * @author dsu
+ * 
+ * Maps query outputs to PHP model objects.
+ *        
  */
 class Mapper
 {
@@ -32,6 +40,7 @@ class Mapper
         {
             $data[] = new MRoom( $record->roomid, $record->number, $record->description );
         }
+        
         return $data;
     }
 
@@ -51,7 +60,9 @@ class Mapper
             $objectdescription = QueryUtil::query( "SELECT * FROM objectdescription WHERE objectdescriptionid = $record->objectdescriptionid" )[ 0 ];
             $room = QueryUtil::query( "SELECT * FROM room WHERE roomid = $record->roomid" )[ 0 ];
             
-            $data[] = new MObject( $record->objectid, new MObjectdescription( $objectdescription->objectdescriptionid, $objectdescription->description ), new MRoom( $room->roomid, $room->number, $room->description ) );
+            $data[] = new MObject( $record->objectid, 
+                    new MObjectdescription( $objectdescription->objectdescriptionid, $objectdescription->description ), 
+                    new MRoom( $room->roomid, $room->number, $room->description ) );
         }
         
         return $data;
@@ -62,7 +73,9 @@ class Mapper
         $record = QueryUtil::query( "SELECT * FROM object WHERE objectid = $objectid" )[ 0 ];
         $objectdescription = QueryUtil::query( "SELECT * FROM objectdescription WHERE objectdescriptionid = $record->objectdescriptionid" )[ 0 ];
         $room = QueryUtil::query( "SELECT * FROM room WHERE roomid = $record->roomid" )[ 0 ];
-        $data = new MObject( $record->objectid, new MObjectdescription( $objectdescription->objectdescriptionid, $objectdescription->description ), new MRoom( $room->roomid, $room->number, $room->description ) );
+        $data = new MObject( $record->objectid, 
+                new MObjectdescription( $objectdescription->objectdescriptionid, $objectdescription->description ), 
+                new MRoom( $room->roomid, $room->number, $room->description ) );
         return $data;
     }
 
@@ -87,9 +100,22 @@ class Mapper
             $componentdescription = QueryUtil::query( "SELECT * FROM componentdescription WHERE componentdescriptionid = $record->componentdescriptionid" )[ 0 ];
             $componentvalue = QueryUtil::query( "SELECT * FROM componentvalue WHERE componentvalueid = $record->componentvalueid" )[ 0 ];
             
-            $data[] = new MComponent( $record->componentid, new MComponentdescription( $componentdescription->componentdescriptionid, $componentdescription->description ), new MComponentvalue( $componentvalue->componentvalueid, $componentvalue->value ) );
+            $data[] = new MComponent( $record->componentid, 
+                    new MComponentdescription( $componentdescription->componentdescriptionid, $componentdescription->description ), 
+                    new MComponentvalue( $componentvalue->componentvalueid, $componentvalue->value ) );
         }
         
+        return $data;
+    }
+
+    public function mapComponent ( $componentid )
+    {
+        $record = QueryUtil::query( "SELECT * FROM component WHERE componentid = $componentid" )[ 0 ];
+        $componentdescription = QueryUtil::query( "SELECT * FROM componentdescription WHERE componentdescriptionid = $record->componentdescriptionid" )[ 0 ];
+        $componentvalue = QueryUtil::query( "SELECT * FROM componentvalue WHERE componentvalueid = $record->componentvalueid" )[ 0 ];
+        $data = new MComponent( $record->componentid, 
+                new MComponentdescription( $componentdescription->componentdescriptionid, $componentdescription->description ), 
+                new MComponentvalue( $componentvalue->componentvalueid, $componentvalue->value ) );
         return $data;
     }
 
@@ -116,6 +142,8 @@ class Mapper
 /**
  *
  * @author dsu
+ * 
+ * Handles to whole authorization process.
  *        
  */
 class Authorizer
@@ -196,6 +224,8 @@ class Authorizer
 /**
  *
  * @author dsu
+ * 
+ * This class is responsible for the entire routing mechanism.
  *        
  */
 class RouteService
@@ -208,11 +238,13 @@ class RouteService
      * Function used to add a new route
      *
      * @param string $expression
-     *            Route string or expression
+     * Route string or expression
+     * 
      * @param callable $function
-     *            Function to call when route with allowed method is found
+     * Function to call when route with allowed method is found
+     * 
      * @param string|array $method
-     *            Either a string of allowed method or an array with string values
+     * Either a string of allowed method or an array with string values
      *            
      */
     public static function add ( $expression, $function, $method = 'get' )
