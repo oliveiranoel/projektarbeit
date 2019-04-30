@@ -44,7 +44,7 @@ $detailview = Config::PATH_TEMPLATE . "user/detailview.htm.php";
 				</div>
         	</div>
         	<div id="user_<?php echo $user->getUserid()?>" class="collapse" data-parent="#accordion">
-                <?php TemplateUtil::exists( $detailview ) ? include( $detailview ) : null;?>
+                <?php FileUtil::exists( $detailview ) ? include( $detailview ) : null;?>
             </div>
         </div>
     <?php

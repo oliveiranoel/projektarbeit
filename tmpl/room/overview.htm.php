@@ -44,7 +44,7 @@ $deleteConfirmation = "return confirm('Sind Sie sich sicher, dass sie diesen Rau
     				</div>
             	</div>
             	<div id="room_<?php echo $room->getRoomId()?>" class="collapse" data-parent="#accordion">
-                    <?php TemplateUtil::exists( $detailview ) ? include( $detailview ) : null;?>
+                    <?php FileUtil::exists( $detailview ) ? include( $detailview ) : null;?>
                 </div>
             </div>
         <?php

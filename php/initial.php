@@ -9,9 +9,49 @@
 /**
  *
  * @author dsu
- * 
+ *
+ */
+class Renderer
+{
+    private static $default_template = "default.htm.php";
+    private static $root = Config::BASEPATH . "/";
+
+    public static function default ( $title, $template, $params = [], $stylesheets = [], $scripts = [], bool $nav = true, bool $user = true )
+    {
+        if ( $user && Config::LOCKDOWN )
+        {
+            AuthorizerService::getInstance()->authorize();
+        }
+        
+        extract( (array) $params ); // Create variables from params
+        $webroot = self::$root;
+        $template = Config::PATH_TEMPLATE . $template;
+        include ( Config::PATH_TEMPLATE . self::$default_template );
+    }
+
+    public static function stylesheets ( $stylesheets )
+    {
+        foreach ( (array) $stylesheets as $stylesheet )
+        {
+            echo "<link rel='stylesheet' href='" . Config::PATH_CSS . "$stylesheet'>";
+        }
+    }
+
+    public static function scripts ( $scripts )
+    {
+        foreach ( (array) $scripts as $script )
+        {
+            echo "<script src='" . Config::PATH_JS . "$script'></script>";
+        }
+    }
+}
+
+/**
+ *
+ * @author dsu
+ *
  * Maps query outputs to PHP model objects.
- *        
+ *
  */
 class Mapper
 {
@@ -60,9 +100,7 @@ class Mapper
             $objectdescription = QueryUtil::query( "SELECT * FROM objectdescription WHERE objectdescriptionid = $record->objectdescriptionid" )[ 0 ];
             $room = QueryUtil::query( "SELECT * FROM room WHERE roomid = $record->roomid" )[ 0 ];
             
-            $data[] = new MObject( $record->objectid, 
-                    new MObjectdescription( $objectdescription->objectdescriptionid, $objectdescription->description ), 
-                    new MRoom( $room->roomid, $room->number, $room->description ) );
+            $data[] = new MObject( $record->objectid, new MObjectdescription( $objectdescription->objectdescriptionid, $objectdescription->description ), new MRoom( $room->roomid, $room->number, $room->description ) );
         }
         
         return $data;
@@ -73,9 +111,7 @@ class Mapper
         $record = QueryUtil::query( "SELECT * FROM object WHERE objectid = $objectid" )[ 0 ];
         $objectdescription = QueryUtil::query( "SELECT * FROM objectdescription WHERE objectdescriptionid = $record->objectdescriptionid" )[ 0 ];
         $room = QueryUtil::query( "SELECT * FROM room WHERE roomid = $record->roomid" )[ 0 ];
-        $data = new MObject( $record->objectid, 
-                new MObjectdescription( $objectdescription->objectdescriptionid, $objectdescription->description ), 
-                new MRoom( $room->roomid, $room->number, $room->description ) );
+        $data = new MObject( $record->objectid, new MObjectdescription( $objectdescription->objectdescriptionid, $objectdescription->description ), new MRoom( $room->roomid, $room->number, $room->description ) );
         return $data;
     }
 
@@ -100,9 +136,7 @@ class Mapper
             $componentdescription = QueryUtil::query( "SELECT * FROM componentdescription WHERE componentdescriptionid = $record->componentdescriptionid" )[ 0 ];
             $componentvalue = QueryUtil::query( "SELECT * FROM componentvalue WHERE componentvalueid = $record->componentvalueid" )[ 0 ];
             
-            $data[] = new MComponent( $record->componentid, 
-                    new MComponentdescription( $componentdescription->componentdescriptionid, $componentdescription->description ), 
-                    new MComponentvalue( $componentvalue->componentvalueid, $componentvalue->value ) );
+            $data[] = new MComponent( $record->componentid, new MComponentdescription( $componentdescription->componentdescriptionid, $componentdescription->description ), new MComponentvalue( $componentvalue->componentvalueid, $componentvalue->value ) );
         }
         
         return $data;
@@ -113,9 +147,7 @@ class Mapper
         $record = QueryUtil::query( "SELECT * FROM component WHERE componentid = $componentid" )[ 0 ];
         $componentdescription = QueryUtil::query( "SELECT * FROM componentdescription WHERE componentdescriptionid = $record->componentdescriptionid" )[ 0 ];
         $componentvalue = QueryUtil::query( "SELECT * FROM componentvalue WHERE componentvalueid = $record->componentvalueid" )[ 0 ];
-        $data = new MComponent( $record->componentid, 
-                new MComponentdescription( $componentdescription->componentdescriptionid, $componentdescription->description ), 
-                new MComponentvalue( $componentvalue->componentvalueid, $componentvalue->value ) );
+        $data = new MComponent( $record->componentid, new MComponentdescription( $componentdescription->componentdescriptionid, $componentdescription->description ), new MComponentvalue( $componentvalue->componentvalueid, $componentvalue->value ) );
         return $data;
     }
 
@@ -142,16 +174,16 @@ class Mapper
 /**
  *
  * @author dsu
- * 
+ *
  * Handles to whole authorization process.
- *        
+ *
  */
-class Authorizer
+class AuthorizerService
 {
     protected static $instance = null;
     private static $session_auth_user = "AUTH_USER";
 
-    public static function getInstance (): Authorizer
+    public static function getInstance (): AuthorizerService
     {
         if ( null === self::$instance )
         {
@@ -216,7 +248,7 @@ class Authorizer
         }
         else
         {
-            TemplateUtil::default( "Login", "login.htm.php", null, "login.css", "login.js", false, false );
+            Renderer::default( "Login", "login.htm.php", null, "login.css", "login.js", false, false );
         }
     }
 }
@@ -224,9 +256,9 @@ class Authorizer
 /**
  *
  * @author dsu
- * 
+ *
  * This class is responsible for the entire routing mechanism.
- *        
+ *
  */
 class RouteService
 {
@@ -245,7 +277,7 @@ class RouteService
      * 
      * @param string|array $method
      * Either a string of allowed method or an array with string values
-     *            
+     * 
      */
     public static function add ( $expression, $function, $method = 'get' )
     {

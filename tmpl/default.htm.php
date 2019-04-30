@@ -1,14 +1,3 @@
-<?php 
-
-/**
- * configs:
- * 
- * title
- * template
- */
-
-?>
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -18,8 +7,10 @@
 <meta name="author" content="Dominik Suter, Noel Oliveira">
 <title><?php echo $title?></title>
 
-<!-- TODO change favicon -->
-<link rel="icon" href="#">
+<!-- TODO favicon -->
+<!-- https://convertio.co/de/svg-ico/ -->
+<!-- https://www.flaticon.com/ -->
+<link rel="icon" href="<?php echo $webroot?>favicon.ico">
 
 <!-- Bootstrap core CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -27,14 +18,14 @@
 <link rel="stylesheet" href="<?php echo $webroot?>css/glyphicon.css">
 
 <!-- Custom styles for this template -->
-<?php TemplateUtil::stylesheets( $stylesheets )?>
+<?php Renderer::stylesheets( $stylesheets )?>
 </head>
 <body class="bg-light">
 
 	<?php $nav ? include( Config::PATH_TEMPLATE . 'navigation.htm.php' ) : null; ?>
     
     <main role="main" class="container mt-5">
-    	<?php TemplateUtil::exists( $template ) ? include( $template ) : null; ?>
+    	<?php FileUtil::exists( $template ) ? include( $template ) : null; ?>
     </main>
 	
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -44,6 +35,6 @@
 	<script src="<?php echo $webroot?>js/print.js"></script>
 	
     <!-- Custom scripts for this template -->
-    <?php TemplateUtil::scripts( $scripts )?>
+    <?php Renderer::scripts( $scripts )?>
 </body>
 </html>

@@ -44,7 +44,7 @@ $deleteConfirmation = "return confirm('Sind Sie sich sicher, dass sie diesen Kom
     				</div>
             	</div>
             	<div id="component_<?php echo $component->getComponentId()?>" class="collapse" data-parent="#accordion">
-                    <?php TemplateUtil::exists( $detailview ) ? include( $detailview ) : null;?>
+                    <?php FileUtil::exists( $detailview ) ? include( $detailview ) : null;?>
                 </div>
             </div>
         <?php
