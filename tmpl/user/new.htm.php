@@ -9,11 +9,7 @@
 </div>
 
 <form action="<?php echo $webroot?>users/new" method="post">
-	<div class="form-group">
-        <label for="userid">Benutzer ID</label>
-        <input name="userid" type="text" class="form-control" readonly>
-    </div>
-	<div class="form-group">
+    <div class="form-group">
         <label for="firstname">Vorname</label>
         <input name="firstname" type="text" class="form-control" maxlength="35" placeholder="Max">
     </div>
@@ -29,6 +25,13 @@
     <div class="form-group">
         <label for="password">Passwort</label>
         <input name="password" type="password" class="form-control" maxlength="20" placeholder="Passwort">
+    </div>
+    <div class="form-group">
+        <label for="admin">Rolle</label>
+        <select class="form-control" name="admin">
+                <option value="0" selected>Benutzer</option>
+                <option value="1">Admin</option>
+        </select>
     </div>
     <button type="submit" class="btn btn-primary">Speichern</button>
     <a class="btn btn-primary" href="<?php echo $webroot?>users">Abbrechen</a>

@@ -22,6 +22,6 @@ class Config
     const SQL_DATABASE = 'project';
     
     // FEATURE TOGGLE
-    const LOCKDOWN = false;
+    const LOCKDOWN = true;
 }
 

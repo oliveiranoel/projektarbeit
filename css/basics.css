@@ -1,0 +1,21 @@
+.greeting {
+	color: white; 
+	margin-right: 2%;
+}
+
+.logout {
+	width: 100%;
+}
+
+.navigation {
+	text-align: center;
+}
+
+.icon-container {
+	width: 40px; 
+	height: 40px;
+}
+
+.icon {
+	font-size: 1.4em;
+}

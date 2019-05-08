@@ -20,6 +20,7 @@ class UserDispatcher
         $name = $_POST[ "name" ];
         $email = $_POST[ "email" ];
         $password = $_POST[ "password" ];
+        $admin = $_POST[ "admin" ];
         
         $pw = "SELECT * FROM user WHERE userid = $userid";
         $record = QueryUtil::query( $pw )[ 0 ];
@@ -29,7 +30,7 @@ class UserDispatcher
             $password = md5( $password );
         }
         
-        $sql = "UPDATE user SET firstname = '$firstname', name = '$name', email = '$email', password = '$password' WHERE userid = $userid";
+        $sql = "UPDATE user SET firstname = '$firstname', name = '$name', email = '$email', password = '$password', admin = '$admin' WHERE userid = $userid";
         QueryUtil::execute( $sql );
         RouteService::redirect( "/users" );
     }
@@ -40,9 +41,10 @@ class UserDispatcher
         $name = $_POST[ "name" ];
         $email = $_POST[ "email" ];
         $password = md5( $_POST[ "password" ] );
+        $admin = $_POST[ "admin" ];
         
-        $sql = "INSERT INTO user ( name, firstname, email, password )
-            VALUES ( '$name','$firstname', '$email', '$password' )";
+        $sql = "INSERT INTO user ( name, firstname, email, password, admin )
+            VALUES ( '$name','$firstname', '$email', '$password', '$admin' )";
         QueryUtil::execute( $sql );
         RouteService::redirect( "/users" );
     }

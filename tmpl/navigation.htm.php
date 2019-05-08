@@ -2,17 +2,17 @@
 ?>
 
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
-	<a href="<?php echo $webroot?>home" style="width: 40px; height: 40px;">
-		<span class="mt-2 glyphicon glyphicon-home" style="font-size: 1.4em;"></span>
+	<a href="<?php echo $webroot?>home" class="icon-container">
+		<span class="mt-2 glyphicon glyphicon-home icon"></span>
 	</a>
 	
 	<button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
 		<span class="navbar-toggler-icon"></span>
 	</button>
 
-	<div class="navbar-collapse offcanvas-collapse">
+	<div class="navbar-collapse offcanvas-collapse navigation">
 		<ul class="navbar-nav mr-auto">
-			<li class="nav-item <?php NavUtil::isActive( $webroot . "users" )?>">
+			<li class="nav-item <?php NavUtil::isActive( $webroot . "users" )?>" <?php if ( !isset( $_SESSION[ "AUTH_ROLE" ] )){ echo "style='display: none;'"; } ?>>
 				<a class="nav-link" href="<?php echo $webroot?>users">Benutzer</a>
 			</li>
 			<li class="nav-item <?php NavUtil::isActive( $webroot . "objects" )?>">
@@ -34,9 +34,12 @@
 				</div>
 			</li>
 			-->
+			
 		</ul>
-		<form class="form-inline my-2 my-lg-0" action="<?php echo $webroot?>logout.html" method="post">
-			<button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Log out</button>
-		</form>
+		<div class="d-none d-xl-block greeting">Hallo, <?php echo $_SESSION[ "AUTH_NAME" ] ?></div>
+	
+    	<form class="form-inline my-2 my-lg-0 " action="<?php echo $webroot?>logout.html" method="post">
+    		<button class="btn btn-outline-primary my-2 my-sm-0 logout" type="submit">Log out</button>
+    	</form>
 	</div>
 </nav>

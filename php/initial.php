@@ -33,7 +33,7 @@ class Renderer
     {
         foreach ( (array) $stylesheets as $stylesheet )
         {
-            echo "<link rel='stylesheet' href='" . Config::PATH_CSS . "$stylesheet'>";
+            echo "<link rel='stylesheet' href='" . self::$root . Config::PATH_CSS . "$stylesheet'>";
         }
     }
 
@@ -157,7 +157,7 @@ class Mapper
         
         foreach ( QueryUtil::query( "SELECT * FROM user" ) as $record )
         {
-            $data[] = new MUser( $record->userid, $record->name, $record->firstname, $record->email, $record->password );
+            $data[] = new MUser( $record->userid, $record->name, $record->firstname, $record->email, $record->password, $record->admin );
         }
         
         return $data;
@@ -166,7 +166,7 @@ class Mapper
     public function mapUser ( $userid )
     {
         $record = QueryUtil::query( "SELECT * FROM user WHERE userid = $userid" )[ 0 ];
-        $data = new MUser( $record->userid, $record->name, $record->firstname, $record->email, $record->password );
+        $data = new MUser( $record->userid, $record->name, $record->firstname, $record->email, $record->password, $record->admin );
         return $data;
     }
 }
@@ -182,6 +182,8 @@ class AuthorizerService
 {
     protected static $instance = null;
     private static $session_auth_user = "AUTH_USER";
+    private static $session_auth_role = "AUTH_ROLE";
+    private static $session_auth_name = "AUTH_NAME";
 
     public static function getInstance (): AuthorizerService
     {
@@ -226,6 +228,13 @@ class AuthorizerService
             {
                 $_SESSION[ self::$session_auth_user ] = $_POST[ "email" ];
                 $success = true;
+                
+                $_SESSION[ self::$session_auth_name ] = $record[0]->firstname;
+                
+                if ( $record[0]->admin == 1 )
+                {
+                    $_SESSION[ self::$session_auth_role ] = "Admin";
+                }
             }
         }
         

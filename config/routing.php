@@ -93,37 +93,62 @@ RouteService::add( '/components/([0-9]*)/delete', function ( $componentid )
 // Benutzerübersicht
 RouteService::add( '/users', function ()
 {
-    Renderer::default( "Benutzer", "user/overview.htm.php" );
+    if ( isset( $_SESSION[ "AUTH_ROLE" ] )) {
+        Renderer::default( "Benutzer", "user/overview.htm.php" );
+    } else {
+        Renderer::default( "401", 'error/401.htm.php' );
+    }
 } );
 
 // Bentuzer editieren - Seitenaufruf
 RouteService::add( '/users/([0-9]*)/edit', function ( $userid )
 {
-    $params = [
-        "userid" => $userid
-    ];
-    Renderer::default( "User", "user/edit.htm.php", $params );
+    if ( isset( $_SESSION[ "AUTH_ROLE" ] )) {
+        $params = [
+            "userid" => $userid
+        ];
+        
+        Renderer::default( "User", "user/edit.htm.php", $params );
+    } else {
+        Renderer::default( "401", 'error/401.htm.php' );
+    }
 } );
 
 // Bentuzer editieren - Formular absenden (speichern)
 RouteService::add( '/users/([0-9]*)/edit', function ( $userid )
 {
-    UserDispatcher::update( $userid );
+    if ( isset( $_SESSION[ "AUTH_ROLE" ] )) {
+        UserDispatcher::update( $userid );
+    } else {
+        Renderer::default( "401", 'error/401.htm.php' );
+    }
 }, "post" );
 
 RouteService::add( '/users/new', function ()
 {
-    Renderer::default( "Home", "user/new.htm.php" );
+    if ( isset( $_SESSION[ "AUTH_ROLE" ] )) {
+        Renderer::default( "Home", "user/new.htm.php" );
+    } else {
+        Renderer::default( "401", 'error/401.htm.php' );
+    }
 } );
 
 RouteService::add( '/users/new', function ()
 {
-    UserDispatcher::create();
+    if ( isset( $_SESSION[ "AUTH_ROLE" ] )) {
+        UserDispatcher::create();
+    } else {
+        Renderer::default( "401", 'error/401.htm.php' );
+    }
 }, "post" );
 
 RouteService::add( '/users/([0-9]*)/delete', function ( $userid )
 {
-    UserDispatcher::delete( $userid );
+    if ( isset( $_SESSION[ "AUTH_ROLE" ] )) {
+        UserDispatcher::delete( $userid );
+    } else {
+        Renderer::default( "401", 'error/401.htm.php' );
+    }
 }, "post" );
 
 /**

@@ -175,14 +175,16 @@ class MUser
     private $firstname;
     private $email;
     private $password;
+    private $admin;
 
-    public function __construct ( int $userid, string $name, string $firstname, string $email, string $password )
+    public function __construct ( int $userid, string $name, string $firstname, string $email, string $password, bool $admin )
     {
         $this->userid = $userid;
         $this->name = $name;
         $this->firstname = $firstname;
         $this->email = $email;
         $this->password = $password;
+        $this->admin = $admin;
     }
 
     public function getUserid ()
@@ -208,6 +210,14 @@ class MUser
     public function getPassword ()
     {
         return $this->password;
+    }
+    
+    public function getRole () 
+    {
+        if ($this->admin == 0) {
+            return "Benutzer";
+        }
+        return "Admin";   
     }
 }
 

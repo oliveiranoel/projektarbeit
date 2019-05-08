@@ -20,5 +20,8 @@
         	<span class="text-muted font-italic">Passwort:</span>
         	<input type="password" style="border: none; background-color: white;" size="15" disabled value="<?php echo $user->getPassword()?>">
     	</li>
+    	<li class="list-group-item">
+        	<p><span class="text-muted font-italic">Rolle:</span> <?php echo $user->getRole()?></p>
+    	</li>
     </ul>
 </div>
