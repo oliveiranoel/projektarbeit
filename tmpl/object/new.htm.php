@@ -16,17 +16,8 @@ $rooms = Provider::getRooms();
         <input name="userid" type="text" class="form-control" readonly>
     </div>
     <div class="form-group">
-        <label for="objectdescription">Objektbeschreibung</label>
-        <select class="form-control" name="objectdescription">
-            <?php 
-            foreach ( $objectdescriptions as $objectdescription )
-            {
-            ?>
-                <option value="<?php echo $objectdescription->getObjectdescriptionId()?>"><?php echo $objectdescription->getDescription()?></option>
-            <?php 
-            }
-            ?>
-        </select>
+        <label for="description">Objektbeschreibung</label>
+        <input name="description" type="text" class="form-control" placeholder="Hersteller">
     </div>
     <div class="form-group">
         <label for="room">Raum</label>

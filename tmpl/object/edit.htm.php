@@ -4,8 +4,6 @@ $object = Provider::getObject( $objectid );
 $objectdescriptions = Provider::getObjectDescriptions();
 $rooms = Provider::getRooms();
 
-// TODO selected
-// TODO sollte die Bezeichnung frei eingegeben werden können und Duplikate werden per Code überprüft?
 ?>
 
 <div class="wrapper">
@@ -14,23 +12,10 @@ $rooms = Provider::getRooms();
 	<h1>Objekt editieren: <?php echo $object->getObjectdescription()->getDescription()?></h1>
 </div>
 
-<form action="<?php echo $webroot?>objects/new" method="post">
-	<div class="form-group">
-        <label for="userid">Objekt ID</label>
-        <input name="userid" type="text" class="form-control" value="<?php echo $object->getObjectid()?>" readonly>
-    </div>
+<form action="<?php echo $webroot?>objects/<?php echo $object->getObjectid()?>/edit" method="post">
     <div class="form-group">
-        <label for="objectdescription">Objektbeschreibung</label>
-        <select class="form-control" name="objectdescription">
-            <?php 
-            foreach ( $objectdescriptions as $objectdescription )
-            {
-            ?>
-                <option value="<?php echo $objectdescription->getObjectdescriptionId()?>"><?php echo $objectdescription->getDescription()?></option>
-            <?php 
-            }
-            ?>
-        </select>
+        <label for="description">Objektbeschreibung</label>
+        <input name="description" type="text" class="form-control" value="<?php echo $object->getObjectdescription()->getDescription()?>">
     </div>
     <div class="form-group">
         <label for="room">Raum</label>
@@ -39,7 +24,9 @@ $rooms = Provider::getRooms();
             foreach ( $rooms as $room )
             {
             ?>
-                <option value="<?php echo $room->getRoomId()?>"><?php echo $room->getDescription() . " " . $room->getNumber()?></option>
+                <option value="<?php echo $room->getRoomId()?>" <?php if ( $room->getRoomId() == $object->getRoom()->getRoomId() ) echo "selected"?>>
+                	<?php echo $room->getDescription() . " " . $room->getNumber()?>
+            	</option>
             <?php 
             }
             ?>

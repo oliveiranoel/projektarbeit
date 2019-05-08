@@ -93,6 +93,30 @@ class QueryUtil
         
         return [];
     }
+    
+    public static function insert ( $query )
+    {
+        $conn = DBUtil::getConnection();
+        
+        if ( $conn != null )
+        {
+            if ( $conn->query( $query ) )
+            {
+                return $conn->lastInsertId();
+            }
+            else
+            {
+                Logger::error( "Error occured while executing insert: '" . $query . "'" );
+                return false;
+            }
+        }
+        else
+        {
+            Logger::error( "No connection available while trying to execute insert: '" . $query . "'" );
+        }
+        
+        return false;
+    }
 }
 
 /**

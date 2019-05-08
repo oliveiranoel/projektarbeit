@@ -186,7 +186,7 @@ RouteService::add( '/objects/new', function ()
     ObjectDispatcher::create();
 }, "post" );
 
-RouteService::add( '/objects/([0-9]*)/delete', function ( $userid )
+RouteService::add( '/objects/([0-9]*)/delete', function ( $objectid )
 {
     ObjectDispatcher::delete( $objectid );
 }, "post" );
