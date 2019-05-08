@@ -25,7 +25,7 @@ $deleteConfirmation = "return confirm('Sind Sie sich sicher, dass sie diesen Kom
                 <div class="card-header">
                     <h5 class="card-title mb-0">
                         <button class="btn btn-link float-left" data-toggle="collapse" data-target="#component_<?php echo $component->getComponentId()?>">
-                      		<?php echo $component->getComponentdescription()->getDescription() ?>
+                      		<?php echo "[" . $component->getComponentId() . "] " . $component->getComponentdescription()->getDescription() ?>
                         </button>
                     </h5>
                     <div class="btn-toolbar float-right" role="toolbar">

@@ -100,59 +100,54 @@ class RoomDispatcher
 class ComponentDispatcher
 {
 
+    private static function checkDescriptionAssgin ( $description )
+    {
+        $record = QueryUtil::query( "SELECT * FROM componentdescription WHERE lower(description) = lower('$description')" );
+        if ( empty( $record ) )
+        {
+            return QueryUtil::insert( "INSERT INTO componentdescription ( description ) VALUES ( '$description' )" );
+        }
+        else
+        {
+            return $record[0]->componentdescriptionid;
+        }
+    }
+    
+    private static function checkValueAssgin ( $value )
+    {
+        $record = QueryUtil::query( "SELECT * FROM componentvalue WHERE lower(value) = lower('$value')" );
+        if ( empty( $record ) )
+        {
+            return QueryUtil::insert( "INSERT INTO componentvalue ( value ) VALUES ( '$value' )" );
+        }
+        else
+        {
+            return $record[0]->componentvalueid;
+        }
+    }
+    
     public static function update ( $componentid )
     {
-        // TODO implement
-        // $firstname = $_POST[ "firstname" ];
-        // $name = $_POST[ "name" ];
-        // $email = $_POST[ "email" ];
-        // $password = $_POST[ "password" ];
+        $descriptionId = self::checkDescriptionAssgin( $_POST[ "description" ] );
+        $valueId = self::checkValueAssgin( $_POST[ "value" ] );
         
-        // $pw = "SELECT * FROM user WHERE userid = $userid";
-        // $record = QueryUtil::query( $pw )[ 0 ];
-        
-        // if ( $record->password != $password )
-        // {
-        // $password = md5( $password );
-        // }
-        
-        // $sql = "UPDATE user SET firstname = '$firstname', name = '$name', email = '$email',
-        // password
-        // = '$password' WHERE userid = $userid";
-        // QueryUtil::execute( $sql );
+        QueryUtil::execute( "UPDATE component SET componentdescriptionid = '$descriptionId', 
+                                componentvalueid = '$valueId' WHERE componentid = $componentid" );
         RouteService::redirect( "/components" );
     }
 
     public static function create ()
     {
-        $description = $_POST[ "description" ];
-        $value = $_POST[ "value" ];
-        $descriptionId = 0;
-        $valueId = 0;
-        
-        if ( empty( QueryUtil::query( "SELECT * FROM componentdescription WHERE lower(description) = lower('$description')" ) ) )
-        {
-            QueryUtil::execute( "INSERT INTO componentdescription ( description ) VALUES ( '$description' )" );
-            $descriptionId = QueryUtil::query( "SELECT componentdescriptionid FROM componentdescription WHERE description = '$description'" )[ 0 ]->componentdescriptionid;
-            var_dump( $descriptionId );
-        }
-        
-        if ( empty( QueryUtil::query( "SELECT * FROM componentvalue WHERE lower(value) = lower('$value')" ) ) )
-        {
-            QueryUtil::execute( "INSERT INTO componentvalue ( value ) VALUES ( '$value' )" );
-            $valueId = QueryUtil::query( "SELECT componentvalueid FROM componentvalue WHERE value = '$value'" )[ 0 ]->componentvalueid;
-            var_dump( $valueId );
-        }
+        $descriptionId = self::checkDescriptionAssgin( $_POST[ "description" ] );
+        $valueId = self::checkValueAssgin( $_POST[ "value" ] );
         
         QueryUtil::execute( "INSERT INTO component ( componentdescriptionid, componentvalueid ) VALUES ( '$descriptionId', '$valueId' )" );
-        
         RouteService::redirect( "/components" );
     }
 
     public static function delete ( $componentid )
     {
-        $sql = "DELETE FROM component WHERE componentid = $componentid;";
-        QueryUtil::execute( $sql );
+        QueryUtil::execute( "DELETE FROM component WHERE componentid = $componentid" );
         RouteService::redirect( "/components" );
     }
 }
@@ -164,49 +159,43 @@ class ComponentDispatcher
  */
 class ObjectDispatcher
 {
-
+    private static function checkDescriptionAssgin ( $description )
+    {
+        $record = QueryUtil::query( "SELECT * FROM objectdescription WHERE lower(description) = lower('$description')" );
+        if ( empty( $record ) )
+        {
+            return QueryUtil::insert( "INSERT INTO objectdescription ( description ) VALUES ( '$description' )" );
+        }
+        else
+        {
+//             $id = $record[0]->objectdescriptionid;
+//             QueryUtil::execute( "UPDATE objectdescription SET description = '$description' WHERE objectdescriptionid = $id" );
+//             return $id;
+            return $record[0]->objectdescriptionid;
+        }
+    }
+    
     public static function update ( $objectid )
     {
-        // TODO implement
-        // $firstname = $_POST[ "firstname" ];
-        // $name = $_POST[ "name" ];
-        // $email = $_POST[ "email" ];
-        // $password = $_POST[ "password" ];
+        $descriptionId = self::checkDescriptionAssgin( $_POST[ "description" ] );
+        $roomId = $_POST["room"];
         
-        // $pw = "SELECT * FROM user WHERE userid = $userid";
-        // $record = QueryUtil::query( $pw )[ 0 ];
-        
-        // if ( $record->password != $password )
-        // {
-        // $password = md5( $password );
-        // }
-        
-        // $sql = "UPDATE user SET firstname = '$firstname', name = '$name', email = '$email',
-        // password
-        // = '$password' WHERE userid = $userid";
-        // QueryUtil::execute( $sql );
+        QueryUtil::execute( "UPDATE object SET objectdescriptionid = '$descriptionId', roomid = '$roomId' WHERE objectid = $objectid" );
         RouteService::redirect( "/objects" );
     }
-
+    
     public static function create ()
     {
-        // TODO implement
-        // $firstname = $_POST[ "firstname" ];
-        // $name = $_POST[ "name" ];
-        // $email = $_POST[ "email" ];
-        // $password = md5( $_POST[ "password" ] );
+        $descriptionId = self::checkDescriptionAssgin( $_POST[ "description" ] );
+        $roomId = $_POST["room"];
         
-        // $sql = "INSERT INTO user ( name, firstname, email, password )
-        // VALUES ( '$name','$firstname', '$email', '$password' )";
-        // QueryUtil::execute( $sql );
+        QueryUtil::execute( "INSERT INTO object ( objectdescriptionid, roomid ) VALUES ( '$descriptionId', '$roomId' )" );
         RouteService::redirect( "/objects" );
     }
-
+    
     public static function delete ( $objectid )
     {
-        // TODO implement
-        // $sql = "DELETE FROM user WHERE userid = $userid;";
-        // QueryUtil::execute( $sql );
+        QueryUtil::execute( "DELETE FROM object WHERE objectid = $objectid" );
         RouteService::redirect( "/objects" );
     }
 }
