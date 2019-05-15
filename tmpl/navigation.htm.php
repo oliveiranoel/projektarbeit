@@ -36,7 +36,17 @@
 			-->
 			
 		</ul>
-		<div class="d-none d-xl-block greeting">Hallo, <?php echo $_SESSION[ "AUTH_NAME" ] ?></div>
+		
+		<?php 
+		if ( isset( $_SESSION[ "AUTH_NAME" ] ) )
+		{
+		?>
+		<div class="d-none d-lg-block greeting">
+			Hallo, <?php echo $_SESSION[ "AUTH_NAME" ] ?>
+		</div>
+		<?php 
+		}
+		?>
 	
     	<form class="form-inline my-2 my-lg-0 " action="<?php echo $webroot?>logout.html" method="post">
     		<button class="btn btn-outline-primary my-2 my-sm-0 logout" type="submit">Log out</button>
