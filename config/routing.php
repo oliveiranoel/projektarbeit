@@ -2,13 +2,7 @@
 
 RouteService::add( '/datatable', function ()
 {
-    Renderer::default( "Table", "datatable.htm.php", null, "datatable.css", "datatable.js" );
-} );
-
-// Benutzerübersicht
-RouteService::add( '/userss', function ()
-{
-    Renderer::default( "Benutzer", "user_new/overview.htm.php", null, null, "datatable.js" );
+    Renderer::default( "Datatable", "_/overview.htm.php", null, "datatable.css", "datatable.js" );
 } );
 
 /**
