@@ -167,7 +167,7 @@ class Mapper
         
         foreach ( QueryUtil::query( "SELECT * FROM user" ) as $record )
         {
-            $data[] = new MUser( $record->userid, $record->name, $record->firstname, $record->email, $record->password );
+            $data[] = new MUser( $record->userid, $record->name, $record->firstname, $record->email, $record->password, $record->admin );
         }
         
         return $data;
@@ -176,7 +176,7 @@ class Mapper
     public function mapUser ( $userid )
     {
         $record = QueryUtil::query( "SELECT * FROM user WHERE userid = $userid" )[ 0 ];
-        $data = new MUser( $record->userid, $record->name, $record->firstname, $record->email, $record->password );
+        $data = new MUser( $record->userid, $record->name, $record->firstname, $record->email, $record->password, $record->admin );
         return $data;
     }
 }
