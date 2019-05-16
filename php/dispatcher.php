@@ -28,10 +28,7 @@ class UserDispatcher
         if ( !self::validate( "Datensatz konnte nicht aktualisiert werden.", "/users/$userid/edit" ) ) return;
         
         $sql = "SELECT * FROM user WHERE userid = ?";
-        
-        $record = QueryUtil::execute( $sql, [
-                $userid
-        ] )[ 0 ];
+        $record = QueryUtil::select( $sql, [ $userid ] )[ 0 ];
         
         if ( $record->password != $_POST[ "password" ] )
         {
