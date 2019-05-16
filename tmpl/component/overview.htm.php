@@ -13,6 +13,7 @@ $deleteConfirmation = "return confirm('Sind Sie sich sicher, dass sie diesen Kom
     		<a href="<?php echo $webroot?>components/new">
     			<span class="glyphicon glyphicon-plus ml-3" style="font-size: .8em;"></span>
     		</a>
+    		<input class="float-right form-control col-3" type="text" id="myInput" onkeyup="search()" placeholder="Suchen...">
     	</h1>
     </div>
     
@@ -24,7 +25,7 @@ $deleteConfirmation = "return confirm('Sind Sie sich sicher, dass sie diesen Kom
             <div class="card mb-1">
                 <div class="card-header">
                     <h5 class="card-title mb-0">
-                        <button class="btn btn-link float-left" data-toggle="collapse" data-target="#component_<?php echo $component->getComponentId()?>">
+                        <button class="btn btn-link float-left search" data-toggle="collapse" data-target="#component_<?php echo $component->getComponentId()?>">
                       		<?php echo "[" . $component->getComponentId() . "] " . $component->getComponentdescription()->getDescription() ?>
                         </button>
                     </h5>

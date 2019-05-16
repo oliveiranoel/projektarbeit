@@ -36,6 +36,7 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 	<script src="<?php echo $webroot?>js/offcanvas.js"></script>
 	<script src="<?php echo $webroot?>js/print.js"></script>
+	<script src="<?php echo $webroot?>js/search.js"></script>
 	
     <!-- Custom scripts for this template -->
     <?php Renderer::scripts( $scripts )?>
