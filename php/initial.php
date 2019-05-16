@@ -7,6 +7,73 @@
  ***************************************************************************************************************/
 
 /**
+ * 
+ * @author dsu
+ *
+ */
+class Validator
+{
+    private static $alphabetic = "/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u";
+    private static $numeric = "/^[0-9]*$/";
+    private static $email = "/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/i";
+    
+    public static function alphabetic ( $str )
+    {
+        return preg_match( self::$alphabetic, $str );
+    }
+    
+    public static function numeric ( $str )
+    {
+        return preg_match( self::$numeric, $str );
+    }
+    
+    public static function email ( $str )
+    {
+        return preg_match( self::$email, $str );
+    }
+    
+    /**
+     * 
+     * @param string $args1 firstname
+     * @param string $args2 name
+     * @param string $args3 email
+     * @param string $args4 admin
+     * @return boolean is valid or not
+     */
+    public static function validateUser ( string $args1, string $args2, string $args3, string $args4 )
+    {
+        $valid = true;
+        
+        if ( !self::alphabetic( $args1 ) )
+        {
+            $valid = false;
+        }
+        else if ( !self::alphabetic( $args2 ) )
+        {
+            $valid = false;
+        }
+        else if ( !self::email( $args3 ) )
+        {
+            $valid = false;
+        }
+        else if ( !self::numeric( $args4 ) )
+        {
+            $valid = false;
+        }
+        
+        return $valid;
+    }
+    
+    public static function message ( $str, $url )
+    {
+        echo "<script>
+                alert('" . addslashes( $str ) . "');
+                window.location.href='" . Config::BASEPATH . addslashes( $url ) . "';
+            </script>";
+    }
+}
+
+/**
  *
  * @author dsu
  *
@@ -20,7 +87,7 @@ class Renderer
     {
         if ( $user && Config::LOCKDOWN )
         {
-            AuthorizerService::getInstance()->authorize();
+            Authorizer::authorize();
         }
         
         extract( (array) $params ); // Create variables from params
@@ -53,29 +120,13 @@ class Renderer
  * Handles to whole authorization process.
  *
  */
-class AuthorizerService
+class Authorizer
 {
-    protected static $instance = null;
     private static $session_auth_user = "AUTH_USER";
     private static $session_auth_role = "AUTH_ROLE";
     private static $session_auth_name = "AUTH_NAME";
 
-    public static function getInstance (): AuthorizerService
-    {
-        if ( null === self::$instance )
-        {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
-
-    protected function __clone ()
-    {}
-
-    protected function __construct ()
-    {}
-
-    public function authorize ()
+    public static function authorize ()
     {
         if ( !isset( $_SESSION[ self::$session_auth_user ] ) )
         {
@@ -85,17 +136,17 @@ class AuthorizerService
         }
     }
 
-    public function logout ()
+    public static function logout ()
     {
         unset( $_SESSION[ self::$session_auth_user ] );
         session_destroy();
     }
 
-    public function login ()
+    public static function login ()
     {
         $success = false;
         $sql = "SELECT * FROM user WHERE email = '" . $_POST[ 'email' ] . "'";
-        $record = QueryUtil::query( $sql );
+        $record = QueryUtil::select( $sql );
         
         if ( !empty( $record ) )
         {
@@ -113,10 +164,10 @@ class AuthorizerService
             }
         }
         
-        $this->handleRedirect( $success );
+        self::handleRedirect( $success );
     }
 
-    private function handleRedirect ( bool $success )
+    private static function handleRedirect ( bool $success )
     {
         if ( $success )
         {
@@ -273,6 +324,11 @@ class RouteService
             }
             else
             {
+                if ( $path == Config::BASEPATH . "/error/404.html" )
+                {
+                    $path = null;
+                }
+                
                 header( "HTTP/1.0 404 Not Found" );
                 if ( self::$pathNotFound )
                 {

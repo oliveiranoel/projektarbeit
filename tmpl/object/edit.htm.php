@@ -1,7 +1,6 @@
 <?php
 
 $object = Provider::getObject( $objectid );
-$objectdescriptions = Provider::getObjectDescriptions();
 $rooms = Provider::getRooms();
 
 ?>

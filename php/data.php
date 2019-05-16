@@ -9,7 +9,6 @@
  */
 class Provider
 {
-
     public static function getObjects ()
     {
         return Mapper::getInstance()->mapObjects();
@@ -17,12 +16,7 @@ class Provider
 
     public static function getObject ( $objectid )
     {
-        return Mapper::getInstance()->mapObject( $objectid );
-    }
-
-    public static function getObjectDescriptions ()
-    {
-        return Mapper::getInstance()->mapObjectDescriptions();
+        return self::handle( Mapper::getInstance()->mapObject( $objectid ) );
     }
 
     public static function getComponents ()
@@ -32,7 +26,7 @@ class Provider
     
     public static function getComponent ( $componentid )
     {
-        return Mapper::getInstance()->mapComponent( $componentid );
+        return self::handle( Mapper::getInstance()->mapComponent( $componentid ) );
     }
 
     public static function getRooms ()
@@ -42,7 +36,7 @@ class Provider
 
     public static function getRoom ( $roomid )
     {
-        return Mapper::getInstance()->mapRoom( $roomid );
+        return self::handle( Mapper::getInstance()->mapRoom( $roomid ) );
     }
 
     public static function getUsers ()
@@ -52,7 +46,13 @@ class Provider
 
     public static function getUser ( $userid )
     {
-        return Mapper::getInstance()->mapUser( $userid );
+        return self::handle( Mapper::getInstance()->mapUser( $userid ) );
+    }
+    
+    private static function handle ( $data )
+    {
+        if ( $data ) return $data;
+        RouteService::redirect( "/error/404.html" );
     }
 }
 
@@ -86,7 +86,7 @@ class Mapper
     {
         $data = [];
         
-        foreach ( QueryUtil::query( "SELECT * FROM room" ) as $record )
+        foreach ( QueryUtil::select( "SELECT * FROM room" ) as $record )
         {
             $data[] = new MRoom( $record->roomid, $record->number, $record->description );
         }
@@ -96,19 +96,23 @@ class Mapper
     
     public function mapRoom ( $roomid )
     {
-        $record = QueryUtil::query( "SELECT * FROM room WHERE roomid = $roomid" )[ 0 ];
-        $data = new MRoom( $record->roomid, $record->number, $record->description );
-        return $data;
+        $record = QueryUtil::select( "SELECT * FROM room WHERE roomid = $roomid" )[ 0 ];
+        if ( !empty( $record ) )
+        {
+            $data = new MRoom( $record->roomid, $record->number, $record->description );
+            return $data;
+        }
+        return false;
     }
     
     public function mapObjects ()
     {
         $data = [];
         
-        foreach ( QueryUtil::query( "SELECT * FROM object" ) as $record )
+        foreach ( QueryUtil::select( "SELECT * FROM object" ) as $record )
         {
-            $objectdescription = QueryUtil::query( "SELECT * FROM objectdescription WHERE objectdescriptionid = $record->objectdescriptionid" )[ 0 ];
-            $room = QueryUtil::query( "SELECT * FROM room WHERE roomid = $record->roomid" )[ 0 ];
+            $objectdescription = QueryUtil::select( "SELECT * FROM objectdescription WHERE objectdescriptionid = $record->objectdescriptionid" )[ 0 ];
+            $room = QueryUtil::select( "SELECT * FROM room WHERE roomid = $record->roomid" )[ 0 ];
             
             $data[] = new MObject( $record->objectid, new MObjectdescription( $objectdescription->objectdescriptionid, $objectdescription->description ), new MRoom( $room->roomid, $room->number, $room->description ) );
         }
@@ -118,33 +122,26 @@ class Mapper
     
     public function mapObject ( $objectid )
     {
-        $record = QueryUtil::query( "SELECT * FROM object WHERE objectid = $objectid" )[ 0 ];
-        $objectdescription = QueryUtil::query( "SELECT * FROM objectdescription WHERE objectdescriptionid = $record->objectdescriptionid" )[ 0 ];
-        $room = QueryUtil::query( "SELECT * FROM room WHERE roomid = $record->roomid" )[ 0 ];
-        $data = new MObject( $record->objectid, new MObjectdescription( $objectdescription->objectdescriptionid, $objectdescription->description ), new MRoom( $room->roomid, $room->number, $room->description ) );
-        return $data;
-    }
-    
-    public function mapObjectDescriptions ()
-    {
-        $data = [];
-        
-        foreach ( QueryUtil::query( "SELECT * FROM objectdescription" ) as $record )
+        $record = QueryUtil::select( "SELECT * FROM object WHERE objectid = $objectid" );
+        if ( !empty( $record ) )
         {
-            $data[] = new MObjectdescription( $record->objectdescriptionid, $record->description );
+            $record = $record[ 0 ];
+            $objectdescription = QueryUtil::select( "SELECT * FROM objectdescription WHERE objectdescriptionid = $record->objectdescriptionid" )[ 0 ];
+            $room = QueryUtil::select( "SELECT * FROM room WHERE roomid = $record->roomid" )[ 0 ];
+            $data = new MObject( $record->objectid, new MObjectdescription( $objectdescription->objectdescriptionid, $objectdescription->description ), new MRoom( $room->roomid, $room->number, $room->description ) );
+            return $data;
         }
-        
-        return $data;
+        return false;
     }
     
     public function mapComponents ()
     {
         $data = [];
         
-        foreach ( QueryUtil::query( "SELECT * FROM component" ) as $record )
+        foreach ( QueryUtil::select( "SELECT * FROM component" ) as $record )
         {
-            $componentdescription = QueryUtil::query( "SELECT * FROM componentdescription WHERE componentdescriptionid = $record->componentdescriptionid" )[ 0 ];
-            $componentvalue = QueryUtil::query( "SELECT * FROM componentvalue WHERE componentvalueid = $record->componentvalueid" )[ 0 ];
+            $componentdescription = QueryUtil::select( "SELECT * FROM componentdescription WHERE componentdescriptionid = $record->componentdescriptionid" )[ 0 ];
+            $componentvalue = QueryUtil::select( "SELECT * FROM componentvalue WHERE componentvalueid = $record->componentvalueid" )[ 0 ];
             
             $data[] = new MComponent( $record->componentid, new MComponentdescription( $componentdescription->componentdescriptionid, $componentdescription->description ), new MComponentvalue( $componentvalue->componentvalueid, $componentvalue->value ) );
         }
@@ -154,18 +151,23 @@ class Mapper
     
     public function mapComponent ( $componentid )
     {
-        $record = QueryUtil::query( "SELECT * FROM component WHERE componentid = $componentid" )[ 0 ];
-        $componentdescription = QueryUtil::query( "SELECT * FROM componentdescription WHERE componentdescriptionid = $record->componentdescriptionid" )[ 0 ];
-        $componentvalue = QueryUtil::query( "SELECT * FROM componentvalue WHERE componentvalueid = $record->componentvalueid" )[ 0 ];
-        $data = new MComponent( $record->componentid, new MComponentdescription( $componentdescription->componentdescriptionid, $componentdescription->description ), new MComponentvalue( $componentvalue->componentvalueid, $componentvalue->value ) );
-        return $data;
+        $record = QueryUtil::select( "SELECT * FROM component WHERE componentid = $componentid" );
+        if ( !empty( $record ) )
+        {
+            $record = $record[ 0 ];
+            $componentdescription = QueryUtil::select( "SELECT * FROM componentdescription WHERE componentdescriptionid = $record->componentdescriptionid" )[ 0 ];
+            $componentvalue = QueryUtil::select( "SELECT * FROM componentvalue WHERE componentvalueid = $record->componentvalueid" )[ 0 ];
+            $data = new MComponent( $record->componentid, new MComponentdescription( $componentdescription->componentdescriptionid, $componentdescription->description ), new MComponentvalue( $componentvalue->componentvalueid, $componentvalue->value ) );
+            return $data;
+        }
+        return false;
     }
     
     public function mapUsers ()
     {
         $data = [];
         
-        foreach ( QueryUtil::query( "SELECT * FROM user" ) as $record )
+        foreach ( QueryUtil::select( "SELECT * FROM user" ) as $record )
         {
             $data[] = new MUser( $record->userid, $record->name, $record->firstname, $record->email, $record->password, $record->admin );
         }
@@ -175,8 +177,13 @@ class Mapper
     
     public function mapUser ( $userid )
     {
-        $record = QueryUtil::query( "SELECT * FROM user WHERE userid = $userid" )[ 0 ];
-        $data = new MUser( $record->userid, $record->name, $record->firstname, $record->email, $record->password, $record->admin );
-        return $data;
+        $record = QueryUtil::select( "SELECT * FROM user WHERE userid = $userid" );
+        if ( !empty( $record ) )
+        {
+            $record = $record[ 0 ];
+            $data = new MUser( $record->userid, $record->name, $record->firstname, $record->email, $record->password, $record->admin );
+            return $data;
+        }
+        return false;
     }
 }

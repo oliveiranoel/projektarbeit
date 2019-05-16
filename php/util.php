@@ -7,7 +7,7 @@
  ***************************************************************************************************************/
 
 /**
- * 
+ *
  * @author dsu
  *
  */
@@ -41,14 +41,14 @@ class DBUtil
 }
 
 /**
- * 
+ *
  * @author dsu
  *
  */
 class QueryUtil
 {
 
-    public static function execute ( $sql )
+    public static function execute ( $sql, $params = null )
     {
         try
         {
@@ -57,7 +57,7 @@ class QueryUtil
             if ( $conn != null )
             {
                 $prepared = $conn->prepare( $sql );
-                return $prepared->execute();
+                return $prepared->execute( $params );
             }
             else
             {
@@ -70,7 +70,7 @@ class QueryUtil
         }
     }
 
-    public static function query ( $query ): array
+    public static function select ( $query ): array
     {
         try
         {
@@ -93,7 +93,7 @@ class QueryUtil
         
         return [];
     }
-    
+
     public static function insert ( $query )
     {
         $conn = DBUtil::getConnection();
@@ -120,7 +120,7 @@ class QueryUtil
 }
 
 /**
- * 
+ *
  * @author dsu
  *
  */
@@ -134,12 +134,13 @@ class NavUtil
 }
 
 /**
- * 
+ *
  * @author dsu
  *
  */
-class FileUtil 
+class FileUtil
 {
+
     public static function exists ( $file )
     {
         if ( isset( $file ) )

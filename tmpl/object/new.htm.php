@@ -1,6 +1,5 @@
 <?php
 
-$objectdescriptions = Provider::getObjectDescriptions();
 $rooms = Provider::getRooms();
 ?>
 
