@@ -13,6 +13,7 @@ $deleteConfirmation = "return confirm('Sind Sie sich sicher, dass sie diesen Rau
     		<a href="<?php echo $webroot?>rooms/new">
     			<span class="glyphicon glyphicon-plus ml-3" style="font-size: .8em;"></span>
     		</a>
+    		<input class="float-right form-control col-3" type="text" id="myInput" onkeyup="search()" placeholder="Suchen...">
     	</h1>
     </div>
     
@@ -24,7 +25,7 @@ $deleteConfirmation = "return confirm('Sind Sie sich sicher, dass sie diesen Rau
             <div class="card mb-1">
                 <div class="card-header">
                     <h5 class="card-title mb-0">
-                        <button class="btn btn-link float-left" data-toggle="collapse" data-target="#room_<?php echo $room->getRoomId()?>">
+                        <button class="btn btn-link float-left search" data-toggle="collapse" data-target="#room_<?php echo $room->getRoomId()?>">
                       		<?php echo $room->getNumber() ?>
                         </button>
                     </h5>

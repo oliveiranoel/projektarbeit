@@ -13,6 +13,7 @@ $detailview = Config::PATH_TEMPLATE . "object/detailview.htm.php";
 		<a href="<?php echo $webroot?>objects/new">
 			<span class="glyphicon glyphicon-plus ml-3" style="font-size: .8em;"></span>
 		</a>
+		<input class="float-right form-control col-3" type="text" id="myInput" onkeyup="search()" placeholder="Suchen...">
 	</h1>
 </div>
 
@@ -24,7 +25,7 @@ $detailview = Config::PATH_TEMPLATE . "object/detailview.htm.php";
         <div class="card mb-1">
             <div class="card-header">
                 <h5 class="card-title mb-0">
-                    <button class="btn btn-link float-left" data-toggle="collapse" data-target="#user_<?php echo $object->getObjectid()?>">
+                    <button class="btn btn-link float-left search" data-toggle="collapse" data-target="#user_<?php echo $object->getObjectid()?>">
                   		<?php echo $object->getObjectdescription()->getDescription()?>
                     </button>
                 </h5>
