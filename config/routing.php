@@ -2,6 +2,50 @@
 
 /**
  * ***********************************************************************************************************
+ * ASSIGN
+ */
+// Hauptübersicht
+RouteService::add( '/assigns', function ()
+{
+    Renderer::default( "Assign", "assign/overview.htm.php" );
+} );
+
+// Assign editieren
+RouteService::add( '/assigns/([0-9]*)/([0-9]*)/edit', function ( $objectid, $componentid )
+{
+    $params = [
+        "objectid" => $objectid,
+        "componentid" => $componentid
+    ];
+    Renderer::default( "Assign", "assign/edit.htm.php", $params );
+} );
+
+// Assign editieren - Formular absenden (speichern)
+RouteService::add( '/assigns/([0-9]*)/([0-9]*)/edit', function ( $objectid, $componentid )
+{
+    AssignDispatcher::update( $objectid, $componentid );
+}, "post" );
+
+// Neues Assign
+RouteService::add( '/assigns/new', function ()
+{
+    Renderer::default( "Assign", "assign/new.htm.php" );
+} );
+
+// Neues Assign - Formular absenden (speichern)
+RouteService::add( '/assigns/new', function ()
+{
+    AssignDispatcher::create();
+}, "post" );
+
+// Assign löschen
+RouteService::add( '/assigns/([0-9]*)/([0-9]*)/delete', function ( $objectid, $componentid )
+{
+    AssignDispatcher::delete( $objectid, $componentid );
+}, "post" );
+
+/**
+ * ***********************************************************************************************************
  * ROOM
  */
 // Hauptübersicht

@@ -23,5 +23,9 @@ class Config
     
     // FEATURE TOGGLE
     const LOCKDOWN = false;
+    
+    // 
+    const DEFAULT_ROOM_ID = 1;
 }
+
 

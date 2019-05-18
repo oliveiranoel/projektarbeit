@@ -123,11 +123,16 @@ class Mapper
 
     public function mapObject ( $objectid )
     {
-        $record = QueryUtil::select( "SELECT * FROM object WHERE objectid = $objectid" )[ 0 ];
-        $objectdescription = QueryUtil::select( "SELECT * FROM objectdescription WHERE objectdescriptionid = $record->objectdescriptionid" )[ 0 ];
-        $room = QueryUtil::select( "SELECT * FROM room WHERE roomid = $record->roomid" )[ 0 ];
-        $data = new MObject( $record->objectid, new MObjectdescription( $objectdescription->objectdescriptionid, $objectdescription->description ), new MRoom( $room->roomid, $room->number, $room->description ) );
-        return $data;
+        $record = QueryUtil::select( "SELECT * FROM object WHERE objectid = $objectid" );
+        if ( !empty( $record ) )
+        {
+            $record = $record[ 0 ];
+            $objectdescription = QueryUtil::select( "SELECT * FROM objectdescription WHERE objectdescriptionid = $record->objectdescriptionid" )[ 0 ];
+            $room = QueryUtil::select( "SELECT * FROM room WHERE roomid = $record->roomid" )[ 0 ];
+            $data = new MObject( $record->objectid, new MObjectdescription( $objectdescription->objectdescriptionid, $objectdescription->description ), new MRoom( $room->roomid, $room->number, $room->description ) );
+            return $data;
+        }
+        return false;
     }
 
 

@@ -39,16 +39,14 @@ class UserDispatcher
         }
         
         $sql = "UPDATE user SET firstname = ?, name = ?, email = ?, password = ?, admin = ? WHERE userid = ?";
-        $params = [
+        QueryUtil::execute( $sql, [
             $_POST[ "firstname" ],
             $_POST[ "name" ],
             $_POST[ "email" ],
             $_POST[ "password" ],
             $_POST[ "admin" ],
             $userid
-        ];
-        
-        QueryUtil::execute( $sql, $params );
+        ] );
         RouteService::redirect( "/users" );
     }
 
@@ -57,15 +55,13 @@ class UserDispatcher
         if ( !self::validate( "Datensatz konnte nicht gespeichert werden.", "/users/new" ) ) return;
         
         $sql = "INSERT INTO user ( name, firstname, email, password, admin ) VALUES ( ?, ?, ?, ?, ? )";
-        $params = [
+        QueryUtil::insert( $sql, [
             $_POST[ "firstname" ],
             $_POST[ "name" ],
             $_POST[ "email" ],
             md5( $_POST[ "password" ] ),
             $_POST[ "admin" ]
-        ];
-        
-        QueryUtil::insert( $sql, $params );
+        ] );
         RouteService::redirect( "/users" );
     }
 
@@ -75,7 +71,6 @@ class UserDispatcher
         QueryUtil::execute( $sql, [
             $userid
         ] );
-        
         RouteService::redirect( "/users" );
     }
 }
@@ -103,13 +98,11 @@ class RoomDispatcher
         if ( !self::validate( "Datensatz konnte nicht aktualisiert werden.", "/rooms/$roomid/edit" ) ) return;
         
         $sql = "UPDATE room SET number = ?, description = ? WHERE roomid = ?";
-        $params = [
+        QueryUtil::execute( $sql, [
             $_POST[ "number" ],
             $_POST[ "description" ],
             $roomid
-        ];
-        
-        QueryUtil::execute( $sql, $params );
+        ] );
         RouteService::redirect( "/rooms" );
     }
 
@@ -118,12 +111,10 @@ class RoomDispatcher
         if ( !self::validate( "Datensatz konnte nicht gespeichert werden.", "/rooms/new" ) ) return;
         
         $sql = "INSERT INTO room ( number, description ) VALUES ( ?, ? )";
-        $params = [
+        QueryUtil::insert( $sql, [
             $_POST[ "number" ],
             $_POST[ "description" ]
-        ];
-        
-        QueryUtil::insert( $sql, $params );
+        ] );
         RouteService::redirect( "/rooms" );
     }
 
@@ -206,17 +197,12 @@ class ComponentDispatcher
     {
         if ( !self::validate( "Datensatz konnte nicht aktualisiert werden.", "/components/$componentid/edit" ) ) return;
         
-        $descriptionId = self::checkDescriptionAssgin( $_POST[ "description" ] );
-        $valueId = self::checkValueAssgin( $_POST[ "value" ] );
-        
         $sql = "UPDATE component SET componentdescriptionid = ?, componentvalueid = ? WHERE componentid = ?";
-        $params = [
-            $descriptionId,
-            $valueId,
+        QueryUtil::execute( $sql, [
+            self::checkDescriptionAssgin( $_POST[ "description" ] ),
+            self::checkValueAssgin( $_POST[ "value" ] ),
             $componentid
-        ];
-        
-        QueryUtil::execute( $sql, $params );
+        ] );
         RouteService::redirect( "/components" );
     }
 
@@ -224,16 +210,11 @@ class ComponentDispatcher
     {
         if ( !self::validate( "Datensatz konnte nicht gespeichert werden.", "/components/new" ) ) return;
         
-        $descriptionId = self::checkDescriptionAssgin( $_POST[ "description" ] );
-        $valueId = self::checkValueAssgin( $_POST[ "value" ] );
-        
         $sql = "INSERT INTO component ( componentdescriptionid, componentvalueid ) VALUES ( ?, ? )";
-        $params = [
-            $descriptionId,
-            $valueId
-        ];
-        
-        QueryUtil::execute( $sql, $params );
+        QueryUtil::execute( $sql, [
+            self::checkDescriptionAssgin( $_POST[ "description" ] ),
+            self::checkValueAssgin( $_POST[ "value" ] )
+        ] );
         RouteService::redirect( "/components" );
     }
 
@@ -243,7 +224,7 @@ class ComponentDispatcher
         {
             $sql = "DELETE FROM component WHERE componentid = ?";
             QueryUtil::execute( $sql, [
-                    $componentid
+                $componentid
             ] );
             RouteService::redirect( "/components" );
         }
@@ -295,16 +276,12 @@ class ObjectDispatcher
     {
         if ( !self::validate( "Datensatz konnte nicht aktualisiert werden.", "/objects/$objectid/edit" ) ) return;
         
-        $descriptionId = self::checkDescriptionAssgin( $_POST[ "description" ] );
-        
         $sql = "UPDATE object SET objectdescriptionid = ?, roomid = ? WHERE objectid = ?";
-        $params = [
-            $descriptionId,
+        QueryUtil::execute( $sql, [
+            self::checkDescriptionAssgin( $_POST[ "description" ] ),
             $_POST[ "room" ],
             $objectid
-        ];
-        
-        QueryUtil::execute( $sql, $params );
+        ] );
         RouteService::redirect( "/objects" );
     }
 
@@ -312,21 +289,70 @@ class ObjectDispatcher
     {
         if ( !self::validate( "Datensatz konnte nicht gespeichert werden.", "/objects/new" ) ) return;
         
-        $descriptionId = self::checkDescriptionAssgin( $_POST[ "description" ] );
-        
         $sql = "INSERT INTO object ( objectdescriptionid, roomid ) VALUES ( ?, ? )";
-        $params = [
-            $descriptionId,
+        QueryUtil::execute( $sql, [
+            self::checkDescriptionAssgin( $_POST[ "description" ] ),
             $_POST[ "room" ]
-        ];
-        
-        QueryUtil::execute( $sql, $params );
+        ] );
         RouteService::redirect( "/objects" );
     }
 
     public static function delete ( $objectid )
     {
-        QueryUtil::execute( "DELETE FROM object WHERE objectid = $objectid" );
+        $sql = "DELETE FROM object WHERE objectid = ?";
+        QueryUtil::execute( $sql, [
+            $objectid
+        ] );
         RouteService::redirect( "/objects" );
+    }
+}
+
+class AssignDispatcher
+{
+
+    public static function update ( $objectid, $componentid )
+    {
+        try
+        {
+            $sql = "UPDATE objectcomponentassign SET objectid = ?, componentid = ? WHERE objectid = ? AND componentid = ?";
+            QueryUtil::execute( $sql, [
+                    $_POST[ "object" ],
+                    $_POST[ "component" ],
+                    $objectid,
+                    $componentid
+            ] );
+            RouteService::redirect( "/assigns" );
+        }
+        catch ( PDOException $e )
+        {
+            Validator::message( "Aktion ist nicht erlaubt: Zuweisung existiert bereits.", "/assigns/$objectid/$componentid/edit" );
+        }
+    }
+
+    public static function create ()
+    {
+        try 
+        {
+            $sql = "INSERT INTO objectcomponentassign ( objectid, componentid ) VALUES ( ?, ? )";
+            QueryUtil::execute( $sql, [
+                $_POST[ "object" ],
+                $_POST[ "component" ]
+            ] );
+            RouteService::redirect( "/assigns" );
+        }
+        catch ( PDOException $e )
+        {
+            Validator::message( "Aktion ist nicht erlaubt: Zuweisung existiert bereits.", "/assigns/new" );
+        }
+    }
+
+    public static function delete ( $objectid, $componentid )
+    {
+        $sql = "DELETE FROM objectcomponentassign WHERE objectid = ? AND componentid = ?";
+        QueryUtil::execute( $sql, [
+            $objectid,
+            $componentid
+        ] );
+        RouteService::redirect( "/assigns" );
     }
 }

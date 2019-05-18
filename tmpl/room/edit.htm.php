@@ -9,7 +9,7 @@ $room = Provider::getRoom( $roomid );
     <h1>Raum editieren: <?php echo $room->getNumber() ?></h1>
 </div>
 
-<form action="<?php echo $webroot?>rooms/<?php echo $room->getRoomId()?>/edit" method="post">
+<form action="<?php echo $webroot?>rooms/<?php echo $roomid?>/edit" method="post">
 	<div class="form-group">
         <label for="number">Nummer</label>
         <input name="number" type="text" class="form-control" value="<?php echo $room->getNumber()?>">

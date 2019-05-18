@@ -27,7 +27,7 @@ $deleteConfirmation = "return confirm('Sind Sie sich sicher, dass sie dieses Obj
             <div class="card-header">
                 <h5 class="card-title mb-0">
                     <button class="btn btn-link float-left search" data-toggle="collapse" data-target="#user_<?php echo $object->getObjectid()?>">
-                  		<?php echo $object->getObjectdescription()->getDescription()?>
+                  		<?php echo "[" . $object->getObjectid() . "] " . $object->getObjectdescription()->getDescription()?>
                     </button>
                 </h5>
                 <div class="btn-toolbar float-right" role="toolbar">

@@ -26,7 +26,7 @@ $deleteConfirmation = "return confirm('Sind Sie sich sicher, dass sie diesen Rau
                 <div class="card-header">
                     <h5 class="card-title mb-0">
                         <button class="btn btn-link float-left search" data-toggle="collapse" data-target="#room_<?php echo $room->getRoomId()?>">
-                      		<?php echo $room->getNumber() ?>
+                      		<?php echo "[" . $room->getRoomId() . "] " .$room->getNumber() ?>
                         </button>
                     </h5>
                     <div class="btn-toolbar float-right" role="toolbar">

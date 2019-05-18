@@ -11,7 +11,7 @@
         	<p><span class="text-muted font-italic">Beschreibung:</span> <?php echo $object->getObjectdescription()->getDescription()?></p>
     	</li>
     	<li class="list-group-item">
-        	<p><span class="text-muted font-italic">Raum:</span> <?php echo $object->getRoom()->getDescription() . " " . $object->getRoom()->getNumber()?></p>
+        	<p><span class="text-muted font-italic">Raum:</span> <?php echo $object->getRoom()->getNumber() . " (" . $object->getRoom()->getDescription() . ")"?></p>
     	</li>
     </ul>
 </div>

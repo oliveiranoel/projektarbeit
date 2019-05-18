@@ -21,7 +21,9 @@ $rooms = Provider::getRooms();
             foreach ( $rooms as $room )
             {
             ?>
-                <option value="<?php echo $room->getRoomId()?>"><?php echo $room->getDescription() . " " . $room->getNumber()?></option>
+                <option value="<?php echo $room->getRoomId()?>" <?php if ( $room->getRoomId() == Config::DEFAULT_ROOM_ID ) echo "selected"?>>
+                	<?php echo $room->getNumber() . " (" . $room->getDescription() . ")"?>
+            	</option>
             <?php 
             }
             ?>

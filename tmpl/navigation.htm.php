@@ -15,14 +15,17 @@
 			<li class="nav-item <?php NavUtil::isActive( $webroot . "users" )?>" <?php if ( !isset( $_SESSION[ "AUTH_ROLE" ] )){ echo "style='display: none;'"; } ?>>
 				<a class="nav-link" href="<?php echo $webroot?>users">Benutzer</a>
 			</li>
-			<li class="nav-item <?php NavUtil::isActive( $webroot . "objects" )?>">
-				<a class="nav-link" href="<?php echo $webroot?>objects">Objekte</a>
-			</li>
 			<li class="nav-item <?php NavUtil::isActive( $webroot . "rooms" )?>">
 				<a class="nav-link" href="<?php echo $webroot?>rooms">R&#228;ume</a>
 			</li>
+			<li class="nav-item <?php NavUtil::isActive( $webroot . "objects" )?>">
+				<a class="nav-link" href="<?php echo $webroot?>objects">Objekte</a>
+			</li>
 			<li class="nav-item <?php NavUtil::isActive( $webroot . "components" )?>">
 				<a class="nav-link" href="<?php echo $webroot?>components">Komponente</a>
+			</li>
+			<li class="nav-item <?php NavUtil::isActive( $webroot . "assigns" )?>">
+				<a class="nav-link" href="<?php echo $webroot?>assigns">Assigns</a>
 			</li>
 			<!--
 			<li class="nav-item dropdown">

@@ -8,7 +8,7 @@ $component = Provider::getComponent( $componentid );
     <h1>Komponent editieren: <?php echo $component->getComponentdescription()->getDescription()?></h1>
 </div>
 
-<form action="<?php echo $webroot?>components/<?php echo $component->getComponentId()?>/edit" method="post">
+<form action="<?php echo $webroot?>components/<?php echo $componentid?>/edit" method="post">
 	<div class="form-group">
         <label for="description">Beschreibung</label>
         <input name="description" type="text" class="form-control" value="<?php echo $component->getComponentdescription()->getDescription()?>">

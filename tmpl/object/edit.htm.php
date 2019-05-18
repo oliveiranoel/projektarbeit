@@ -24,7 +24,7 @@ $rooms = Provider::getRooms();
             {
             ?>
                 <option value="<?php echo $room->getRoomId()?>" <?php if ( $room->getRoomId() == $object->getRoom()->getRoomId() ) echo "selected"?>>
-                	<?php echo $room->getDescription() . " " . $room->getNumber()?>
+                	<?php echo $room->getNumber() . " (" . $room->getDescription() . ")"?>
             	</option>
             <?php 
             }
