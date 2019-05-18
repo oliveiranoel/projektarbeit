@@ -115,6 +115,29 @@ class MObject
     {
         return $this->room;
     }
+    
+}
+
+class MObjectComponent
+{
+    private $objectid;
+    private $componentid;
+
+    public function __construct ( int $objectid, int $componentid )
+    {
+        $this->objectid = $objectid;
+        $this->componentid = $componentid;
+    }
+    
+    public function getObjectid ()
+    {
+        return $this->objectid;
+    }
+    
+    public function getComponentid ()
+    {
+        return $this->componentid;
+    }
 }
 
 class MObjectdescription

@@ -2,6 +2,7 @@
 
 $objects = Provider::getUsers();
 $detailview = Config::PATH_TEMPLATE . "user/detailview.htm.php";
+$deleteConfirmation = "return confirm('Sind Sie sich sicher, dass sie diesen Benutzer l&#246;schen m&#246;chten ?')"
 
 ?>
 
@@ -37,7 +38,7 @@ $detailview = Config::PATH_TEMPLATE . "user/detailview.htm.php";
                     </div>
                     <div class="btn-group mr-2" role="group">
                     	<form action="<?php echo $webroot?>users/<?php echo $user->getUserid()?>/delete" method="post">
-                    		<button type="submit" class="btn btn-primary">
+                    		<button type="submit" class="btn btn-primary" onclick=" <?php echo $deleteConfirmation ?>">
                     			<span class="glyphicon glyphicon-trash"></span>
 							</button>
                     	</form>
