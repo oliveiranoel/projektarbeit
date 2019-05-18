@@ -1,10 +1,5 @@
 <?php
 
-RouteService::add( '/datatable', function ()
-{
-    Renderer::default( "Datatable", "_/overview.htm.php", null, "datatable.css", "datatable.js" );
-} );
-
 /**
  * ***********************************************************************************************************
  * ROOM
@@ -98,9 +93,12 @@ RouteService::add( '/components/([0-9]*)/delete', function ( $componentid )
 // Benutzerübersicht
 RouteService::add( '/users', function ()
 {
-    if ( isset( $_SESSION[ "AUTH_ROLE" ] )) {
+    if ( isset( $_SESSION[ "AUTH_ROLE" ] ) )
+    {
         Renderer::default( "Benutzer", "user/overview.htm.php" );
-    } else {
+    }
+    else
+    {
         Renderer::default( "401", 'error/401.htm.php' );
     }
 } );
@@ -108,13 +106,16 @@ RouteService::add( '/users', function ()
 // Bentuzer editieren - Seitenaufruf
 RouteService::add( '/users/([0-9]*)/edit', function ( $userid )
 {
-    if ( isset( $_SESSION[ "AUTH_ROLE" ] )) {
+    if ( isset( $_SESSION[ "AUTH_ROLE" ] ) )
+    {
         $params = [
             "userid" => $userid
         ];
         
         Renderer::default( "User", "user/edit.htm.php", $params );
-    } else {
+    }
+    else
+    {
         Renderer::default( "401", 'error/401.htm.php' );
     }
 } );
@@ -122,36 +123,48 @@ RouteService::add( '/users/([0-9]*)/edit', function ( $userid )
 // Bentuzer editieren - Formular absenden (speichern)
 RouteService::add( '/users/([0-9]*)/edit', function ( $userid )
 {
-    if ( isset( $_SESSION[ "AUTH_ROLE" ] )) {
+    if ( isset( $_SESSION[ "AUTH_ROLE" ] ) )
+    {
         UserDispatcher::update( $userid );
-    } else {
+    }
+    else
+    {
         Renderer::default( "401", 'error/401.htm.php' );
     }
 }, "post" );
 
 RouteService::add( '/users/new', function ()
 {
-    if ( isset( $_SESSION[ "AUTH_ROLE" ] )) {
+    if ( isset( $_SESSION[ "AUTH_ROLE" ] ) )
+    {
         Renderer::default( "Home", "user/new.htm.php" );
-    } else {
+    }
+    else
+    {
         Renderer::default( "401", 'error/401.htm.php' );
     }
 } );
 
 RouteService::add( '/users/new', function ()
 {
-    if ( isset( $_SESSION[ "AUTH_ROLE" ] )) {
+    if ( isset( $_SESSION[ "AUTH_ROLE" ] ) )
+    {
         UserDispatcher::create();
-    } else {
+    }
+    else
+    {
         Renderer::default( "401", 'error/401.htm.php' );
     }
 }, "post" );
 
 RouteService::add( '/users/([0-9]*)/delete', function ( $userid )
 {
-    if ( isset( $_SESSION[ "AUTH_ROLE" ] )) {
+    if ( isset( $_SESSION[ "AUTH_ROLE" ] ) )
+    {
         UserDispatcher::delete( $userid );
-    } else {
+    }
+    else
+    {
         Renderer::default( "401", 'error/401.htm.php' );
     }
 }, "post" );
@@ -218,12 +231,12 @@ RouteService::add( '/login.html', function ()
 // Login - Formular absenden (anmelden)
 RouteService::add( '/login.html', function ()
 {
-    AuthorizerService::getInstance()->login();
+    Authorizer::login();
 }, "post" );
 
 RouteService::add( '/logout.html', function ()
 {
-    AuthorizerService::getInstance()->logout();
+    Authorizer::logout();
     RouteService::redirect( "/login.html" );
 }, "post" );
 

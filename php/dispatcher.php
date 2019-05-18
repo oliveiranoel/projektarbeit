@@ -13,46 +13,67 @@
  */
 class UserDispatcher
 {
-
+    private static function validate ( $message, $url )
+    {
+        if ( !Validator::validateUser( $_POST[ "firstname" ], $_POST[ "name" ], $_POST[ "email" ], $_POST[ "admin" ] ) )
+        {
+            Validator::message( $message, $url );
+            return false;
+        }
+        return true;
+    }
+    
     public static function update ( $userid )
     {
-        $firstname = $_POST[ "firstname" ];
-        $name = $_POST[ "name" ];
-        $email = $_POST[ "email" ];
-        $password = $_POST[ "password" ];
-        $admin = $_POST[ "admin" ];
+        if ( !self::validate( "Datensatz konnte nicht aktualisiert werden.", "/users/$userid/edit" ) ) return;
         
-        $pw = "SELECT * FROM user WHERE userid = $userid";
-        $record = QueryUtil::query( $pw )[ 0 ];
+        $sql = "SELECT * FROM user WHERE userid = ?";
+        $record = QueryUtil::select( $sql, [ $userid ] )[ 0 ];
         
-        if ( $record->password != $password )
+        if ( $record->password != $_POST[ "password" ] )
         {
-            $password = md5( $password );
+            $_POST[ "password" ] = md5( $_POST[ "password" ] );
         }
         
-        $sql = "UPDATE user SET firstname = '$firstname', name = '$name', email = '$email', password = '$password', admin = '$admin' WHERE userid = $userid";
-        QueryUtil::execute( $sql );
+        $sql = "UPDATE user SET firstname = ?, name = ?, email = ?, password = ?, admin = ? WHERE userid = ?";
+        $params = [
+                $_POST[ "firstname" ],
+                $_POST[ "name" ],
+                $_POST[ "email" ],
+                $_POST[ "password" ],
+                $_POST[ "admin" ],
+                $userid
+        ];
+        
+        QueryUtil::execute( $sql, $params );
         RouteService::redirect( "/users" );
     }
 
     public static function create ()
     {
-        $firstname = $_POST[ "firstname" ];
-        $name = $_POST[ "name" ];
-        $email = $_POST[ "email" ];
-        $password = md5( $_POST[ "password" ] );
-        $admin = $_POST[ "admin" ];
+        if ( !self::validate( "Datensatz konnte nicht gespeichert werden.", "/users/new" ) ) return;
         
-        $sql = "INSERT INTO user ( name, firstname, email, password, admin )
-            VALUES ( '$name','$firstname', '$email', '$password', '$admin' )";
-        QueryUtil::execute( $sql );
+        $sql = "INSERT INTO user ( name, firstname, email, password, admin ) VALUES ( ?, ?, ?, ?, ? )";
+        $params = [
+                $_POST[ "firstname" ],
+                $_POST[ "name" ],
+                $_POST[ "email" ],
+                md5( $_POST[ "password" ] ),
+                $_POST[ "admin" ]
+        ];
+        
+        QueryUtil::execute( $sql, $params );
         RouteService::redirect( "/users" );
     }
 
     public static function delete ( $userid )
     {
-        $sql = "DELETE FROM user WHERE userid = $userid;";
-        QueryUtil::execute( $sql );
+        $sql = "DELETE FROM user WHERE userid = ?";
+        
+        QueryUtil::execute( $sql, [
+                $userid
+        ] );
+        
         RouteService::redirect( "/users" );
     }
 }
@@ -104,7 +125,7 @@ class ComponentDispatcher
 
     private static function checkDescriptionAssgin ( $description )
     {
-        $record = QueryUtil::query( "SELECT * FROM componentdescription WHERE lower(description) = lower('$description')" );
+        $record = QueryUtil::select( "SELECT * FROM componentdescription WHERE lower(description) = lower('$description')" );
         if ( empty( $record ) )
         {
             return QueryUtil::insert( "INSERT INTO componentdescription ( description ) VALUES ( '$description' )" );
@@ -117,7 +138,7 @@ class ComponentDispatcher
     
     private static function checkValueAssgin ( $value )
     {
-        $record = QueryUtil::query( "SELECT * FROM componentvalue WHERE lower(value) = lower('$value')" );
+        $record = QueryUtil::select( "SELECT * FROM componentvalue WHERE lower(value) = lower('$value')" );
         if ( empty( $record ) )
         {
             return QueryUtil::insert( "INSERT INTO componentvalue ( value ) VALUES ( '$value' )" );
@@ -163,7 +184,7 @@ class ObjectDispatcher
 {
     private static function checkDescriptionAssgin ( $description )
     {
-        $record = QueryUtil::query( "SELECT * FROM objectdescription WHERE lower(description) = lower('$description')" );
+        $record = QueryUtil::select( "SELECT * FROM objectdescription WHERE lower(description) = lower('$description')" );
         if ( empty( $record ) )
         {
             return QueryUtil::insert( "INSERT INTO objectdescription ( description ) VALUES ( '$description' )" );

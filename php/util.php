@@ -7,7 +7,7 @@
  ***************************************************************************************************************/
 
 /**
- * 
+ *
  * @author dsu
  *
  */
@@ -41,14 +41,14 @@ class DBUtil
 }
 
 /**
- * 
+ *
  * @author dsu
  *
  */
 class QueryUtil
 {
 
-    public static function execute ( $sql )
+    private static function prepare ( $sql, $params = null )
     {
         try
         {
@@ -57,7 +57,7 @@ class QueryUtil
             if ( $conn != null )
             {
                 $prepared = $conn->prepare( $sql );
-                return $prepared->execute();
+                return $prepared;
             }
             else
             {
@@ -68,32 +68,34 @@ class QueryUtil
         {
             Logger::error( "Error occured while executing query: '" . $sql . "'" );
         }
+        
+        return false;
+    }
+    
+    public static function execute ( $sql, $params = null )
+    {
+        $statement = self::prepare( $sql, $params );
+        
+        if ( $statement )
+        {
+            return $statement->execute( $params );
+        }
     }
 
-    public static function query ( $query ): array
+    public static function select ( $query, $params = null ): array
     {
-        try
+        $statement = self::prepare( $query, $params );
+        
+        if ( $statement )
         {
-            $conn = DBUtil::getConnection();
-            
-            if ( $conn != null )
-            {
-                $returnValue = $conn->query( $query );
-                return $returnValue->fetchAll( PDO::FETCH_OBJ );
-            }
-            else
-            {
-                Logger::error( "No connection available while trying to execute query: '" . $query . "'" );
-            }
-        }
-        catch ( PDOException $e )
-        {
-            Logger::error( "Error occured while executing query: '" . $query . "'" );
+            $statement->execute( $params );
+            return $statement->fetchAll( PDO::FETCH_OBJ );
         }
         
         return [];
     }
-    
+
+    // TODO prepare
     public static function insert ( $query )
     {
         $conn = DBUtil::getConnection();
@@ -120,7 +122,7 @@ class QueryUtil
 }
 
 /**
- * 
+ *
  * @author dsu
  *
  */
@@ -134,12 +136,13 @@ class NavUtil
 }
 
 /**
- * 
+ *
  * @author dsu
  *
  */
-class FileUtil 
+class FileUtil
 {
+
     public static function exists ( $file )
     {
         if ( isset( $file ) )
