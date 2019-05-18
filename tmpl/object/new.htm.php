@@ -10,10 +10,6 @@ $rooms = Provider::getRooms();
 </div>
 
 <form action="<?php echo $webroot?>objects/new" method="post">
-	<div class="form-group">
-        <label for="userid">Objekt ID</label>
-        <input name="userid" type="text" class="form-control" readonly>
-    </div>
     <div class="form-group">
         <label for="description">Objektbeschreibung</label>
         <input name="description" type="text" class="form-control" placeholder="Hersteller">

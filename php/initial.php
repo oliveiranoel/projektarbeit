@@ -15,6 +15,7 @@ class Validator
 {
     private static $alphabetic = "/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u";
     private static $numeric = "/^[0-9]*$/";
+    private static $alphanumeric = "/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð0-9 ]*$/";
     private static $email = "/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/i";
     
     public static function alphabetic ( $str )
@@ -30,6 +31,11 @@ class Validator
     public static function email ( $str )
     {
         return preg_match( self::$email, $str );
+    }
+    
+    public static function alphanumeric ( $str )
+    {
+        return preg_match( self::$alphanumeric, $str );
     }
     
     /**

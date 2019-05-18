@@ -48,20 +48,26 @@ class DBUtil
 class QueryUtil
 {
 
-    private static function prepare ( $sql, $params = null )
+    private static function handleNoConnection ( $conn, $sql )
+    {
+        if ( $conn == null )
+        {
+            Logger::error( "No connection available while trying to execute query: '" . $sql . "'" );
+            return false;
+        }
+        return true;
+    }
+    
+    private static function prepare ( $sql )
     {
         try
         {
             $conn = DBUtil::getConnection();
             
-            if ( $conn != null )
+            if ( self::handleNoConnection( $conn, $sql ) )
             {
                 $prepared = $conn->prepare( $sql );
                 return $prepared;
-            }
-            else
-            {
-                Logger::error( "No connection available while trying to execute query: '" . $sql . "'" );
             }
         }
         catch ( PDOException $e )
@@ -74,7 +80,7 @@ class QueryUtil
     
     public static function execute ( $sql, $params = null )
     {
-        $statement = self::prepare( $sql, $params );
+        $statement = self::prepare( $sql );
         
         if ( $statement )
         {
@@ -84,7 +90,7 @@ class QueryUtil
 
     public static function select ( $query, $params = null ): array
     {
-        $statement = self::prepare( $query, $params );
+        $statement = self::prepare( $query );
         
         if ( $statement )
         {
@@ -96,25 +102,29 @@ class QueryUtil
     }
 
     // TODO prepare
-    public static function insert ( $query )
+    public static function insert ( $query, $params = null )
     {
         $conn = DBUtil::getConnection();
         
-        if ( $conn != null )
+        try
         {
-            if ( $conn->query( $query ) )
+            if ( self::handleNoConnection( $conn, $query ) )
             {
-                return $conn->lastInsertId();
-            }
-            else
-            {
-                Logger::error( "Error occured while executing insert: '" . $query . "'" );
-                return false;
+                $prepared = $conn->prepare( $query );
+                
+                if ( $prepared->execute( $params ) )
+                {
+                    return $conn->lastInsertId();
+                }
+                else
+                {
+                    Logger::error( "Error occured while executing insert: '" . $query . "'" );
+                }
             }
         }
-        else
+        catch ( PDOException $e )
         {
-            Logger::error( "No connection available while trying to execute insert: '" . $query . "'" );
+            Logger::error( "Error occured while executing query: '" . $query . "'" );
         }
         
         return false;

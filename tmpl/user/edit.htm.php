@@ -11,10 +11,6 @@ $object = Provider::getUser( $userid );
 
 <form action="<?php echo $webroot?>users/<?php echo $object->getUserid()?>/edit" method="post">
 	<div class="form-group">
-        <label for="userid">Benutzer ID</label>
-        <input name="userid" type="text" class="form-control" value="<?php echo $object->getUserid()?>" readonly>
-    </div>
-	<div class="form-group">
         <label for="firstname">Vorname</label>
         <input name="firstname" type="text" class="form-control" value="<?php echo $object->getFirstname()?>">
     </div>

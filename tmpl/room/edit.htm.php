@@ -11,10 +11,6 @@ $room = Provider::getRoom( $roomid );
 
 <form action="<?php echo $webroot?>rooms/<?php echo $room->getRoomId()?>/edit" method="post">
 	<div class="form-group">
-        <label for="roomid">Raum ID</label>
-        <input name="roomid" type="text" class="form-control" value="<?php echo $room->getRoomId()?>" readonly>
-    </div>
-	<div class="form-group">
         <label for="number">Nummer</label>
         <input name="number" type="text" class="form-control" value="<?php echo $room->getNumber()?>">
     </div>

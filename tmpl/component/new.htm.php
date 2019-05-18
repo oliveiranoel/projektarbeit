@@ -10,10 +10,6 @@
 
 <form action="<?php echo $webroot?>components/new" method="post">
 	<div class="form-group">
-        <label for="componentid">Komponente ID</label>
-        <input name="componentid" type="text" class="form-control" readonly>
-    </div>
-	<div class="form-group">
         <label for="description">Beschreibung</label>
         <input name="description" type="text" class="form-control" maxlength="35" placeholder="Hersteller">
     </div>
