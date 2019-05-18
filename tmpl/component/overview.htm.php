@@ -9,7 +9,7 @@ $deleteConfirmation = "return confirm('Sind Sie sich sicher, dass sie diesen Kom
 <div class="wrapper">
     <div>
     	<h1>
-    		Komponente
+    		Komponenten
     		<a href="<?php echo $webroot?>components/new">
     			<span class="glyphicon glyphicon-plus ml-3" style="font-size: .8em;"></span>
     		</a>

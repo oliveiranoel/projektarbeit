@@ -7,7 +7,7 @@
 // Hauptübersicht
 RouteService::add( '/assigns', function ()
 {
-    Renderer::default( "Assign", "assign/overview.htm.php" );
+    Renderer::default( "Assigns", "assign/overview.htm.php" );
 } );
 
 // Assign editieren
@@ -17,7 +17,7 @@ RouteService::add( '/assigns/([0-9]*)/([0-9]*)/edit', function ( $objectid, $com
         "objectid" => $objectid,
         "componentid" => $componentid
     ];
-    Renderer::default( "Assign", "assign/edit.htm.php", $params );
+    Renderer::default( "Assigns", "assign/edit.htm.php", $params );
 } );
 
 // Assign editieren - Formular absenden (speichern)
@@ -29,7 +29,7 @@ RouteService::add( '/assigns/([0-9]*)/([0-9]*)/edit', function ( $objectid, $com
 // Neues Assign
 RouteService::add( '/assigns/new', function ()
 {
-    Renderer::default( "Assign", "assign/new.htm.php" );
+    Renderer::default( "Assigns", "assign/new.htm.php" );
 } );
 
 // Neues Assign - Formular absenden (speichern)
@@ -51,7 +51,7 @@ RouteService::add( '/assigns/([0-9]*)/([0-9]*)/delete', function ( $objectid, $c
 // Hauptübersicht
 RouteService::add( '/rooms', function ()
 {
-    Renderer::default( "Room", "room/overview.htm.php" );
+    Renderer::default( "R&auml;ume", "room/overview.htm.php" );
 } );
 
 // Room editieren
@@ -60,7 +60,7 @@ RouteService::add( '/rooms/([0-9]*)/edit', function ( $roomid )
     $params = [
         "roomid" => $roomid
     ];
-    Renderer::default( "Room", "room/edit.htm.php", $params );
+    Renderer::default( "R&auml;ume", "room/edit.htm.php", $params );
 } );
 
 // Raum editieren - Formular absenden (speichern)
@@ -72,7 +72,7 @@ RouteService::add( '/rooms/([0-9]*)/edit', function ( $roomid )
 // Neuer Raum
 RouteService::add( '/rooms/new', function ()
 {
-    Renderer::default( "Room", "room/new.htm.php" );
+    Renderer::default( "R&auml;ume", "room/new.htm.php" );
 } );
 
 // Neuer Raum - Formular absenden (speichern)
@@ -94,7 +94,7 @@ RouteService::add( '/rooms/([0-9]*)/delete', function ( $roomid )
 // Hauptübersicht
 RouteService::add( '/components', function ()
 {
-    Renderer::default( "Component", "component/overview.htm.php" );
+    Renderer::default( "Komponenten", "component/overview.htm.php" );
 } );
 
 // Room editieren
@@ -103,7 +103,7 @@ RouteService::add( '/components/([0-9]*)/edit', function ( $componentid )
     $params = [
         "componentid" => $componentid
     ];
-    Renderer::default( "Component", "component/edit.htm.php", $params );
+    Renderer::default( "Komponenten", "component/edit.htm.php", $params );
 } );
 
 // Raum editieren - Formular absenden (speichern)
@@ -115,7 +115,7 @@ RouteService::add( '/components/([0-9]*)/edit', function ( $componentid )
 // Neuer RaumWow
 RouteService::add( '/components/new', function ()
 {
-    Renderer::default( "Component", "component/new.htm.php" );
+    Renderer::default( "Komponenten", "component/new.htm.php" );
 } );
 
 // Neuer Raum - Formular absenden (speichern)

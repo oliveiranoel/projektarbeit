@@ -10,7 +10,7 @@ $deleteConfirmation = "return confirm('Sind Sie sich sicher, dass sie dieses Ass
 
 <div>
 	<h1>
-		Assign
+		Assigns
 		<a href="<?php echo $webroot?>assigns/new">
 			<span class="glyphicon glyphicon-plus ml-3" style="font-size: .8em;"></span>
 		</a>
