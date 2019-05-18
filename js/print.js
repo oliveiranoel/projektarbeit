@@ -5,7 +5,7 @@
 			item.classList.add("show");
 		}
 		
-		var glyphi = document.getElementsByClassName("glyphicon");
+		var glyphi = document.getElementsByClassName("tool");
 		for(let item of glyphi) {
 			item.style.display = "none";
 		}
@@ -17,7 +17,7 @@
 			item.classList.remove("show");
 		}
 		
-		var glyphi = document.getElementsByClassName("glyphicon");
+		var glyphi = document.getElementsByClassName("tool");
 		for(let item of glyphi) {
 			item.style.display = "inline-block";
 		}

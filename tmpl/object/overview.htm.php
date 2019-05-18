@@ -12,9 +12,9 @@ $deleteConfirmation = "return confirm('Sind Sie sich sicher, dass sie dieses Obj
 	<h1>
 		Objekte
 		<a href="<?php echo $webroot?>objects/new">
-			<span class="glyphicon glyphicon-plus ml-3" style="font-size: .8em;"></span>
+			<span class="glyphicon glyphicon-plus ml-3 tool" style="font-size: .8em;"></span>
 		</a>
-		<input class="float-right form-control col-3" type="text" id="myInput" onkeyup="search()" placeholder="Suchen...">
+		<input class="float-right form-control col-3 tool" type="text" id="myInput" onkeyup="search()" placeholder="Suchen...">
 	</h1>
 </div>
 
@@ -30,7 +30,7 @@ $deleteConfirmation = "return confirm('Sind Sie sich sicher, dass sie dieses Obj
                   		<?php echo "[" . $object->getObjectid() . "] " . $object->getObjectdescription()->getDescription()?>
                     </button>
                 </h5>
-                <div class="btn-toolbar float-right" role="toolbar">
+                <div class="btn-toolbar float-right tool" role="toolbar">
                     <div class="btn-group mr-2" role="group">
     					<a class="btn btn-primary" href="<?php echo $webroot?>objects/<?php echo $object->getObjectid()?>/edit" role="button">
                         	<span class="glyphicon glyphicon-pencil"></span>
