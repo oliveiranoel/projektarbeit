@@ -23,7 +23,7 @@
 				<a class="nav-link" href="<?php echo $webroot?>components">Komponente</a>
 			</li>
 			<li class="nav-item <?php NavUtil::isActive( $webroot . "assigns" )?>">
-				<a class="nav-link" href="<?php echo $webroot?>assigns">Assigns</a>
+				<a class="nav-link" href="<?php echo $webroot?>assigns">Zuweisung</a>
 			</li>
 		</ul>
 		
