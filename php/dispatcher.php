@@ -47,11 +47,11 @@ class UserDispatcher
         
         $sql = "UPDATE user SET firstname = ?, name = ?, email = ?, password = ?, admin = ? WHERE userid = ?";
         QueryUtil::execute( $sql, [
-            $_POST[ "firstname" ],
-            $_POST[ "name" ],
-            $_POST[ "email" ],
-            $_POST[ "password" ],
-            $_POST[ "admin" ],
+            htmlspecialchars( $_POST[ "firstname" ] ),
+            htmlspecialchars( $_POST[ "name" ] ),
+            htmlspecialchars( $_POST[ "email" ] ),
+            htmlspecialchars( $_POST[ "password" ] ),
+            htmlspecialchars( $_POST[ "admin" ] ),
             $userid
         ] );
         RouteService::redirect( "/users" );
@@ -63,11 +63,11 @@ class UserDispatcher
         
         $sql = "INSERT INTO user ( name, firstname, email, password, admin ) VALUES ( ?, ?, ?, ?, ? )";
         QueryUtil::insert( $sql, [
-            $_POST[ "firstname" ],
-            $_POST[ "name" ],
-            $_POST[ "email" ],
+            htmlspecialchars( $_POST[ "firstname" ] ),
+            htmlspecialchars( $_POST[ "name" ] ),
+            htmlspecialchars( $_POST[ "email" ] ),
             md5( $_POST[ "password" ] ),
-            $_POST[ "admin" ]
+            htmlspecialchars( $_POST[ "admin" ] )
         ] );
         RouteService::redirect( "/users" );
     }
@@ -76,7 +76,7 @@ class UserDispatcher
     {
         $sql = "DELETE FROM user WHERE userid = ?";
         QueryUtil::execute( $sql, [
-            $userid
+            htmlspecialchars( $userid )
         ] );
         RouteService::redirect( "/users" );
     }
@@ -108,9 +108,9 @@ class RoomDispatcher
         
         $sql = "UPDATE room SET number = ?, description = ? WHERE roomid = ?";
         QueryUtil::execute( $sql, [
-            $_POST[ "number" ],
-            $_POST[ "description" ],
-            $roomid
+            htmlspecialchars( $_POST[ "number" ] ),
+            htmlspecialchars( $_POST[ "description" ] ),
+            htmlspecialchars( $roomid )
         ] );
         RouteService::redirect( "/rooms" );
     }
@@ -121,8 +121,8 @@ class RoomDispatcher
         
         $sql = "INSERT INTO room ( number, description ) VALUES ( ?, ? )";
         QueryUtil::insert( $sql, [
-            $_POST[ "number" ],
-            $_POST[ "description" ]
+            htmlspecialchars( $_POST[ "number" ] ),
+            htmlspecialchars( $_POST[ "description" ] )
         ] );
         RouteService::redirect( "/rooms" );
     }
@@ -131,10 +131,9 @@ class RoomDispatcher
     {
         try
         {
-            
             $sql = "DELETE FROM room WHERE roomid = ?";
             QueryUtil::execute( $sql, [
-                $roomid
+                htmlspecialchars( $roomid )
             ] );
             
             RouteService::redirect( "/rooms" );
@@ -171,7 +170,7 @@ class ComponentDispatcher
         $select = "SELECT * FROM componentdescription WHERE lower(description) = lower( ? )";
         $insert = "INSERT INTO componentdescription ( description ) VALUES ( ? )";
         $params = [
-            $description
+            htmlspecialchars( $description )
         ];
         
         $record = QueryUtil::select( $select, $params );
@@ -190,7 +189,7 @@ class ComponentDispatcher
         $select = "SELECT * FROM componentvalue WHERE lower(value) = lower( ? )";
         $insert = "INSERT INTO componentvalue ( value ) VALUES ( ? )";
         $params = [
-            $value
+            htmlspecialchars( $value )
         ];
         
         $record = QueryUtil::select( $select, $params );
@@ -210,9 +209,9 @@ class ComponentDispatcher
         
         $sql = "UPDATE component SET componentdescriptionid = ?, componentvalueid = ? WHERE componentid = ?";
         QueryUtil::execute( $sql, [
-            self::checkDescriptionAssgin( $_POST[ "description" ] ),
-            self::checkValueAssgin( $_POST[ "value" ] ),
-            $componentid
+            self::checkDescriptionAssgin( htmlspecialchars( $_POST[ "description" ] ) ),
+            self::checkValueAssgin( htmlspecialchars( $_POST[ "value" ] ) ),
+            htmlspecialchars( $componentid )
         ] );
         RouteService::redirect( "/components" );
     }
@@ -223,8 +222,8 @@ class ComponentDispatcher
         
         $sql = "INSERT INTO component ( componentdescriptionid, componentvalueid ) VALUES ( ?, ? )";
         QueryUtil::execute( $sql, [
-            self::checkDescriptionAssgin( $_POST[ "description" ] ),
-            self::checkValueAssgin( $_POST[ "value" ] )
+            self::checkDescriptionAssgin( htmlspecialchars( $_POST[ "description" ] ) ),
+            self::checkValueAssgin( htmlspecialchars( $_POST[ "value" ] ) )
         ] );
         RouteService::redirect( "/components" );
     }
@@ -235,7 +234,7 @@ class ComponentDispatcher
         {
             $sql = "DELETE FROM component WHERE componentid = ?";
             QueryUtil::execute( $sql, [
-                $componentid
+                htmlspecialchars( $componentid )
             ] );
             RouteService::redirect( "/components" );
         }
@@ -271,7 +270,7 @@ class ObjectDispatcher
         $select = "SELECT * FROM objectdescription WHERE lower(description) = lower( ? )";
         $insert = "INSERT INTO objectdescription ( description ) VALUES ( ? )";
         $params = [
-            $description
+            htmlspecialchars( $description )
         ];
         
         $record = QueryUtil::select( $select, $params );
@@ -291,9 +290,9 @@ class ObjectDispatcher
         
         $sql = "UPDATE object SET objectdescriptionid = ?, roomid = ? WHERE objectid = ?";
         QueryUtil::execute( $sql, [
-            self::checkDescriptionAssgin( $_POST[ "description" ] ),
-            $_POST[ "room" ],
-            $objectid
+            self::checkDescriptionAssgin( htmlspecialchars( $_POST[ "description" ] ) ),
+            htmlspecialchars( $_POST[ "room" ] ),
+            htmlspecialchars( $objectid )
         ] );
         RouteService::redirect( "/objects" );
     }
@@ -304,23 +303,23 @@ class ObjectDispatcher
         
         $sql = "INSERT INTO object ( objectdescriptionid, roomid ) VALUES ( ?, ? )";
         QueryUtil::execute( $sql, [
-            self::checkDescriptionAssgin( $_POST[ "description" ] ),
-            $_POST[ "room" ]
+            self::checkDescriptionAssgin( htmlspecialchars( $_POST[ "description" ] ) ),
+            htmlspecialchars( $_POST[ "room" ] )
         ] );
         RouteService::redirect( "/objects" );
     }
 
     public static function delete ( $objectid )
     {
+        $params = [
+            htmlspecialchars( $objectid )
+        ];
+        
         $sql = "DELETE FROM objectcomponentassign WHERE objectid = ?";
-        QueryUtil::execute( $sql, [
-            $objectid
-        ] );
+        QueryUtil::execute( $sql, $params );
         
         $sql = "DELETE FROM object WHERE objectid = ?";
-        QueryUtil::execute( $sql, [
-            $objectid
-        ] );
+        QueryUtil::execute( $sql, $params );
         RouteService::redirect( "/objects" );
     }
 }
@@ -341,10 +340,10 @@ class AssignDispatcher
         {
             $sql = "UPDATE objectcomponentassign SET objectid = ?, componentid = ? WHERE objectid = ? AND componentid = ?";
             QueryUtil::execute( $sql, [
-                $_POST[ "object" ],
-                $_POST[ "component" ],
-                $objectid,
-                $componentid
+                htmlspecialchars( $_POST[ "object" ] ),
+                htmlspecialchars( $_POST[ "component" ] ),
+                htmlspecialchars( $objectid ),
+                htmlspecialchars( $componentid )
             ] );
             RouteService::redirect( "/assigns" );
         }
@@ -360,8 +359,8 @@ class AssignDispatcher
         {
             $sql = "INSERT INTO objectcomponentassign ( objectid, componentid ) VALUES ( ?, ? )";
             QueryUtil::execute( $sql, [
-                $_POST[ "object" ],
-                $_POST[ "component" ]
+                htmlspecialchars( $_POST[ "object" ] ),
+                htmlspecialchars( $_POST[ "component" ] )
             ] );
             RouteService::redirect( "/assigns" );
         }
@@ -375,8 +374,8 @@ class AssignDispatcher
     {
         $sql = "DELETE FROM objectcomponentassign WHERE objectid = ? AND componentid = ?";
         QueryUtil::execute( $sql, [
-            $objectid,
-            $componentid
+            htmlspecialchars( $objectid ),
+            htmlspecialchars( $componentid )
         ] );
         RouteService::redirect( "/assigns" );
     }
