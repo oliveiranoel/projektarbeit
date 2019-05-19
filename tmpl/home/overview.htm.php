@@ -27,7 +27,7 @@ $objectComponents = Provider::getObjectComponents();
             <div class="card-header">
                 <h5 class="card-title mb-0">
                     <button class="btn btn-link float-left" data-toggle="collapse" data-target="#object_<?php echo $object->getObjectid()?>">
-                  		<?php echo $object->getObjectdescription()->getDescription() ?>
+                  		<?php echo "[" . $object->getObjectid() . "] " . $object->getObjectdescription()->getDescription() ?>
                     </button>
                 </h5>
         	</div>

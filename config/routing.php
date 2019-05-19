@@ -259,7 +259,7 @@ RouteService::add( '/objects/([0-9]*)/delete', function ( $objectid )
  */
 RouteService::add( '/home', function ()
 {
-    Renderer::default( "Home", "home/home.htm.php" );
+    Renderer::default( "Home", "home/overview.htm.php" );
 } );
 
 /**

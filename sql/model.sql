@@ -12,11 +12,12 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 
--- Exportiere Datenbank Struktur f¸r project
+-- Exportiere Datenbank Struktur f√ºr project
 CREATE DATABASE IF NOT EXISTS `project` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `project`;
 
 -- Exportiere Struktur von Tabelle project.component
+DROP TABLE IF EXISTS `component`;
 CREATE TABLE IF NOT EXISTS `component` (
   `componentid` int(11) NOT NULL AUTO_INCREMENT,
   `componentdescriptionid` int(11) NOT NULL,
@@ -26,28 +27,31 @@ CREATE TABLE IF NOT EXISTS `component` (
   KEY `fk_component_componentdescription1_idx` (`componentdescriptionid`),
   CONSTRAINT `fk_component_componentdescription1` FOREIGN KEY (`componentdescriptionid`) REFERENCES `componentdescription` (`componentdescriptionid`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_component_componentvalue1` FOREIGN KEY (`componentvalueid`) REFERENCES `componentvalue` (`componentvalueid`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
--- Daten Export vom Benutzer nicht ausgew‰hlt
+-- Daten Export vom Benutzer nicht ausgew√§hlt
 -- Exportiere Struktur von Tabelle project.componentdescription
+DROP TABLE IF EXISTS `componentdescription`;
 CREATE TABLE IF NOT EXISTS `componentdescription` (
   `componentdescriptionid` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(100) NOT NULL,
   PRIMARY KEY (`componentdescriptionid`),
   UNIQUE KEY `description_UNIQUE` (`description`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
 
--- Daten Export vom Benutzer nicht ausgew‰hlt
+-- Daten Export vom Benutzer nicht ausgew√§hlt
 -- Exportiere Struktur von Tabelle project.componentvalue
+DROP TABLE IF EXISTS `componentvalue`;
 CREATE TABLE IF NOT EXISTS `componentvalue` (
   `componentvalueid` int(11) NOT NULL AUTO_INCREMENT,
   `value` varchar(100) NOT NULL,
   PRIMARY KEY (`componentvalueid`),
   UNIQUE KEY `value_UNIQUE` (`value`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 
--- Daten Export vom Benutzer nicht ausgew‰hlt
+-- Daten Export vom Benutzer nicht ausgew√§hlt
 -- Exportiere Struktur von Tabelle project.object
+DROP TABLE IF EXISTS `object`;
 CREATE TABLE IF NOT EXISTS `object` (
   `objectid` int(11) NOT NULL AUTO_INCREMENT,
   `objectdescriptionid` int(11) NOT NULL,
@@ -57,10 +61,11 @@ CREATE TABLE IF NOT EXISTS `object` (
   KEY `fk_object_objectdescription1_idx` (`objectdescriptionid`),
   CONSTRAINT `fk_object_objectdescription1` FOREIGN KEY (`objectdescriptionid`) REFERENCES `objectdescription` (`objectdescriptionid`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_object_room` FOREIGN KEY (`roomid`) REFERENCES `room` (`roomid`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
--- Daten Export vom Benutzer nicht ausgew‰hlt
+-- Daten Export vom Benutzer nicht ausgew√§hlt
 -- Exportiere Struktur von Tabelle project.objectcomponentassign
+DROP TABLE IF EXISTS `objectcomponentassign`;
 CREATE TABLE IF NOT EXISTS `objectcomponentassign` (
   `objectid` int(11) NOT NULL,
   `componentid` int(11) NOT NULL,
@@ -71,37 +76,41 @@ CREATE TABLE IF NOT EXISTS `objectcomponentassign` (
   CONSTRAINT `fk_objectcomponentassign_object1` FOREIGN KEY (`objectid`) REFERENCES `object` (`objectid`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Daten Export vom Benutzer nicht ausgew‰hlt
+-- Daten Export vom Benutzer nicht ausgew√§hlt
 -- Exportiere Struktur von Tabelle project.objectdescription
+DROP TABLE IF EXISTS `objectdescription`;
 CREATE TABLE IF NOT EXISTS `objectdescription` (
   `objectdescriptionid` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(100) NOT NULL,
   PRIMARY KEY (`objectdescriptionid`),
   UNIQUE KEY `description_UNIQUE` (`description`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
--- Daten Export vom Benutzer nicht ausgew‰hlt
+-- Daten Export vom Benutzer nicht ausgew√§hlt
 -- Exportiere Struktur von Tabelle project.room
+DROP TABLE IF EXISTS `room`;
 CREATE TABLE IF NOT EXISTS `room` (
   `roomid` int(11) NOT NULL AUTO_INCREMENT,
   `number` varchar(25) NOT NULL,
   `description` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`roomid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
--- Daten Export vom Benutzer nicht ausgew‰hlt
+-- Daten Export vom Benutzer nicht ausgew√§hlt
 -- Exportiere Struktur von Tabelle project.user
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `userid` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `firstname` varchar(50) NOT NULL,
   `email` varchar(65) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `admin` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`userid`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 
--- Daten Export vom Benutzer nicht ausgew‰hlt
+-- Daten Export vom Benutzer nicht ausgew√§hlt
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
