@@ -22,7 +22,7 @@ class Config
     const SQL_DATABASE = 'project';
     
     // FEATURE TOGGLE
-    const LOCKDOWN = false;
+    const LOCKDOWN = true;
     
     // DEFAULT VALUES
     const DEFAULT_ROOM_ID = 1;
