@@ -3,12 +3,16 @@
 /***************************************************************************************************************
  *
  *  This file contains all inital classes
+ *  
+ *  These classes are the core classes used in this project, they implement the main logic.
  *
  ***************************************************************************************************************/
 
 /**
- * 
- * @author dsu
+ *
+ * @author dsu, nol
+ *
+ * The Validator validates input values form given by the user.
  *
  */
 class Validator
@@ -17,34 +21,41 @@ class Validator
     private static $numeric = "/^[0-9]*$/";
     private static $alphanumeric = "/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð0-9 ]*$/";
     private static $email = "/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/i";
-    
+
     public static function alphabetic ( $str )
     {
         return preg_match( self::$alphabetic, $str );
     }
-    
+
     public static function numeric ( $str )
     {
         return preg_match( self::$numeric, $str );
     }
-    
+
     public static function email ( $str )
     {
         return preg_match( self::$email, $str );
     }
-    
+
     public static function alphanumeric ( $str )
     {
         return preg_match( self::$alphanumeric, $str );
     }
-    
+
     /**
+     *
+     * @param string $args1
+     * firstname
      * 
-     * @param string $args1 firstname
-     * @param string $args2 name
-     * @param string $args3 email
-     * @param string $args4 admin
-     * @return boolean is valid or not
+     * @param string $args2
+     * name
+     * @param string $args3
+     * email
+     * 
+     * @param string $args4
+     * admin
+     * 
+     * @return boolean true if valid else false
      */
     public static function validateUser ( string $args1, string $args2, string $args3, string $args4 )
     {
@@ -54,22 +65,22 @@ class Validator
         {
             $valid = false;
         }
-        else if ( !self::alphabetic( $args2 ) )
+        elseif ( !self::alphabetic( $args2 ) )
         {
             $valid = false;
         }
-        else if ( !self::email( $args3 ) )
+        elseif ( !self::email( $args3 ) )
         {
             $valid = false;
         }
-        else if ( !self::numeric( $args4 ) )
+        elseif ( !self::numeric( $args4 ) )
         {
             $valid = false;
         }
         
         return $valid;
     }
-    
+
     public static function message ( $str, $url )
     {
         echo "<script>
@@ -81,7 +92,10 @@ class Validator
 
 /**
  *
- * @author dsu
+ * @author dsu, nol
+ *
+ * Responsible for the template rendering.
+ * The Renderer is also responsible for including stylesheets and scripts.
  *
  */
 class Renderer
@@ -89,7 +103,32 @@ class Renderer
     private static $default_template = "default.htm.php";
     private static $root = Config::BASEPATH . "/";
 
-    public static function default ( $title, $template, $params = [], $stylesheets = [], $scripts = [], bool $nav = true, bool $user = true )
+    /**
+     * Renders the default template with corresponding template from given params.
+     *
+     * @param string $title
+     * the title thats displayed in the tab
+     * 
+     * @param string $template
+     * the template that need to be rendered
+     * 
+     * @param array $params
+     * extra parameters that are used in the template
+     * e.g. [ "userid" => $userid ]
+     * 
+     * @param string|array $stylesheets
+     * extra stylesheets that need to be included
+     * 
+     * @param string|array $scripts
+     * extra scripts that need to be included
+     * 
+     * @param bool $nav
+     * true if the navigation should be displayed in the template
+     * 
+     * @param bool $user
+     * true if a user is required to access the template
+     */
+    public static function default ( $title, $template, $params = [], $stylesheets = [], $scripts = [], $nav = true, $user = true )
     {
         if ( $user && Config::LOCKDOWN )
         {
@@ -121,7 +160,7 @@ class Renderer
 
 /**
  *
- * @author dsu
+ * @author dsu, nol
  *
  * Handles to whole authorization process.
  *
@@ -161,9 +200,9 @@ class Authorizer
                 $_SESSION[ self::$session_auth_user ] = $_POST[ "email" ];
                 $success = true;
                 
-                $_SESSION[ self::$session_auth_name ] = $record[0]->firstname;
+                $_SESSION[ self::$session_auth_name ] = $record[ 0 ]->firstname;
                 
-                if ( $record[0]->admin == 1 )
+                if ( $record[ 0 ]->admin == 1 )
                 {
                     $_SESSION[ self::$session_auth_role ] = "Admin";
                 }
@@ -196,7 +235,7 @@ class Authorizer
 
 /**
  *
- * @author dsu
+ * @author dsu, nol
  *
  * This class is responsible for the entire routing mechanism.
  *
@@ -244,6 +283,13 @@ class RouteService
         header( 'Location: ' . $basepath . $uri );
     }
 
+    /**
+     * Rewrite an URL, so everytime that URL gets called, it get auto redirected.
+     *
+     * @param string $path
+     * @param string $dest
+     * @param string $basepath
+     */
     public static function rewrite ( $path, $dest, $basepath = Config::BASEPATH )
     {
         self::add( $path, function () use ( $basepath, $dest )

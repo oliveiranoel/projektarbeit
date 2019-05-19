@@ -3,12 +3,19 @@
 /***************************************************************************************************************
  *
  *  This file contains all dispatcher classes.
+ *  
+ *  A dispatcher is used to handle an action when the specific URL is invoked with POST
+ *  e.g. "/user/new" is called, then the corresponding method UserDispatcher#create gets executed.
+ *  
+ *  These classes are used in the routing.php file.
  *
  ***************************************************************************************************************/
 
 /**
  *
- * @author dsu
+ * @author dsu, nol
+ * 
+ * Dispatcher for URL /users*
  *
  */
 class UserDispatcher
@@ -77,7 +84,9 @@ class UserDispatcher
 
 /**
  *
- * @author dsu
+ * @author dsu, nol
+ * 
+ * Dispatcher for URL /rooms*
  *
  */
 class RoomDispatcher
@@ -139,7 +148,9 @@ class RoomDispatcher
 
 /**
  *
- * @author dsu
+ * @author dsu, nol
+ * 
+ * Dispatcher for URL /components*
  *
  */
 class ComponentDispatcher
@@ -237,7 +248,9 @@ class ComponentDispatcher
 
 /**
  *
- * @author dsu
+ * @author dsu, nol
+ * 
+ * Dispatcher for URL /objects*
  *
  */
 class ObjectDispatcher
@@ -299,6 +312,11 @@ class ObjectDispatcher
 
     public static function delete ( $objectid )
     {
+        $sql = "DELETE FROM objectcomponentassign WHERE objectid = ?";
+        QueryUtil::execute( $sql, [
+                $objectid
+        ] );
+        
         $sql = "DELETE FROM object WHERE objectid = ?";
         QueryUtil::execute( $sql, [
             $objectid
@@ -307,6 +325,13 @@ class ObjectDispatcher
     }
 }
 
+/**
+ *
+ * @author dsu, nol
+ *
+ * Dispatcher for URL /assigns*
+ *
+ */
 class AssignDispatcher
 {
 

@@ -12,7 +12,7 @@ $rooms = Provider::getRooms();
 <form action="<?php echo $webroot?>objects/new" method="post">
     <div class="form-group">
         <label for="description">Objektbeschreibung</label>
-        <input name="description" type="text" class="form-control" placeholder="Hersteller">
+        <input name="description" type="text" class="form-control" placeholder="Beamer">
     </div>
     <div class="form-group">
         <label for="room">Raum</label>

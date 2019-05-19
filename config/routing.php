@@ -10,14 +10,13 @@ RouteService::add( '/assigns', function ()
     Renderer::default( "Assigns", "assign/overview.htm.php" );
 } );
 
-// Assign editieren
+// Assign editieren - Seitenaufruf
 RouteService::add( '/assigns/([0-9]*)/([0-9]*)/edit', function ( $objectid, $componentid )
 {
-    $params = [
+    Renderer::default( "Assigns", "assign/edit.htm.php", [
         "objectid" => $objectid,
         "componentid" => $componentid
-    ];
-    Renderer::default( "Assigns", "assign/edit.htm.php", $params );
+    ] );
 } );
 
 // Assign editieren - Formular absenden (speichern)
@@ -26,7 +25,7 @@ RouteService::add( '/assigns/([0-9]*)/([0-9]*)/edit', function ( $objectid, $com
     AssignDispatcher::update( $objectid, $componentid );
 }, "post" );
 
-// Neues Assign
+// Neues Assign - Seitenaufruf
 RouteService::add( '/assigns/new', function ()
 {
     Renderer::default( "Assigns", "assign/new.htm.php" );
@@ -54,13 +53,12 @@ RouteService::add( '/rooms', function ()
     Renderer::default( "R&auml;ume", "room/overview.htm.php" );
 } );
 
-// Room editieren
+// Raum editieren - Seitenaufruf
 RouteService::add( '/rooms/([0-9]*)/edit', function ( $roomid )
 {
-    $params = [
+    Renderer::default( "R&auml;ume", "room/edit.htm.php", [
         "roomid" => $roomid
-    ];
-    Renderer::default( "R&auml;ume", "room/edit.htm.php", $params );
+    ] );
 } );
 
 // Raum editieren - Formular absenden (speichern)
@@ -69,7 +67,7 @@ RouteService::add( '/rooms/([0-9]*)/edit', function ( $roomid )
     RoomDispatcher::update( $roomid );
 }, "post" );
 
-// Neuer Raum
+// Neuer Raum - Seitenaufruf
 RouteService::add( '/rooms/new', function ()
 {
     Renderer::default( "R&auml;ume", "room/new.htm.php" );
@@ -97,34 +95,33 @@ RouteService::add( '/components', function ()
     Renderer::default( "Komponenten", "component/overview.htm.php" );
 } );
 
-// Room editieren
+// Komponent editieren - Seitenaufruf
 RouteService::add( '/components/([0-9]*)/edit', function ( $componentid )
 {
-    $params = [
+    Renderer::default( "Komponenten", "component/edit.htm.php", [
         "componentid" => $componentid
-    ];
-    Renderer::default( "Komponenten", "component/edit.htm.php", $params );
+    ] );
 } );
 
-// Raum editieren - Formular absenden (speichern)
+// Komponent editieren - Formular absenden (speichern)
 RouteService::add( '/components/([0-9]*)/edit', function ( $componentid )
 {
     ComponentDispatcher::update( $componentid );
 }, "post" );
 
-// Neuer RaumWow
+// Neuer Komponent - Seitenaufruf
 RouteService::add( '/components/new', function ()
 {
     Renderer::default( "Komponenten", "component/new.htm.php" );
 } );
 
-// Neuer Raum - Formular absenden (speichern)
+// Neuer Komponent - Formular absenden (speichern)
 RouteService::add( '/components/new', function ()
 {
     ComponentDispatcher::create();
 }, "post" );
 
-// Raum löschen
+// Komponent löschen
 RouteService::add( '/components/([0-9]*)/delete', function ( $componentid )
 {
     ComponentDispatcher::delete( $componentid );
@@ -134,7 +131,7 @@ RouteService::add( '/components/([0-9]*)/delete', function ( $componentid )
  * ***********************************************************************************************************
  * USER
  */
-// Benutzerübersicht
+// Hauptübersicht
 RouteService::add( '/users', function ()
 {
     if ( isset( $_SESSION[ "AUTH_ROLE" ] ) )
@@ -152,11 +149,9 @@ RouteService::add( '/users/([0-9]*)/edit', function ( $userid )
 {
     if ( isset( $_SESSION[ "AUTH_ROLE" ] ) )
     {
-        $params = [
+        Renderer::default( "User", "user/edit.htm.php", [
             "userid" => $userid
-        ];
-        
-        Renderer::default( "User", "user/edit.htm.php", $params );
+        ] );
     }
     else
     {
@@ -177,6 +172,7 @@ RouteService::add( '/users/([0-9]*)/edit', function ( $userid )
     }
 }, "post" );
 
+// Neuer Bentuzer - Seitenaufruf
 RouteService::add( '/users/new', function ()
 {
     if ( isset( $_SESSION[ "AUTH_ROLE" ] ) )
@@ -189,6 +185,7 @@ RouteService::add( '/users/new', function ()
     }
 } );
 
+// Neuer Bentuzer - Formular absenden (speichern)
 RouteService::add( '/users/new', function ()
 {
     if ( isset( $_SESSION[ "AUTH_ROLE" ] ) )
@@ -201,6 +198,7 @@ RouteService::add( '/users/new', function ()
     }
 }, "post" );
 
+// Bentuzer löschen
 RouteService::add( '/users/([0-9]*)/delete', function ( $userid )
 {
     if ( isset( $_SESSION[ "AUTH_ROLE" ] ) )
@@ -217,37 +215,39 @@ RouteService::add( '/users/([0-9]*)/delete', function ( $userid )
  * ***********************************************************************************************************
  * OBJECT
  */
-// Benutzerübersicht
+// Hauptübersicht
 RouteService::add( '/objects', function ()
 {
     Renderer::default( "Objekte", "object/overview.htm.php" );
 } );
 
-// Bentuzer editieren - Seitenaufruf
+// Objekt editieren - Seitenaufruf
 RouteService::add( '/objects/([0-9]*)/edit', function ( $objectid )
 {
-    $params = [
+    Renderer::default( "Objekte", "object/edit.htm.php", [
         "objectid" => $objectid
-    ];
-    Renderer::default( "Objekte", "object/edit.htm.php", $params );
+    ] );
 } );
 
-// Bentuzer editieren - Formular absenden (speichern)
+// Objekt editieren - Formular absenden (speichern)
 RouteService::add( '/objects/([0-9]*)/edit', function ( $objectid )
 {
     ObjectDispatcher::update( $objectid );
 }, "post" );
 
+// Neues Objekt - Seitenaufruf
 RouteService::add( '/objects/new', function ()
 {
     Renderer::default( "Objekte", "object/new.htm.php" );
 } );
 
+// Neues Objekt - Formular absenden (speichern)
 RouteService::add( '/objects/new', function ()
 {
     ObjectDispatcher::create();
 }, "post" );
 
+// Objekt löschen
 RouteService::add( '/objects/([0-9]*)/delete', function ( $objectid )
 {
     ObjectDispatcher::delete( $objectid );
@@ -291,9 +291,6 @@ RouteService::add( '/logout.html', function ()
 RouteService::rewrite( "/index.php", "/home" );
 RouteService::rewrite( Config::BASEPATH, "/home" );
 
-// WORKAROUND
-// RouteService::rewrite( "/js/plugin/popper.min.js.map", "/home" );
-
 /**
  * ***********************************************************************************************************
  * ERROR
@@ -301,19 +298,17 @@ RouteService::rewrite( Config::BASEPATH, "/home" );
 // 404
 RouteService::pathNotFound( function ( $path )
 {
-    $params = [
+    Renderer::default( "404", 'error/404.htm.php', [
         "path" => $path
-    ];
-    Renderer::default( "404", 'error/404.htm.php', $params );
+    ] );
 } );
 
 // 405
 RouteService::methodNotAllowed( function ( $path, $method )
 {
-    $params = [
+    Renderer::default( "405", 'error/405.htm.php', [
         "path" => $path,
         "method" => $method
-    ];
-    Renderer::default( "405", 'error/405.htm.php', $params );
+    ] );
 } );
 

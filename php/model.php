@@ -3,12 +3,16 @@
 /***************************************************************************************************************
  *
  *  This file contains all modeling classes
+ *  
+ *  These classes represent the data from the database as PHP objects and have no major logic.
  *
  ***************************************************************************************************************/
 
 /**
  *
- * @author dsu
+ * @author dsu, nol
+ *
+ * Represents a component
  *
  */
 class MComponent
@@ -42,6 +46,13 @@ class MComponent
     }
 }
 
+/**
+ *
+ * @author dsu, nol
+ *
+ * Represents a componentdescription
+ *
+ */
 class MComponentdescription
 {
     private $componentdescriptionid;
@@ -64,6 +75,13 @@ class MComponentdescription
     }
 }
 
+/**
+ *
+ * @author dsu, nol
+ *
+ * Represents a componentvalue
+ *
+ */
 class MComponentvalue
 {
     private $componentvalueid;
@@ -86,6 +104,13 @@ class MComponentvalue
     }
 }
 
+/**
+ *
+ * @author dsu, nol
+ *
+ * Represents a object
+ *
+ */
 class MObject
 {
     private $objectid;
@@ -115,9 +140,15 @@ class MObject
     {
         return $this->room;
     }
-    
 }
 
+/**
+ *
+ * @author dsu, nol
+ *
+ * Represents a assign between object and component
+ *
+ */
 class MObjectComponent
 {
     private $objectid;
@@ -128,18 +159,25 @@ class MObjectComponent
         $this->objectid = $objectid;
         $this->componentid = $componentid;
     }
-    
+
     public function getObjectid ()
     {
         return $this->objectid;
     }
-    
+
     public function getComponentid ()
     {
         return $this->componentid;
     }
 }
 
+/**
+ *
+ * @author dsu, nol
+ *
+ * Represents a objectdescription
+ *
+ */
 class MObjectdescription
 {
     private $objectdescriptionid;
@@ -162,6 +200,13 @@ class MObjectdescription
     }
 }
 
+/**
+ *
+ * @author dsu, nol
+ *
+ * Represents a room
+ *
+ */
 class MRoom
 {
     private $roomid;
@@ -191,6 +236,13 @@ class MRoom
     }
 }
 
+/**
+ *
+ * @author dsu, nol
+ *
+ * Represents a user
+ *
+ */
 class MUser
 {
     private $userid;
@@ -234,13 +286,14 @@ class MUser
     {
         return $this->password;
     }
-    
-    public function getRole () 
+
+    public function getRole ()
     {
-        if ($this->admin == 0) {
+        if ( $this->admin == 0 )
+        {
             return "Benutzer";
         }
-        return "Admin";   
+        return "Admin";
     }
 }
 

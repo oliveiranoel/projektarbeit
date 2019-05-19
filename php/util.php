@@ -2,13 +2,17 @@
 
 /***************************************************************************************************************
  *
- *  This file contains all util classes
+ *  This file contains all utility classes
  *
  ***************************************************************************************************************/
 
 /**
  *
- * @author dsu
+ * @author dsu, nol
+ *
+ * Utitily for database.
+ * Main purpose is to create the connection
+ * between application and database.
  *
  */
 class DBUtil
@@ -25,7 +29,7 @@ class DBUtil
         catch ( PDOException $e )
         {
             $msg = "Error occured while trying to connect to database";
-            Logger::log( $msg . ": " . $e->getMessage() );
+            Logger::error( $msg . ": " . $e->getMessage() );
             
             Renderer::default( "Error", "error/500.htm.php", [
                 "msg" => $msg
@@ -42,7 +46,10 @@ class DBUtil
 
 /**
  *
- * @author dsu
+ * @author dsu, nol
+ *
+ * Utitily for queries.
+ * Main purpose is to execute queries.
  *
  */
 class QueryUtil
@@ -57,7 +64,7 @@ class QueryUtil
         }
         return true;
     }
-    
+
     private static function prepare ( $sql )
     {
         try
@@ -77,7 +84,7 @@ class QueryUtil
         
         return false;
     }
-    
+
     public static function execute ( $sql, $params = null )
     {
         $statement = self::prepare( $sql );
@@ -101,7 +108,6 @@ class QueryUtil
         return [];
     }
 
-    // TODO prepare
     public static function insert ( $query, $params = null )
     {
         $conn = DBUtil::getConnection();
@@ -133,12 +139,20 @@ class QueryUtil
 
 /**
  *
- * @author dsu
+ * @author dsu, nol
+ *
+ * Utitily for navigation.
  *
  */
 class NavUtil
 {
 
+    /**
+     * Checks if the current navigation is active,
+     * if yes set class active to nav.
+     *
+     * @param string $link
+     */
     public static function isActive ( $link )
     {
         echo $_SERVER[ "REQUEST_URI" ] == $link ? "active" : "";
@@ -147,7 +161,9 @@ class NavUtil
 
 /**
  *
- * @author dsu
+ * @author dsu, nol
+ *
+ * Utitily for file.
  *
  */
 class FileUtil
