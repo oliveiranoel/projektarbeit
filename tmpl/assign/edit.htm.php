@@ -10,7 +10,7 @@ $comp = Provider::getComponent( $componentid );
 
 <div>
 	<h1>
-		Assign editieren: 
+		Zuweisung editieren: 
 		<?php echo "[" . $obj->getObjectid() . "] " . $obj->getObjectdescription()->getDescription() . " | " . $comp->getComponentdescription()->getDescription()?>
 	</h1>
 </div>

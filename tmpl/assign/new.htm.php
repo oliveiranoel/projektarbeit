@@ -6,7 +6,7 @@ $components = Provider::getComponents();
 <div class="wrapper">
 
 <div>
-	<h1>Neues Assign</h1>
+	<h1>Neue Zuweisung</h1>
 </div>
 
 <form action="<?php echo $webroot?>assigns/new" method="post">
