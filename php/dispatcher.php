@@ -94,7 +94,7 @@ class RoomDispatcher
 
     private static function validate ( $message, $url )
     {
-        if ( !Validator::alphanumeric( $_POST[ "number" ] ) )
+        if ( !Validator::alphanumeric( $_POST[ "number" ] ) || !Validator::alphanumeric( $_POST[ "description" ] ) )
         {
             Validator::message( $message, $url );
             return false;
