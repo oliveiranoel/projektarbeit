@@ -14,7 +14,7 @@
 /**
  *
  * @author dsu, nol
- * 
+ *
  * Dispatcher for URL /users*
  *
  */
@@ -85,7 +85,7 @@ class UserDispatcher
 /**
  *
  * @author dsu, nol
- * 
+ *
  * Dispatcher for URL /rooms*
  *
  */
@@ -149,7 +149,7 @@ class RoomDispatcher
 /**
  *
  * @author dsu, nol
- * 
+ *
  * Dispatcher for URL /components*
  *
  */
@@ -249,7 +249,7 @@ class ComponentDispatcher
 /**
  *
  * @author dsu, nol
- * 
+ *
  * Dispatcher for URL /objects*
  *
  */
@@ -314,7 +314,7 @@ class ObjectDispatcher
     {
         $sql = "DELETE FROM objectcomponentassign WHERE objectid = ?";
         QueryUtil::execute( $sql, [
-                $objectid
+            $objectid
         ] );
         
         $sql = "DELETE FROM object WHERE objectid = ?";
@@ -341,10 +341,10 @@ class AssignDispatcher
         {
             $sql = "UPDATE objectcomponentassign SET objectid = ?, componentid = ? WHERE objectid = ? AND componentid = ?";
             QueryUtil::execute( $sql, [
-                    $_POST[ "object" ],
-                    $_POST[ "component" ],
-                    $objectid,
-                    $componentid
+                $_POST[ "object" ],
+                $_POST[ "component" ],
+                $objectid,
+                $componentid
             ] );
             RouteService::redirect( "/assigns" );
         }
@@ -356,7 +356,7 @@ class AssignDispatcher
 
     public static function create ()
     {
-        try 
+        try
         {
             $sql = "INSERT INTO objectcomponentassign ( objectid, componentid ) VALUES ( ?, ? )";
             QueryUtil::execute( $sql, [

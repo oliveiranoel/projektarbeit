@@ -1,5 +1,3 @@
-<?php
-?>
 
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
 	<a href="<?php echo $webroot?>home" class="icon-container">
@@ -12,7 +10,7 @@
 
 	<div class="navbar-collapse offcanvas-collapse navigation">
 		<ul class="navbar-nav mr-auto">
-			<li class="nav-item <?php NavUtil::isActive( $webroot . "users" )?>" <?php if ( !isset( $_SESSION[ "AUTH_ROLE" ] )){ echo "style='display: none;'"; } ?>>
+			<li class="nav-item <?php NavUtil::isActive( $webroot . "users" )?>" <?php NavUtil::onlyAdmin()?>>
 				<a class="nav-link" href="<?php echo $webroot?>users">Benutzer</a>
 			</li>
 			<li class="nav-item <?php NavUtil::isActive( $webroot . "rooms" )?>">
@@ -27,17 +25,6 @@
 			<li class="nav-item <?php NavUtil::isActive( $webroot . "assigns" )?>">
 				<a class="nav-link" href="<?php echo $webroot?>assigns">Assigns</a>
 			</li>
-			<!--
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Settings</a>
-				<div class="dropdown-menu">
-					<a class="dropdown-item" href="#">Action</a> 
-					<a class="dropdown-item" href="#">Another action</a> 
-					<a class="dropdown-item" href="#">Something else here</a>
-				</div>
-			</li>
-			-->
-			
 		</ul>
 		
 		<?php 

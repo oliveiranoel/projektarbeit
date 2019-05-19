@@ -1,8 +1,4 @@
-<?php
 
-?>
-
-<!-- TODO: if user data is wrong, refuse sending form and make it responsive => https://getbootstrap.com/docs/4.3/examples/sign-in/ -->
 <div class="wrapper">
 
 <form class="form-login text-center" action="<?php echo $webroot?>login.html" method="post">

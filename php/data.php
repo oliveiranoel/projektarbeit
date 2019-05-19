@@ -1,8 +1,16 @@
 <?php
 
+/***************************************************************************************************************
+ *
+ *  This file contains all classes that have something to do with 
+ *  the data that is being displayed on the application.
+ *
+ ***************************************************************************************************************/
+
 /**
+ *
  * @author dsu, nol
- * 
+ *
  * Provides data for templates.
  */
 class Provider
@@ -48,15 +56,22 @@ class Provider
         return self::handle( Mapper::mapUser( $userid ) );
     }
 
+    public static function getObjectComponents ()
+    {
+        return Mapper::mapObjectComponents();
+    }
+
+    /**
+     * Handles the getter methods with IDs.
+     * If an ID does not exist, a redirect should happen.
+     *
+     * @param boolean|array $data
+     * @return array if data is available it returns the data else a redirect is executed
+     */
     private static function handle ( $data )
     {
         if ( $data ) return $data;
         RouteService::redirect( "/error/404.html" );
-    }
-
-    public static function getObjectComponents ()
-    {
-        return Mapper::mapObjectComponents();
     }
 }
 
@@ -69,6 +84,7 @@ class Provider
  */
 class Mapper
 {
+
     public static function mapRooms ()
     {
         $data = [];

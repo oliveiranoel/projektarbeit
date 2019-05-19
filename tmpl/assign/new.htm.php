@@ -1,8 +1,6 @@
 <?php
-
 $objects = Provider::getObjects();
 $components = Provider::getComponents();
-
 ?>
 
 <div class="wrapper">

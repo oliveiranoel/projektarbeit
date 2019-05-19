@@ -1,8 +1,6 @@
 <?php
-
 $object = Provider::getObject( $objectid );
 $rooms = Provider::getRooms();
-
 ?>
 
 <div class="wrapper">

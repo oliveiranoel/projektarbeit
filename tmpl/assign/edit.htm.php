@@ -1,11 +1,9 @@
 <?php
-
 $objects = Provider::getObjects();
 $components = Provider::getComponents();
 
 $obj = Provider::getObject( $objectid );
 $comp = Provider::getComponent( $componentid );
-
 ?>
 
 <div class="wrapper">

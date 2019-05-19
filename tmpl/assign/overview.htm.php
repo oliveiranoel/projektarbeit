@@ -1,9 +1,7 @@
 <?php
-
 $assigns = Provider::getObjectComponents();
 $detailview = Config::PATH_TEMPLATE . "assign/detailview.htm.php";
 $deleteConfirmation = "return confirm('Sind Sie sich sicher, dass sie dieses Assign l&#246;schen m&#246;chten ?')"
-
 ?>
 
 <div class="wrapper">

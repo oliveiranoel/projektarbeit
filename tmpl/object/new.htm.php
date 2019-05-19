@@ -1,5 +1,4 @@
 <?php
-
 $rooms = Provider::getRooms();
 ?>
 

@@ -1,9 +1,7 @@
 <?php
-
 $components = Provider::getComponents();
 $detailview = Config::PATH_TEMPLATE . "component/detailview.htm.php";
 $deleteConfirmation = "return confirm('Sind Sie sich sicher, dass sie diesen Komponenten l&#246;schen m&#246;chten ?')"
-
 ?>
 
 <div class="wrapper">

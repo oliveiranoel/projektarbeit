@@ -1,9 +1,7 @@
 <?php
-
 $objects = Provider::getUsers();
 $detailview = Config::PATH_TEMPLATE . "user/detailview.htm.php";
 $deleteConfirmation = "return confirm('Sind Sie sich sicher, dass sie diesen Benutzer l&#246;schen m&#246;chten ?')"
-
 ?>
 
 <div class="wrapper">

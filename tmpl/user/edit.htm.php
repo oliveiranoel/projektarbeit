@@ -1,12 +1,11 @@
 <?php
-
 $user = Provider::getUser( $userid );
 ?>
 
 <div class="wrapper">
 
 <div>
-    <h1><?php echo $user->getFirstname() . " " . $user->getName() ?></h1>
+    <h1><?php echo $user->getFirstname() . " " . $user->getName()?></h1>
 </div>
 
 <form action="<?php echo $webroot?>users/<?php echo $userid?>/edit" method="post">
@@ -30,8 +29,8 @@ $user = Provider::getUser( $userid );
     <div class="form-group">
         <label for="admin">Rolle</label>
         <select class="form-control" name="admin">
-                <option value="0" <?php if ( $user->getRole() == "Benutzer" ) echo "selected" ?>>Benutzer</option>
-                <option value="1" <?php if ( $user->getRole() == "Admin" ) echo "selected" ?>>Admin</option>
+                <option value="0" <?php if ( $user->getRole() == "Benutzer" ) echo "selected"?>>Benutzer</option>
+                <option value="1" <?php if ( $user->getRole() == "Admin" ) echo "selected"?>>Admin</option>
         </select>
     </div>
     <button type="submit" class="btn btn-primary">Speichern</button>

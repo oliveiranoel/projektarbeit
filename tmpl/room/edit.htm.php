@@ -1,12 +1,11 @@
 <?php
-
 $room = Provider::getRoom( $roomid );
 ?>
 
 <div class="wrapper">
 
 <div>
-    <h1>Raum editieren: <?php echo $room->getNumber() ?></h1>
+    <h1>Raum editieren: <?php echo $room->getNumber()?></h1>
 </div>
 
 <form action="<?php echo $webroot?>rooms/<?php echo $roomid?>/edit" method="post">

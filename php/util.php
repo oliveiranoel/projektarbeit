@@ -65,6 +65,13 @@ class QueryUtil
         return true;
     }
 
+    /**
+     * The prepare method gets invokes everytime
+     * a query is executed to avoid SQL injection.
+     *
+     * @param string $sql
+     * @return PDOStatement|boolean
+     */
     private static function prepare ( $sql )
     {
         try
@@ -156,6 +163,18 @@ class NavUtil
     public static function isActive ( $link )
     {
         echo $_SERVER[ "REQUEST_URI" ] == $link ? "active" : "";
+    }
+
+    /**
+     * Used to display a navigation only
+     * if logged in with an admin account.
+     */
+    public static function onlyAdmin ()
+    {
+        if ( !isset( $_SESSION[ "AUTH_ROLE" ] ) )
+        {
+            echo "style='display: none;'";
+        }
     }
 }
 

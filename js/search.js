@@ -12,7 +12,7 @@ function search() {
 		var button = cardTitle.getElementsByClassName("search")[0];
 
 		var txtValue = button.textContent || button.innerText;
-		
+
 		if (txtValue.toUpperCase().indexOf(filter) > -1) {
 			cards[i].style.display = "";
 		} else {

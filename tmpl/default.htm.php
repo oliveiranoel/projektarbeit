@@ -7,9 +7,6 @@
 <meta name="author" content="Dominik Suter, Noel Oliveira">
 <title><?php echo $title?></title>
 
-<!-- TODO favicon -->
-<!-- https://convertio.co/de/svg-ico/ -->
-<!-- https://www.flaticon.com/ -->
 <link rel="icon" href="<?php echo $webroot?>favicon.ico">
 
 <!-- Bootstrap core CSS -->

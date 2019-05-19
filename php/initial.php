@@ -43,6 +43,7 @@ class Validator
     }
 
     /**
+     * Logic to validate all inputs for a user.
      *
      * @param string $args1
      * firstname
@@ -81,6 +82,15 @@ class Validator
         return $valid;
     }
 
+    /**
+     * Used to display a message to let the user know
+     * that the validation failed.
+     *
+     * @param string $str
+     * message
+     * 
+     * @param string $url
+     */
     public static function message ( $str, $url )
     {
         echo "<script>
@@ -171,6 +181,9 @@ class Authorizer
     private static $session_auth_role = "AUTH_ROLE";
     private static $session_auth_name = "AUTH_NAME";
 
+    /**
+     * Check if a user is logged in or not.
+     */
     public static function authorize ()
     {
         if ( !isset( $_SESSION[ self::$session_auth_user ] ) )
@@ -181,17 +194,25 @@ class Authorizer
         }
     }
 
+    /**
+     * Handles the logout process.
+     */
     public static function logout ()
     {
         unset( $_SESSION[ self::$session_auth_user ] );
         session_destroy();
     }
 
+    /**
+     * Handles the login process.
+     */
     public static function login ()
     {
         $success = false;
-        $sql = "SELECT * FROM user WHERE email = '" . $_POST[ 'email' ] . "'";
-        $record = QueryUtil::select( $sql );
+        $sql = "SELECT * FROM user WHERE email = ?";
+        $record = QueryUtil::select( $sql, [
+            $_POST[ 'email' ]
+        ] );
         
         if ( !empty( $record ) )
         {
@@ -212,6 +233,14 @@ class Authorizer
         self::handleRedirect( $success );
     }
 
+    /**
+     * If the login was successful the user gets redirected
+     * to the page he was previously trying to reach.
+     * If the login failed the user can try to login again.
+     *
+     * @param bool $success
+     * true if login is successful else false
+     */
     private static function handleRedirect ( bool $success )
     {
         if ( $success )
@@ -298,6 +327,13 @@ class RouteService
         } );
     }
 
+    /**
+     * The holy logic for the whole routing mechanism.
+     *
+     * @param boolean $case_matters
+     * @param boolean $trailing_slash_matters
+     * @param string $basepath
+     */
     public static function run ( $case_matters = false, $trailing_slash_matters = false, $basepath = Config::BASEPATH )
     {
         // Parse current url

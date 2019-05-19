@@ -1,18 +1,14 @@
 <?php
-
 $detailview = Config::PATH_TEMPLATE . "home/detailview.htm.php";
 $objects = Provider::getObjects();
 $rooms = Provider::getRooms();
 $components = Provider::getComponents();
 $objectComponents = Provider::getObjectComponents();
-
 ?>
 
 <div class="wrapper">
     <div>
-    	<h1>
-    		Home
-    	</h1>
+    	<h1>Home</h1>
     </div>
 	
 	<?php 
@@ -63,5 +59,4 @@ $objectComponents = Provider::getObjectComponents();
 	<?php 
     }   
     ?>
-    
 </div>

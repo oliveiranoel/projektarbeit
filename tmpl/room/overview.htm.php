@@ -1,9 +1,7 @@
 <?php
-
 $rooms = Provider::getRooms();
 $detailview = Config::PATH_TEMPLATE . "room/detailview.htm.php";
 $deleteConfirmation = "return confirm('Sind Sie sich sicher, dass sie diesen Raum l&#246;schen m&#246;chten ?')"
-
 ?>
 
 <div class="wrapper">
